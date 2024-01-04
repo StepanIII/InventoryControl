@@ -1,0 +1,1 @@
+const resourceUrl = 'http://localhost:8080/resource'
