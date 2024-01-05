@@ -1,4 +1,4 @@
-package com.example.inventory.control.models.responses;
+package com.example.inventory.control.ui.models.responses.resource;
 
 import java.util.List;
 

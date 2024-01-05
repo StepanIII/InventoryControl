@@ -6,6 +6,12 @@ const createElement = (name) => {
     return document.createElement(name)
 }
 
+const createElementWithId = (name, id) => {
+    let element = createElement(name)
+    element.id = id
+    return element
+}
+
 const createBtn = (name, id) => {
     let btn = document.createElement('button')
     btn.textContent = name
@@ -30,11 +36,23 @@ const createTr = (columns) => {
     return tr
 }
 
-const deleteElementArray = (arr, element) => {
-  let id = arr.indexOf(element)
-    if (id === -1) {
-        console.error('Такого значения нет в массиве.')
-    } else {
-        arr.splice(id, 1)
+const createTable = (id, columns) => {
+    let table = createElementWithId('table', id)
+    let trHeader = createTr(columns)
+    table.appendChild(trHeader)
+    return table
+}
+
+// Удалить все строки, кроме шапки
+// const clearTable = (table) => {
+//     let trs = table.childNodes
+//     for (let i = 0; i < trs.length; i++) {
+//         trs[i].remove()
+//     }
+// }
+
+const removeChildNodes = (element) => {
+    while (element.hasChildNodes()) {
+        element.firstChild.remove()
     }
 }

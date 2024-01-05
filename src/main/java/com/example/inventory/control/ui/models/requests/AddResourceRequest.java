@@ -1,55 +1,32 @@
-package com.example.inventory.control.models.responses;
+package com.example.inventory.control.ui.models.requests;
 
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Units;
-import com.example.inventory.control.utils.CheckParamUtil;
-
-import java.util.Objects;
-import java.util.Optional;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
- *
+ * Модель запроса для добавления нового ресурса.
  */
-public final class ResourceResponse {
-
-    /**
-     * Идентификатор.
-     */
-    private Long id;
+public class AddResourceRequest {
 
     /**
      * Наименование.
      */
+    @NotBlank
     private String name;
 
     /**
      * Тип.
      */
+    @NotNull
     private ResourceType resourceType;
 
-
     /**
-     * Еденица измерения.
+     * Еденицы измерения.
      */
+    @NotNull
     private Units units;
-
-    public ResourceResponse() {
-    }
-
-    public ResourceResponse(Long id, String name, ResourceType resourceType, Units units) {
-        this.id = id;
-        this.name = name;
-        this.resourceType = resourceType;
-        this.units = units;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -74,5 +51,4 @@ public final class ResourceResponse {
     public void setUnits(Units units) {
         this.units = units;
     }
-
 }

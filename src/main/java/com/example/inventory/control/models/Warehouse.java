@@ -1,7 +1,6 @@
 package com.example.inventory.control.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 public final class Warehouse {
 
@@ -15,19 +14,13 @@ public final class Warehouse {
      */
     private String name;
 
-    /**
-     * Список товаров.
-     */
-    private List<Resource> resources = new ArrayList<>();
-
-    public Warehouse(Long id, String name, List<Resource> resources) {
+    public Warehouse(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.resources = resources;
     }
 
-    public Long getId() {
-        return id;
+    public Optional<Long> id() {
+        return Optional.ofNullable(id);
     }
 
     public void setId(Long id) {
@@ -42,16 +35,4 @@ public final class Warehouse {
         this.name = name;
     }
 
-    public List<Resource> getResources() {
-        return resources;
-    }
-
-    public void setResources(List<Resource> resources) {
-        this.resources = resources;
-    }
-
-    public Warehouse addProduct(Resource resource) {
-        resources.add(resource);
-        return new Warehouse(id, name, resources);
-    }
 }

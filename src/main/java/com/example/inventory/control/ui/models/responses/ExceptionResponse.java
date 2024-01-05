@@ -1,4 +1,4 @@
-package com.example.inventory.control.models.responses;
+package com.example.inventory.control.ui.models.responses;
 
 /**
  * Модель ответа для клиента в случае возникновения ошибки на сервере.

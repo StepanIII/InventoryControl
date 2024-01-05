@@ -2,7 +2,7 @@ package com.example.inventory.control.services.mapper;
 
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.models.Resource;
-import com.example.inventory.control.models.responses.ResourceResponse;
+import com.example.inventory.control.ui.models.responses.resource.ResourceResponse;
 import org.mapstruct.Mapper;
 
 /**

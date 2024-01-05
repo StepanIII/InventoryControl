@@ -1,15 +1,14 @@
 package com.example.inventory.control.controllers;
 
 import com.example.inventory.control.facades.ResourceFacade;
-import com.example.inventory.control.models.requests.AddResourceRequest;
-import com.example.inventory.control.models.requests.UpdateResourceRequest;
-import com.example.inventory.control.models.responses.AddResourceResponse;
-import com.example.inventory.control.models.responses.DeleteResourceResponse;
-import com.example.inventory.control.models.responses.ResourcesResponse;
-import com.example.inventory.control.models.responses.StatusResponse;
-import com.example.inventory.control.models.responses.UpdateResourceResponse;
+import com.example.inventory.control.ui.models.requests.AddResourceRequest;
+import com.example.inventory.control.ui.models.requests.UpdateResourceRequest;
+import com.example.inventory.control.ui.models.responses.resource.AddResourceResponse;
+import com.example.inventory.control.ui.models.responses.resource.DeleteResourceResponse;
+import com.example.inventory.control.ui.models.responses.resource.ResourcesResponse;
+import com.example.inventory.control.ui.models.responses.StatusResponse;
+import com.example.inventory.control.ui.models.responses.resource.UpdateResourceResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

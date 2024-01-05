@@ -1,4 +1,4 @@
-package com.example.inventory.control.models.requests;
+package com.example.inventory.control.ui.models.requests;
 
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Units;
@@ -6,9 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * Модель запроса для добавления нового ресурса.
+ * Модель запроса для изменения ресурса.
  */
-public class AddResourceRequest {
+public class UpdateResourceRequest {
 
     /**
      * Наименование.
@@ -20,7 +20,7 @@ public class AddResourceRequest {
      * Тип.
      */
     @NotNull
-    private ResourceType resourceType;
+    private ResourceType type;
 
     /**
      * Еденицы измерения.
@@ -36,12 +36,12 @@ public class AddResourceRequest {
         this.name = name;
     }
 
-    public ResourceType getResourceType() {
-        return resourceType;
+    public ResourceType getType() {
+        return type;
     }
 
-    public void setResourceType(ResourceType resourceType) {
-        this.resourceType = resourceType;
+    public void setType(ResourceType type) {
+        this.type = type;
     }
 
     public Units getUnits() {
