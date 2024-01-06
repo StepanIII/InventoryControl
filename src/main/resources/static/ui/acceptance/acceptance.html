@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Приемка</title>
+</head>
+<body>
+<div id="header">
+    <div id="subheader_first">
+        <button type="button" id="resource_management_btn">Управление ресурсами</button>
+    </div>
+    <br>
+    <div id="subheader_second">
+        <button type="button" id="resources_btn">Ресурсы</button>
+        <button type="button" id="acceptance_btn">Приемка</button>
+        <button type="button" id="remainder_resources_btn">Остатки</button>
+        <button type="button" id="write_off_resources_btn">Списания</button>
+        <button type="button" id="inventory_resources_btn">Инвентаризация</button>
+        <button type="button" id="orders_btn">Заказы</button>
+        <button type="button" id="movements_resources_btn">Внутренние перемещения</button>
+        '
+    </div>
+</div>
+
+<div id="content">
+    <br>
+    <button type="button" id="add_acceptance_btn">Добавить</button>
+    <br>
+    <table id="acceptance_table">
+        <tr>
+            <td>№</td>
+            <td>Время</td>
+            <td>Место хранения</td>
+            <td>Благодетель</td>
+        </tr>
+    </table>
+</div>
+
+
+<div id="footer">
+
+</div>
+
+<script src="/utils.js"></script>
+<script src="/url.js"></script>
+<script src="/rest-methods.js"></script>
+<script src="/ui/acceptance/acceptance.js"></script>
+
+</body>
+</html>

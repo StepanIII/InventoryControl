@@ -13,4 +13,19 @@ public class UiController {
         return "index.html";
     }
 
+    @GetMapping("/resources/all")
+    public String resources() {
+        return "resources.html";
+    }
+
+    @GetMapping("/acceptance/all")
+    public String acceptance() {
+        return "acceptance.html";
+    }
+
+    @GetMapping("/acceptance/edit")
+    public String acceptanceAdd() {
+        return "acceptance-edit.html";
+    }
+
 }

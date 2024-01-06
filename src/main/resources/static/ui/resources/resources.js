@@ -1,29 +1,40 @@
-
-// Написать обработчики для кнопок отдельно
-// Добавить кнопку отменить изменения
-
-// const resourcesTable = createTable(
-//     'resources_table',
-//     ['Код', 'Наименование', 'Тип', 'Еденицы измерения', 'Операция'])
-
 let fieldInProcessChanged = false
 
-//Ресурсы
-function resourcesBtnHandler() {
-    let content = getElement('content')
-    removeChildNodes(content)
-    let resourcesTable = createResourceTable()
-    addToTableResources(resourcesTable)
-    content.appendChild(resourcesTable)
-}
+// fetch('../header.html')
+//     .then((response) => response.text())
+//     .then((html) => getElement('resources_header').innerHTML = html)
 
-function createResourceTable() {
-    let resourceTable = createTable(
-        'resources_table',
-        ['Код', 'Наименование', 'Тип', 'Еденицы измерения', 'Операция'])
-    resourceTable.appendChild(createAddResourceTr())
-    return resourceTable
-}
+// Подумать как порефакторить и добавить это в одно место
+getElement('resources_btn').onclick = () => window.location.replace(uiResourcesAllUrl)
+getElement('acceptance_btn').onclick = () => window.location.replace(uiAcceptanceAllUrl)
+
+saveResourcesBtnHandler(getElement('save_resource_btn'))
+
+getData(resourceUrl).then((response) => {
+    let lastLine = getElement('header_resources_table')
+    let resources = response.resources
+    for (let i = 0; i < resources.length; i++) {
+        let resource = resources[i]
+        let tr = document.createElement('tr')
+        tr.innerHTML =
+            '<td>' + resource.id + '</td>' +
+            '<td>' + resource.name + '</td>' +
+            '<td>' + resource.resourceType + '</td>' +
+            '<td>' + resource.units + '</td>' +
+            '<td><button id="delete_resource_btn" type="button">Удалить</button></td>'
+
+        let delResourcesBtn = tr.childNodes[4].firstChild
+        delResourceBtnHandler(delResourcesBtn)
+
+        addChangeTableValueHandler(tr)
+
+        for (let j = 0; j < tr.childNodes.length; j++) {
+            tr.childNodes[j].addEventListener('keydown', changeResourceHandler)
+        }
+        lastLine.after(tr)
+        lastLine = tr
+    }
+})
 
 function createAddResourceTr() {
     let addResourceTr = createTr([
@@ -37,7 +48,7 @@ function createAddResourceTr() {
 }
 
 function createAndAddResourceTrInTable() {
-    getElement('resources_table')
+    document.querySelector('#resources_table tbody')
         .appendChild(createAddResourceTr())
 }
 
@@ -74,6 +85,7 @@ function addChangeTableValueHandler(tr) {
 }
 
 const changeResourceHandler = (e) => {
+    console.log('created save_changes_resource_btn')
     let btn = getElement('save_changes_resource_btn')
     if (btn === null) {
         btn = createSaveChangesResourceBtn()
@@ -129,6 +141,10 @@ function saveResourcesBtnHandler(saveResourcesBtn) {
         let tdType = tr.children.item(2)
         let tdUnits = tr.children.item(3)
 
+        tdName.addEventListener('keydown', changeResourceHandler)
+        tdType.addEventListener('keydown', changeResourceHandler)
+        tdUnits.addEventListener('keydown', changeResourceHandler)
+
         let nameInput = tdName.firstChild
         let typeInput = tdType.firstChild
         let unitsInput = tdUnits.firstChild
@@ -153,15 +169,19 @@ function saveResourcesBtnHandler(saveResourcesBtn) {
             postData(resourceUrl, newResource)
                 .then((data) => {
                     console.log(data);
-                    nameInput.remove()
-                    typeInput.remove()
-                    unitsInput.remove()
                     let addedResource = data.addedResource;
+
                     tdCode.textContent = addedResource.id
                     tdName.textContent = addedResource.name
                     tdType.textContent = addedResource.resourceType
                     tdUnits.textContent = addedResource.units
+
+
                 });
+
+            nameInput.remove()
+            typeInput.remove()
+            unitsInput.remove()
 
             if (errorTd !== null) {
                 errorTd.remove()
@@ -198,7 +218,6 @@ function delResourceBtnHandler(delResourcesBtn) {
 const changeTableValueHandler = (e) => { // Написать обработчик не для tr, а для td
     let line = e.currentTarget.parentNode
 
-    let tdCode = line.childNodes[0]
     let tdName = line.childNodes[1]
     let tdType = line.childNodes[2]
     let tdUnits = line.childNodes[3]
@@ -209,14 +228,13 @@ const changeTableValueHandler = (e) => { // Написать обработчи�
     let oldType = tdType.textContent
     let oldUnits = tdUnits.textContent
 
-    line.oldName = oldName
-    line.oldType = oldType
-    line.oldUnits = oldUnits
 
     if (fieldInProcessChanged === false) {
         fieldInProcessChanged = true
 
-        tdOperation.firstChild.remove()
+        while (tdOperation.hasChildNodes()) {
+            tdOperation.firstChild.remove()
+        }
 
         let inputName = document.createElement('input')
         let inputType = document.createElement('input')
@@ -268,79 +286,3 @@ function cancelChangeResourceBtnHandler(btn, oldValues) {
         fieldInProcessChanged = false
     }
 }
-
-function addToTableResources(table) {
-    getData(resourceUrl).then((response) => {
-        let resources = response.resources
-        for (let i = 0; i < resources.length; i++) {
-            let resource = resources[i]
-            let tr = document.createElement('tr')
-            tr.innerHTML =
-                '<td>' + resource.id + '</td>' +
-                '<td>' + resource.name + '</td>' +
-                '<td>' + resource.resourceType + '</td>' +
-                '<td>' + resource.units + '</td>' +
-                '<td><button type="button">Удалить</button></td>'
-
-            let delResourcesBtn = tr.childNodes[4].firstChild
-            delResourceBtnHandler(delResourcesBtn)
-
-            addChangeTableValueHandler(tr)
-
-            for (let i = 0; i < tr.childNodes.length; i++) {
-                tr.childNodes[i].addEventListener('keydown', changeResourceHandler)
-            }
-            let lastLine = table.childNodes[i]
-            lastLine.after(tr)
-        }
-    })
-}
-
-
-
-// document.onclick = function clickPastChangedLine(e) {
-//     let errorTd = document.getElementById('error_td')
-//     const withinBoundaries = e.composedPath().includes(line);
-//
-//     if (!withinBoundaries) {
-//         if (oldName !== inputName.value || oldType !== inputType.value || oldUnits !== inputUnits.value) {
-//             if (errorTd === null) {
-//                 line.childNodes[4].insertAdjacentHTML('afterend', '<td id="error_td"><p>Сохраните изменения</p></td>')
-//             }
-//         } else {
-//             if (errorTd !== null) {
-//                 errorTd.remove()
-//             }
-//         }
-//     }
-// }
-
-// document.onclick = function clickPastChangedLine(e) {
-//     let tr = getElement('changed_resource_tr')
-//     const withinBoundaries = e.composedPath().includes(tr);
-//
-//     if (!withinBoundaries) {
-//         tr.id = ''
-//         let tds = tr.childNodes
-//
-//         tds[1].firstChild.remove()
-//         tds[2].firstChild.remove()
-//         tds[3].firstChild.remove()
-//
-//         tds[4].firstChild.remove()
-//         if (tds[4].firstChild !== null) {
-//             tds[4].firstChild.remove()
-//         }
-//
-//         tds[1].textContent = tr.oldName
-//         tds[2].textContent = tr.oldType
-//         tds[3].textContent = tr.oldUnits
-//         tds[4].appendChild(createDeleteResourceBtn())
-//
-//         tds[0].addEventListener('click', changeTableValueHandler)
-//         tds[1].addEventListener('click', changeTableValueHandler)
-//         tds[2].addEventListener('click', changeTableValueHandler)
-//         tds[3].addEventListener('click', changeTableValueHandler)
-//         // fieldInProcessChanged = false
-//     }
-// }

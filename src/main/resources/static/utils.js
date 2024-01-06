@@ -1,3 +1,5 @@
+// document.querySelector('#resources_table tbody')
+
 const getElement = (id) => {
     return document.getElementById(id)
 }
