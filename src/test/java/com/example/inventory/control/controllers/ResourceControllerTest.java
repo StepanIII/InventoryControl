@@ -43,7 +43,7 @@ public class ResourceControllerTest {
         addResourceRequest.setUnits(Units.KILOGRAM);
 
         ResponseEntity<AddResourceResponse> responseEntity = restTemplate.postForEntity(
-                TestEndpoint.RESOURCE_ENDPOINT.getValue(),
+                TestEndpoint.RESOURCE_ENDPOINT,
                 addResourceRequest,
                 AddResourceResponse.class);
 
@@ -71,7 +71,7 @@ public class ResourceControllerTest {
 
         HttpEntity<UpdateResourceRequest> httpEntity = new HttpEntity<>(updateResourceRequest);
         ResponseEntity<UpdateResourceResponse> responseEntity = restTemplate.exchange(
-                TestEndpoint.RESOURCE_ENDPOINT.getValue() + "/{id}",
+                TestEndpoint.RESOURCE_ENDPOINT + "/{id}",
                 HttpMethod.PUT,
                 httpEntity,
                 UpdateResourceResponse.class,
@@ -95,7 +95,7 @@ public class ResourceControllerTest {
 
         HttpEntity<UpdateResourceRequest> httpEntity = new HttpEntity<>(updateResourceRequest);
         ResponseEntity<UpdateResourceResponse> responseEntity = restTemplate.exchange(
-                TestEndpoint.RESOURCE_ENDPOINT.getValue() + "/{id}",
+                TestEndpoint.RESOURCE_ENDPOINT + "/{id}",
                 HttpMethod.PUT,
                 httpEntity,
                 UpdateResourceResponse.class,
@@ -121,7 +121,7 @@ public class ResourceControllerTest {
                 createResourceEntity("Ботинки", ResourceType.CLOTHING, Units.PAIR));
 
         ResponseEntity<ResourcesResponse> responseEntity = restTemplate.getForEntity(
-                TestEndpoint.RESOURCE_ENDPOINT.getValue(),
+                TestEndpoint.RESOURCE_ENDPOINT,
                 ResourcesResponse.class);
 
         assertThat(responseEntity).isNotNull()
@@ -139,7 +139,7 @@ public class ResourceControllerTest {
         resourceRepository.deleteAll();
         HttpEntity<DeleteResourceResponse> httpEntity = new HttpEntity<>(null);
         ResponseEntity<DeleteResourceResponse> responseEntity = restTemplate.exchange(
-                TestEndpoint.RESOURCE_ENDPOINT.getValue() + "/{id}",
+                TestEndpoint.RESOURCE_ENDPOINT + "/{id}",
                 HttpMethod.DELETE,
                 httpEntity,
                 DeleteResourceResponse.class,
@@ -161,7 +161,7 @@ public class ResourceControllerTest {
 
         HttpEntity<DeleteResourceResponse> httpEntity = new HttpEntity<>(null);
         ResponseEntity<DeleteResourceResponse> responseEntity = restTemplate.exchange(
-                TestEndpoint.RESOURCE_ENDPOINT.getValue() + "/{id}",
+                TestEndpoint.RESOURCE_ENDPOINT + "/{id}",
                 HttpMethod.DELETE,
                 httpEntity,
                 DeleteResourceResponse.class,

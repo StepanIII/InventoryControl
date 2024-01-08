@@ -1,14 +1,21 @@
-getElement('resources_btn').onclick = () => window.location.replace(uiResourcesAllUrl)
-getElement('acceptance_btn').onclick = () => window.location.replace(uiAcceptanceAllUrl)
 
-getElement('add_acceptance_btn').onclick = () => window.location.replace(uiAcceptanceEditUrl)
+function handleAddAcceptanceBtn() {
+    window.location.replace(UI_ACCEPTANCE_EDIT_URL)
+}
 
-getData(acceptanceUrl).then((response) => {
-    let table = getElement('acceptance_table')
+getData(ACCEPTANCE_URL).then((response) => {
+    let tBody = document.querySelector('#acceptance_table tbody')
     let acceptance = response.acceptance
     for (let i = 0; i < acceptance.length; i++) {
         let accept = acceptance[i]
-        let tr = createTr([accept.id.toString(), accept.createdTime, accept.warehouse, accept.benefactor])
-        table.appendChild(tr)
+        let tr = createTr([accept.id, accept.createdTime, accept.warehouse, accept.benefactor])
+        tr.addEventListener('click', handleEditAcceptanceTr)
+        tBody.appendChild(tr)
     }
 })
+
+function handleEditAcceptanceTr(e) {
+    let selectedEditAcceptance = e.currentTarget
+    localStorage.setItem('selected_edit_acceptance', selectedEditAcceptance)
+    window.location.replace(UI_ACCEPTANCE_EDIT_URL)
+}

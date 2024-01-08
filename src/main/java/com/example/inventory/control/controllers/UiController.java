@@ -24,7 +24,7 @@ public class UiController {
     }
 
     @GetMapping("/acceptance/edit")
-    public String acceptanceAdd() {
+    public String acceptanceEdit() {
         return "acceptance-edit.html";
     }
 

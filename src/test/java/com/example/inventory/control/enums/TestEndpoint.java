@@ -1,18 +1,10 @@
 package com.example.inventory.control.enums;
 
-public enum TestEndpoint {
+public final class TestEndpoint {
 
-    RESOURCE_ENDPOINT("/resource"),
-    ACCEPTANCE_ENDPOINT("/acceptance");
-
-    private final String value;
-
-    TestEndpoint(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
+    public static final String RESOURCE_ENDPOINT = "/resource";
+    public static final String ACCEPTANCE_ENDPOINT = "/acceptance";
+    public static final String BENEFACTOR_ENDPOINT = "/benefactor";
+    public static final String WAREHOUSE_ENDPOINT = "/warehouse";
 
 }

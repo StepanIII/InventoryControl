@@ -28,7 +28,7 @@ public class RestExceptionHandlerTest {
         addResourceRequest.setUnits(Units.KILOGRAM);
 
         ResponseEntity<ExceptionResponse> responseEntity = restTemplate.postForEntity(
-                TestEndpoint.RESOURCE_ENDPOINT.getValue(),
+                TestEndpoint.RESOURCE_ENDPOINT,
                 addResourceRequest,
                 ExceptionResponse.class);
 

@@ -5,12 +5,12 @@ let fieldInProcessChanged = false
 //     .then((html) => getElement('resources_header').innerHTML = html)
 
 // Подумать как порефакторить и добавить это в одно место
-getElement('resources_btn').onclick = () => window.location.replace(uiResourcesAllUrl)
-getElement('acceptance_btn').onclick = () => window.location.replace(uiAcceptanceAllUrl)
+// getElement('resources_btn').onclick = () => window.location.replace(uiResourcesAllUrl)
+// getElement('acceptance_btn').onclick = () => window.location.replace(uiAcceptanceAllUrl)
 
 saveResourcesBtnHandler(getElement('save_resource_btn'))
 
-getData(resourceUrl).then((response) => {
+getData(RESOURCES_URL).then((response) => {
     let lastLine = getElement('header_resources_table')
     let resources = response.resources
     for (let i = 0; i < resources.length; i++) {
@@ -108,7 +108,7 @@ function saveChangesResourceBtnHandler(e) {
         units: units
     }
 
-    putData(resourceUrl + "/" + code, changedResource)
+    putData(RESOURCES_URL + "/" + code, changedResource)
         .then((response) => {
             console.log(response)
             tds[0].firstChild.remove()
@@ -166,7 +166,7 @@ function saveResourcesBtnHandler(saveResourcesBtn) {
                 resourceType : inputTypeValue,
                 units : inputUnitsValue
             }
-            postData(resourceUrl, newResource)
+            postData(RESOURCES_URL, newResource)
                 .then((data) => {
                     console.log(data);
                     let addedResource = data.addedResource;
@@ -206,7 +206,7 @@ function delResourceBtnHandler(delResourcesBtn) {
     delResourcesBtn.onclick = function() {
         let tr = delResourcesBtn.parentNode.parentNode
         let resourceId = tr.childNodes[0].textContent
-        deleteData(resourceUrl + '/' + resourceId, null)
+        deleteData(RESOURCES_URL + '/' + resourceId, null)
             .then((data) => {
                 console.log(data);
                 tr.remove()

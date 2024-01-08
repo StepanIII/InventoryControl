@@ -33,6 +33,10 @@ public final class Acceptance {
         this.benefactor = benefactor;
     }
 
+    public static Acceptance create(Warehouse warehouse, Benefactor benefactor) {
+        return new Acceptance(null, null, warehouse, benefactor);
+    }
+
     public Optional<Long> id() {
         return Optional.ofNullable(id);
     }

@@ -14,10 +14,10 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
- * Сущность таблицы "ACCEPTANCES" (Приемки).
+ * Сущность таблицы "ACCEPTANCE" (Приемки).
  */
 @Entity
-@Table(name = "ACCEPTANCES")
+@Table(name = "ACCEPTANCE")
 public class AcceptanceEntity {
 
     /**

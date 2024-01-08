@@ -13,4 +13,12 @@ public interface AcceptanceService {
      * Получить список всех приемок.
      */
     List<Acceptance> getListAllAcceptance();
+
+    /**
+     * Сохранить новыую приемку.
+     *
+     * @param newAcceptance новая приемка.
+     * @return сохраненная приемка.
+     */
+    Acceptance save(Acceptance newAcceptance);
 }

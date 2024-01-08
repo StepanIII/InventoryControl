@@ -28,7 +28,7 @@ const createTr = (columns) => {
         let element = columns[i]
         if (element instanceof Node) {
             td.appendChild(columns[i])
-        } else if (typeof element === 'string') {
+        } else if (typeof element === 'string' || typeof element === 'number') {
             td.textContent = element
         } else {
             console.error('Невозможно добавить элемент или значение в td. Тип данных : ' + typeof element)
@@ -52,6 +52,16 @@ const createTable = (id, columns) => {
 //         trs[i].remove()
 //     }
 // }
+
+const clearTable = (tBody) => {
+    while (tBody.childNodes.length !== 1) {
+        let tr = tBody.firstChild
+        console.log(tr)
+        if (tr.id !== 'table_header') {
+            tr.remove()
+        }
+    }
+}
 
 const removeChildNodes = (element) => {
     while (element.hasChildNodes()) {

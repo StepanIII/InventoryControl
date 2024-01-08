@@ -6,20 +6,42 @@
 </head>
 <body>
 
-<label for="benefactor_input">Благодетель</label>
-<input id="benefactor_input" type="text">
-
-<label for="warehouse_input">Место хранения</label>
-<input id="warehouse_input" type="text">
-
-<h3>Ресурсы</h3>
-<button>Выбрать из справочника</button>
-
-<table>
-    <tbody>
-    <tr><td>Код</td><td>Наименование</td><td>Количество</td></tr>
-    </tbody>
+<p>Благодетель:</p><p id="selected_benefactor" hidden></p><p id="selected_benefactor_id" hidden></p>
+<button onclick="handleBenefactorSelect()">Выбрать из справочника</button>
+<div id="benefactor_block" hidden>
+    <table id="benefactor_table_select">
+        <tbody><tr><td>Код</td><td>ФИО</td></tr></tbody>
+    </table>
+</div>
+<br>
+<br>
+<p>Место хранения:</p><p id="selected_warehouse" hidden></p><p id="selected_warehouse_id" hidden></p>
+<button onclick="handleWarehouseSelect()">Выбрать из справочника</button>
+<div id="warehouse_block" hidden>
+    <table id="warehouse_table_select">
+        <tbody><tr><td>Код</td><td>Наименование</td></tr></tbody>
+    </table>
+</div>
+<br>
+<br>
+<button onclick="handleResourceSelect()">Выбрать ресурсы из справочника</button>
+<div id="select_resources_block" hidden>
+    <table id="resources_table_select">
+        <tbody><tr><td>Код</td><td>Наименование</td><td>Количество</td></tr></tbody>
+    </table>
+    <button id="select_resource_btn" onclick="handleSelectResourceBtn()">Выбрать</button>
+</div>
+<br>
+<table id="selected_resource_table">
+    <tbody><tr><td>Код</td><td>Наименование</td><td>Количество</td></tr></tbody>
 </table>
+<br>
+<button id="save_acceptance_btn" onclick="handleSaveAcceptanceBtn()">Сохранить</button>
+
+<script src="/utils.js"></script>
+<script src="/url.js"></script>
+<script src="/rest-methods.js"></script>
+<script src="/ui/acceptance/acceptance-edit.js"></script>
 
 </body>
 </html>

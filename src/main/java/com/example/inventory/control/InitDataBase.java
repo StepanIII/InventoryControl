@@ -33,6 +33,11 @@ public class InitDataBase {
 
     @PostConstruct
     public void addData() {
+//        acceptanceRepository.deleteAll();
+//        warehouseRepository.deleteAll();
+//        benefactorRepository.deleteAll();
+//        resourceRepository.deleteAll();
+
         createResources();
 
         BenefactorEntity benefactor1 = createBenefactorEntity("Иванов", "Иван", "Иванович");
