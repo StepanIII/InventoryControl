@@ -58,4 +58,10 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceRepository.existsById(id);
     }
 
+    @Override
+    public List<Long> findAllIds(List<Long> ids) {
+        return resourceRepository.findAllIdsByIds(ids);
+    }
+
+
 }

@@ -17,7 +17,7 @@ public interface AcceptanceFacade {
     /**
      * Добавить новую приемку.
      *
-     * @param request запрос с данными новой примки.
+     * @param request запрос с данными новой приемки.
      * @return ответ со статусом и добавленной приемкой.
      */
     AddAcceptResponse addAccept(AddAcceptRequest request);

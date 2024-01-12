@@ -1,10 +1,7 @@
 package com.example.inventory.control.services.mapper;
 
 import com.example.inventory.control.entities.AcceptanceEntity;
-import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.models.Acceptance;
-import com.example.inventory.control.models.Resource;
-import com.example.inventory.control.ui.models.responses.resource.ResourceResponse;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +17,9 @@ public abstract class AcceptanceMapper {
     @Autowired
     private BenefactorMapper benefactorMapper;
 
+    @Autowired
+    private ResourceCountMapper resourceCountMapper;
+
     /**
      * Преобразовать в сущность.
      *
@@ -31,6 +31,7 @@ public abstract class AcceptanceMapper {
         entity.setId(domain.id().orElse(null));
         entity.setWarehouse(warehouseMapper.toEntity(domain.getWarehouse()));
         entity.setBenefactor(benefactorMapper.toEntity(domain.getBenefactor()));
+        entity.getResourceCounts().addAll(domain.getResources().stream().map(resourceCountMapper::toEntity).toList());
         return entity;
     }
 
@@ -45,7 +46,8 @@ public abstract class AcceptanceMapper {
                 entity.getId(),
                 entity.getCreatedTime(),
                 warehouseMapper.toDomain(entity.getWarehouse()),
-                benefactorMapper.toDomain(entity.getBenefactor()));
+                benefactorMapper.toDomain(entity.getBenefactor()),
+                entity.getResourceCounts().stream().map(resourceCountMapper::toDomain).toList());
     }
 //
 //    public ResourceResponse toDTO(Resource resource) {

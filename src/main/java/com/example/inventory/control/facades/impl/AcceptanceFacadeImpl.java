@@ -3,17 +3,21 @@ package com.example.inventory.control.facades.impl;
 import com.example.inventory.control.facades.AcceptanceFacade;
 import com.example.inventory.control.models.Acceptance;
 import com.example.inventory.control.models.Benefactor;
+import com.example.inventory.control.models.ResourceCount;
 import com.example.inventory.control.models.Warehouse;
 import com.example.inventory.control.services.AcceptanceService;
 import com.example.inventory.control.services.BenefactorService;
+import com.example.inventory.control.services.ResourceService;
 import com.example.inventory.control.services.WarehouseService;
 import com.example.inventory.control.ui.models.requests.acceptance.AddAcceptRequest;
+import com.example.inventory.control.ui.models.requests.acceptance.ResourceCountRequest;
 import com.example.inventory.control.ui.models.responses.StatusResponse;
 import com.example.inventory.control.ui.models.responses.acceptance.AcceptResponse;
 import com.example.inventory.control.ui.models.responses.acceptance.AcceptanceResponse;
 import com.example.inventory.control.ui.models.responses.acceptance.AddAcceptResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,13 +27,16 @@ public final class AcceptanceFacadeImpl implements AcceptanceFacade {
 
     private final AcceptanceService acceptanceService;
     private final BenefactorService benefactorService;
+    private final ResourceService resourceService;
     private final WarehouseService warehouseService;
 
     public AcceptanceFacadeImpl(AcceptanceService acceptanceService,
                                 BenefactorService benefactorService,
+                                ResourceService resourceService,
                                 WarehouseService warehouseService) {
         this.acceptanceService = acceptanceService;
         this.benefactorService = benefactorService;
+        this.resourceService = resourceService;
         this.warehouseService = warehouseService;
     }
 
@@ -58,7 +65,18 @@ public final class AcceptanceFacadeImpl implements AcceptanceFacade {
             return new AddAcceptResponse(StatusResponse.ERROR,
                     String.format("Место хранения с идентификатором = %d не найдено.", request.getWarehouseId()), null);
         }
-        Acceptance createdAcceptance = Acceptance.create(warehouseCandidate.get(), benefactorCandidate.get());
+        List<Long> expectedResourceIds = request.getResources().stream().map(ResourceCountRequest::getResourceId).toList();
+        List<Long> verifiableResourceIds = resourceService.findAllIds(expectedResourceIds);
+        List<Long> absentResourceIds = checkAvailabilityResources(verifiableResourceIds, expectedResourceIds);
+        if (!absentResourceIds.isEmpty()) {
+            List<String> stringIds = absentResourceIds.stream().map(String::valueOf).toList();
+            return new AddAcceptResponse(StatusResponse.ERROR,
+                    String.format("Ресурсы не найдены 'ids: %s'.", String.join(",", stringIds)), null);
+        }
+        List<ResourceCount> resourceCounts = request.getResources().stream()
+                .map(r -> ResourceCount.create(r.getResourceId(), r.getCount()))
+                .toList();
+        Acceptance createdAcceptance = Acceptance.create(warehouseCandidate.get(), benefactorCandidate.get(), resourceCounts);
         createdAcceptance = acceptanceService.save(createdAcceptance);
         AcceptResponse acceptResponse = new AcceptResponse(
                 createdAcceptance.id().orElseThrow(),
@@ -68,5 +86,15 @@ public final class AcceptanceFacadeImpl implements AcceptanceFacade {
         return new AddAcceptResponse(StatusResponse.SUCCESS,
                 String.format("Примка добавлена успешно 'id: %d'.", createdAcceptance.id().orElseThrow()),
                 acceptResponse);
+    }
+
+    private List<Long> checkAvailabilityResources(List<Long> verifiableIds, List<Long> expectedIds) {
+        List<Long> absentIds = new LinkedList<>();
+        for (Long expectedId : expectedIds) {
+            if (!verifiableIds.contains(expectedId)) {
+                absentIds.add(expectedId);
+            }
+        }
+        return absentIds;
     }
 }

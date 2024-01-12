@@ -175,10 +175,16 @@ public class ResourceControllerTest {
         resourceRepository.deleteAll(createdResourceEntities);
     }
 
-    // Вынести в утилиту
-//    private Long generatedRandomId(long minValue, long maxValue) {
-//        return minValue + (long) (Math.random() * (maxValue - minValue + 1));
-//    }
+    @Test
+    public void test() {
+        ResourceEntity resourceEntity = createResourceEntity("Яблоки", ResourceType.FOOD, Units.KILOGRAM);
+
+        List<ResourceEntity> resourceEntities = resourceRepository.findAllById(List.of(resourceEntity.getId(), 100L));
+
+
+        System.out.println(resourceEntities);
+    }
+
 
     private ResourceEntity createResourceEntity(String name, ResourceType type, Units units) {
         ResourceEntity resourceEntity = new ResourceEntity();

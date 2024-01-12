@@ -1,18 +1,7 @@
 package com.example.inventory.control.ui.models.responses.acceptance;
 
-import com.example.inventory.control.entities.BenefactorEntity;
-import com.example.inventory.control.entities.WarehouseEntity;
-import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *
@@ -80,4 +69,5 @@ public class AcceptResponse {
     public void setBenefactor(String benefactor) {
         this.benefactor = benefactor;
     }
+
 }

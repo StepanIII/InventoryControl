@@ -16,6 +16,6 @@ getData(ACCEPTANCE_URL).then((response) => {
 
 function handleEditAcceptanceTr(e) {
     let selectedEditAcceptance = e.currentTarget
-    localStorage.setItem('selected_edit_acceptance', selectedEditAcceptance)
+    localStorage.setItem('selected_edit_acceptance_tr', selectedEditAcceptance)
     window.location.replace(UI_ACCEPTANCE_EDIT_URL)
 }

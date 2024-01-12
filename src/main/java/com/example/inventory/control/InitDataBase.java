@@ -2,10 +2,12 @@ package com.example.inventory.control;
 
 import com.example.inventory.control.entities.AcceptanceEntity;
 import com.example.inventory.control.entities.BenefactorEntity;
+import com.example.inventory.control.entities.ResourceCountEntity;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Units;
+import com.example.inventory.control.models.ResourceCount;
 import com.example.inventory.control.repositories.AcceptanceRepository;
 import com.example.inventory.control.repositories.BenefactorRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
@@ -33,12 +35,10 @@ public class InitDataBase {
 
     @PostConstruct
     public void addData() {
-//        acceptanceRepository.deleteAll();
-//        warehouseRepository.deleteAll();
-//        benefactorRepository.deleteAll();
-//        resourceRepository.deleteAll();
 
-        createResources();
+        ResourceEntity resource1 = createResource("Яблоки", ResourceType.FOOD, Units.KILOGRAM);
+        ResourceEntity resource2 = createResource("Пеленки", ResourceType.HYGIENE_PRODUCT, Units.THINGS);
+        ResourceEntity resource3 = createResource("Ботинки", ResourceType.CLOTHING, Units.PAIR);
 
         BenefactorEntity benefactor1 = createBenefactorEntity("Иванов", "Иван", "Иванович");
         BenefactorEntity benefactor2 = createBenefactorEntity("Петров", "Петр", "Петрович");
@@ -46,34 +46,25 @@ public class InitDataBase {
         WarehouseEntity warehouse1 = createWarehouseEntity("Склад1");
         WarehouseEntity warehouse2 = createWarehouseEntity("Склад2");
 
-        createAcceptanceEntity(warehouse1, benefactor1);
-        createAcceptanceEntity(warehouse1, benefactor2);
-        createAcceptanceEntity(warehouse2, benefactor2);
+        createAcceptanceEntity(warehouse1, benefactor1, List.of(createResourceCount(resource1, 5)));
+        createAcceptanceEntity(warehouse1, benefactor2, List.of(createResourceCount(resource1, 6), createResourceCount(resource2, 3)));
+        createAcceptanceEntity(warehouse2, benefactor2, List.of(createResourceCount(resource1, 2), createResourceCount(resource2, 5), createResourceCount(resource3, 1)));
     }
 
-    private void createResources() {
-        ResourceEntity resourceEntity1 = new ResourceEntity();
-        resourceEntity1.setName("Яблоки");
-        resourceEntity1.setResourceType(ResourceType.FOOD);
-        resourceEntity1.setUnits(Units.KILOGRAM);
 
-        ResourceEntity resourceEntity2 = new ResourceEntity();
-        resourceEntity2.setName("Пеленки");
-        resourceEntity2.setResourceType(ResourceType.HYGIENE_PRODUCT);
-        resourceEntity2.setUnits(Units.THINGS);
-
-        ResourceEntity resourceEntity3 = new ResourceEntity();
-        resourceEntity3.setName("Ботинки");
-        resourceEntity3.setResourceType(ResourceType.CLOTHING);
-        resourceEntity3.setUnits(Units.PAIR);
-
-        resourceRepository.saveAll(List.of(resourceEntity1, resourceEntity2, resourceEntity3));
+    private ResourceEntity createResource(String name, ResourceType type, Units units) {
+        ResourceEntity resourceEntity = new ResourceEntity();
+        resourceEntity.setName(name);
+        resourceEntity.setResourceType(type);
+        resourceEntity.setUnits(units);
+        return resourceRepository.save(resourceEntity);
     }
 
-    private AcceptanceEntity createAcceptanceEntity(WarehouseEntity warehouse, BenefactorEntity benefactor) {
+    private AcceptanceEntity createAcceptanceEntity(WarehouseEntity warehouse, BenefactorEntity benefactor, List<ResourceCountEntity> resourceCounts) {
         AcceptanceEntity acceptanceEntity = new AcceptanceEntity();
         acceptanceEntity.setWarehouse(warehouse);
         acceptanceEntity.setBenefactor(benefactor);
+        acceptanceEntity.getResourceCounts().addAll(resourceCounts);
         return acceptanceRepository.save(acceptanceEntity);
     }
 
@@ -89,6 +80,13 @@ public class InitDataBase {
         benefactorEntity.setFirstName(firstName);
         benefactorEntity.setMiddleName(middleName);
         return benefactorRepository.save(benefactorEntity);
+    }
+
+    private ResourceCountEntity createResourceCount(ResourceEntity resource, int count) {
+        ResourceCountEntity resourceCountEntity = new ResourceCountEntity();
+        resourceCountEntity.setResource(resource);
+        resourceCountEntity.setCount(count);
+        return resourceCountEntity;
     }
 
 }

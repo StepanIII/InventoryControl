@@ -1,3 +1,5 @@
+
+
 function handleBenefactorSelect() {
     getData(BENEFACTORS_URL).then((response) => {
         let tBody = document.querySelector('#benefactor_table_select tbody')
@@ -112,10 +114,24 @@ function handleSelectResourceBtn() {
 function handleSaveAcceptanceBtn() {
     let benefactorId = Number(getElement('selected_benefactor_id').textContent)
     let warehouseId = Number(getElement('selected_warehouse_id').textContent)
-
-    let newAccept = {
-        benefactorId: benefactorId,
-        warehouseId: warehouseId
+    let selectedResourceTbody = document.querySelector('#selected_resource_table tbody')
+    let trs = selectedResourceTbody.childNodes
+    let resourcesRequest = []
+    for (let i = 1; i < trs.length; i++) {
+        let resourceId = trs[i].childNodes[0].textContent
+        let count = trs[i].childNodes[2].textContent
+        let resourceReq = {
+            resourceId: resourceId,
+            count: count
+        }
+        resourcesRequest.push(resourceReq)
     }
-    postData(ACCEPTANCE_URL, newAccept).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
+
+
+    let newAcceptRequest = {
+        benefactorId: benefactorId,
+        warehouseId: warehouseId,
+        resources: resourcesRequest
+    }
+    postData(ACCEPTANCE_URL, newAcceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
 }

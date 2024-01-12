@@ -45,4 +45,11 @@ public interface ResourceService {
      * @return true - если ресурс есть в базе данных иначе false.
      */
     boolean existsById(Long id);
+
+    /**
+     * Получить список идентификаторов ресурсов по списку идентификаторов.
+     *
+     * @param ids список идентификаторов для поиска.
+     */
+    List<Long> findAllIds(List<Long> ids);
 }
