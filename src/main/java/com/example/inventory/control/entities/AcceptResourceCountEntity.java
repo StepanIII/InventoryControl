@@ -10,9 +10,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+// переделать таблицу по аналогии с WarehouseResourceCountEntity
 @Entity
-@Table(name = "RESOURCE_COUNT")
-public class ResourceCountEntity {
+@Table(name = "ACCEPT_RESOURCE_COUNT")
+public class AcceptResourceCountEntity {
     /**
      * Идентификатор.
      */

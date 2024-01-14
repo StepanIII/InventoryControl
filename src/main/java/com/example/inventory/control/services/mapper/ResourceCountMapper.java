@@ -1,7 +1,7 @@
 package com.example.inventory.control.services.mapper;
 
-import com.example.inventory.control.entities.ResourceCountEntity;
-import com.example.inventory.control.models.ResourceCount;
+import com.example.inventory.control.entities.AcceptResourceCountEntity;
+import com.example.inventory.control.models.AcceptResourceCount;
 import com.example.inventory.control.repositories.ResourceRepository;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +12,15 @@ public abstract class ResourceCountMapper {
     @Autowired
     private ResourceRepository resourceRepository;
 
-    public ResourceCountEntity toEntity(ResourceCount domain) {
-        ResourceCountEntity entity = new ResourceCountEntity();
+    public AcceptResourceCountEntity toEntity(AcceptResourceCount domain) {
+        AcceptResourceCountEntity entity = new AcceptResourceCountEntity();
         entity.setId(domain.id().orElse(null));
         entity.setResource(resourceRepository.findById(domain.getResourceId()).orElseThrow()); // Оптимизировать
         entity.setCount(domain.getCount());
         return entity;
     }
 
-    public ResourceCount toDomain(ResourceCountEntity entity) {
-        return new ResourceCount(entity.getId(), entity.getResource().getId(), entity.getCount());
+    public AcceptResourceCount toDomain(AcceptResourceCountEntity entity) {
+        return new AcceptResourceCount(entity.getId(), entity.getResource().getId(), entity.getResource().getName(), entity.getCount());
     }
 }

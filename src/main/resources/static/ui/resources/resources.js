@@ -1,12 +1,6 @@
+fillSubheaderSecond()
+
 let fieldInProcessChanged = false
-
-// fetch('../header.html')
-//     .then((response) => response.text())
-//     .then((html) => getElement('resources_header').innerHTML = html)
-
-// Подумать как порефакторить и добавить это в одно место
-// getElement('resources_btn').onclick = () => window.location.replace(uiResourcesAllUrl)
-// getElement('acceptance_btn').onclick = () => window.location.replace(uiAcceptanceAllUrl)
 
 saveResourcesBtnHandler(getElement('save_resource_btn'))
 

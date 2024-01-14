@@ -7,19 +7,10 @@
 <body>
 <div id="header">
     <div id="subheader_first">
-        <button type="button" id="resource_management_btn">Управление ресурсами</button>
+        <button type="button" id="resource_management_btn" onclick="handleResourceManagementBtn()">Управление ресурсами</button>
     </div>
     <br>
-    <div id="subheader_second">
-        <button type="button" id="resources_btn" onclick="handleResourcesBtn()">Ресурсы</button>
-        <button type="button" id="acceptance_btn" onclick="handleAcceptanceBtn()">Приемка</button>
-        <button type="button" id="remainder_resources_btn">Остатки</button>
-        <button type="button" id="write_off_resources_btn">Списания</button>
-        <button type="button" id="inventory_resources_btn">Инвентаризация</button>
-        <button type="button" id="orders_btn">Заказы</button>
-        <button type="button" id="movements_resources_btn">Внутренние перемещения</button>
-        '
-    </div>
+    <div id="subheader_second"></div>
 </div>
 
 <div id="content">
@@ -41,8 +32,6 @@
 <script src="/rest-methods.js"></script>
 <script src="/index.js"></script>
 <script src="/ui/acceptance/acceptance.js"></script>
-<!--<script src="/ui/acceptance/acceptance-edit.js"></script>-->
-<!--<script src="/ui/acceptance/acceptance-edit.js"></script>-->
 
 </body>
 </html>

@@ -29,6 +29,7 @@ public abstract class AcceptanceMapper {
     public AcceptanceEntity toEntity(Acceptance domain) {
         AcceptanceEntity entity = new AcceptanceEntity();
         entity.setId(domain.id().orElse(null));
+        entity.setCreatedTime(domain.getCreatedTime());
         entity.setWarehouse(warehouseMapper.toEntity(domain.getWarehouse()));
         entity.setBenefactor(benefactorMapper.toEntity(domain.getBenefactor()));
         entity.getResourceCounts().addAll(domain.getResources().stream().map(resourceCountMapper::toEntity).toList());

@@ -1,9 +1,13 @@
-//Управление ресурсами
+// Вынести этот метод отднльно для всех страниц ресурсов, а не добавлять на каждую страницу отдельно
 function handleResourceManagementBtn() {
+    fillSubheaderSecond()
+}
+
+function fillSubheaderSecond() {
     getElement('subheader_second').innerHTML =
         '<button type="button" id="resources_btn" onclick="handleResourcesBtn()">Ресурсы</button>\n' +
         '<button type="button" id="acceptance_btn" onclick="handleAcceptanceBtn()">Приемка</button>\n' +
-        '<button type="button" id="remainder_resources_btn">Остатки</button>\n' +
+        '<button type="button" id="remaining_btn" onclick="handleRemainingBtn()">Остатки</button>\n' +
         '<button type="button" id="write_off_resources_btn">Списания</button>\n' +
         '<button type="button" id="inventory_resources_btn">Инвентаризация</button>\n' +
         '<button type="button" id="orders_btn">Заказы</button>\n' +
@@ -12,9 +16,13 @@ function handleResourceManagementBtn() {
 
 
 function handleResourcesBtn() {
-    window.location.replace(uiResourcesAllUrl)
+    window.location.replace(UI_RESOURCES_ALL_URL)
 }
 
 function handleAcceptanceBtn() {
     window.location.replace(UI_ACCEPTANCE_ALL_URL)
+}
+
+function handleRemainingBtn() {
+    window.location.replace(UI_REMAINING_ALL_URL)
 }

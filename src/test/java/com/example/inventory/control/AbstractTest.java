@@ -2,7 +2,7 @@ package com.example.inventory.control;
 
 import com.example.inventory.control.entities.AcceptanceEntity;
 import com.example.inventory.control.entities.BenefactorEntity;
-import com.example.inventory.control.entities.ResourceCountEntity;
+import com.example.inventory.control.entities.AcceptResourceCountEntity;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.enums.ResourceType;
@@ -44,7 +44,7 @@ public abstract class AbstractTest {
         resourceRepository.deleteAll();
     }
 
-    protected AcceptanceEntity createAcceptance(WarehouseEntity warehouse, BenefactorEntity benefactor, List<ResourceCountEntity> resources) {
+    protected AcceptanceEntity createAcceptance(WarehouseEntity warehouse, BenefactorEntity benefactor, List<AcceptResourceCountEntity> resources) {
         AcceptanceEntity acceptanceEntity = new AcceptanceEntity();
         acceptanceEntity.setWarehouse(warehouse);
         acceptanceEntity.setBenefactor(benefactor);
@@ -74,8 +74,8 @@ public abstract class AbstractTest {
         return resourceRepository.save(resourceEntity);
     }
 
-    protected ResourceCountEntity createResourceCount(ResourceEntity resource, int count) {
-        ResourceCountEntity resourceCount = new ResourceCountEntity();
+    protected AcceptResourceCountEntity createResourceCount(ResourceEntity resource, int count) {
+        AcceptResourceCountEntity resourceCount = new AcceptResourceCountEntity();
         resourceCount.setResource(resource);
         resourceCount.setCount(count);
         return resourceCount;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +37,13 @@ public class AcceptanceServiceImpl implements AcceptanceService {
     public Acceptance save(Acceptance newAcceptance) {
         AcceptanceEntity acceptanceEntity = acceptanceRepository.save(acceptanceMapper.toEntity(newAcceptance));
         return acceptanceMapper.toDomain(acceptanceEntity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Acceptance> findById(Long id) {
+        Optional<AcceptanceEntity> acceptanceEntityCandidate = acceptanceRepository.findById(id);
+        return acceptanceEntityCandidate.map(acceptanceMapper::toDomain);
     }
 
 }

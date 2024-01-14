@@ -55,8 +55,8 @@ public class AcceptanceEntity {
     /**
      * Добавленные ресурсы.
      */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ResourceCountEntity> resourceCounts = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<AcceptResourceCountEntity> resourceCounts = new ArrayList<>();
 
     @PrePersist
     public void setCreatedTime() {
@@ -95,7 +95,7 @@ public class AcceptanceEntity {
         this.benefactor = benefactor;
     }
 
-    public List<ResourceCountEntity> getResourceCounts() {
+    public List<AcceptResourceCountEntity> getResourceCounts() {
         return resourceCounts;
     }
 

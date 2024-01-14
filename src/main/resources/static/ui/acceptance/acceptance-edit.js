@@ -1,4 +1,40 @@
+let acceptId = localStorage.getItem('accept_id');
+if (acceptId !== null) {
+    getData(ACCEPTANCE_URL + "/" + acceptId).then(response => {
+        let benefactor = response.benefactor
+        let warehouse = response.warehouse
+        let addedResources = response.resources
 
+        let selectedBenefactor = getElement('selected_benefactor')
+        selectedBenefactor.textContent = benefactor.fio
+        selectedBenefactor.hidden = false
+
+        let selectedBenefactorId = getElement('selected_benefactor_id')
+        selectedBenefactorId.textContent = benefactor.id
+
+        let selectedWarehouse = getElement('selected_warehouse')
+        selectedWarehouse.textContent = warehouse.name
+        selectedWarehouse.hidden = false
+
+        let selectedWarehouseId = getElement('selected_warehouse_id')
+        selectedWarehouseId.textContent = warehouse.id
+
+        let selectedResourceTableBody = document.querySelector('#selected_resource_table tbody')
+        addedResources.forEach(r => {
+            selectedResourceTableBody.appendChild(createTr([r.id, r.name, r.count, createDeleteAcceptResourceBtn()]))
+        })
+    })
+    localStorage.removeItem('accept_id')
+}
+
+function createDeleteAcceptResourceBtn() {
+    let btn = createBtn('Удалить', '')
+    btn.onclick = (e) => {
+        let tr = e.currentTarget.parentNode.parentNode
+        tr.remove()
+    }
+    return btn
+}
 
 function handleBenefactorSelect() {
     getData(BENEFACTORS_URL).then((response) => {
@@ -103,13 +139,12 @@ function handleSelectResourceBtn() {
             if (selectedTr !== null) {
                 selectedTr.childNodes[2].textContent = (Number(selectedTr.childNodes[2].textContent) + Number(selectCount)).toString()
             } else {
-                selectedResourceTableBody.appendChild(createTr([selectCode, selectName, selectCount]))
+                selectedResourceTableBody.appendChild(createTr([selectCode, selectName, selectCount, createDeleteAcceptResourceBtn()]))
             }
         }
     }
     getElement('select_resources_block').hidden = true
 }
-
 
 function handleSaveAcceptanceBtn() {
     let benefactorId = Number(getElement('selected_benefactor_id').textContent)
@@ -126,12 +161,14 @@ function handleSaveAcceptanceBtn() {
         }
         resourcesRequest.push(resourceReq)
     }
-
-
-    let newAcceptRequest = {
+    let acceptRequest = {
         benefactorId: benefactorId,
         warehouseId: warehouseId,
         resources: resourcesRequest
     }
-    postData(ACCEPTANCE_URL, newAcceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
+    if (acceptId !== null) {
+        putData(ACCEPTANCE_URL + "/" + acceptId, acceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
+    } else {
+        postData(ACCEPTANCE_URL, acceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
+    }
 }

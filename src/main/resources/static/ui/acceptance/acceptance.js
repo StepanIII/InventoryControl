@@ -1,3 +1,4 @@
+fillSubheaderSecond()
 
 function handleAddAcceptanceBtn() {
     window.location.replace(UI_ACCEPTANCE_EDIT_URL)
@@ -16,6 +17,7 @@ getData(ACCEPTANCE_URL).then((response) => {
 
 function handleEditAcceptanceTr(e) {
     let selectedEditAcceptance = e.currentTarget
-    localStorage.setItem('selected_edit_acceptance_tr', selectedEditAcceptance)
+    let tdId = selectedEditAcceptance.childNodes[0]
+    localStorage.setItem('accept_id', tdId.textContent)
     window.location.replace(UI_ACCEPTANCE_EDIT_URL)
 }

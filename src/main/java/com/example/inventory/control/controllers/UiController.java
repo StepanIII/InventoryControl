@@ -13,11 +13,6 @@ public class UiController {
         return "index.html";
     }
 
-    @GetMapping("/resources/all")
-    public String resources() {
-        return "resources.html";
-    }
-
     @GetMapping("/acceptance/all")
     public String acceptance() {
         return "acceptance.html";
@@ -26,6 +21,16 @@ public class UiController {
     @GetMapping("/acceptance/edit")
     public String acceptanceEdit() {
         return "acceptance-edit.html";
+    }
+
+    @GetMapping("/remaining/all")
+    public String remaining() {
+        return "remaining.html";
+    }
+
+    @GetMapping("/resources/all")
+    public String resources() {
+        return "resources.html";
     }
 
 }

@@ -14,7 +14,7 @@ public final class Acceptance {
     /**
      * Время создания.
      */
-    private final LocalDateTime createdTime;
+    private final LocalDateTime createdTime; // Переделать на время обновления?
 
     /**
      * Место хранения.
@@ -26,9 +26,9 @@ public final class Acceptance {
      */
     private final Benefactor benefactor;
 
-    private final List<ResourceCount> resources;
+    private final List<AcceptResourceCount> resources;
 
-    public Acceptance(Long id, LocalDateTime createdTime, Warehouse warehouse, Benefactor benefactor, List<ResourceCount> resources) {
+    public Acceptance(Long id, LocalDateTime createdTime, Warehouse warehouse, Benefactor benefactor, List<AcceptResourceCount> resources) {
         // Проверка на обязательность
         this.id = id;
         this.createdTime = createdTime;
@@ -37,8 +37,20 @@ public final class Acceptance {
         this.resources = resources;
     }
 
-    public static Acceptance create(Warehouse warehouse, Benefactor benefactor, List<ResourceCount> resources) {
+    public static Acceptance create(Warehouse warehouse, Benefactor benefactor, List<AcceptResourceCount> resources) {
         return new Acceptance(null, null, warehouse, benefactor, resources);
+    }
+
+    public Acceptance updateWarehouse(Warehouse warehouse) {
+        return new Acceptance(id, createdTime, warehouse, benefactor, resources);
+    }
+
+    public Acceptance updateBenefactor(Benefactor benefactor) {
+        return new Acceptance(id, createdTime, warehouse, benefactor, resources);
+    }
+
+    public Acceptance updateResources(List<AcceptResourceCount> resources) {
+        return new Acceptance(id, createdTime, warehouse, benefactor, resources);
     }
 
     public Optional<Long> id() {
@@ -57,7 +69,7 @@ public final class Acceptance {
         return benefactor;
     }
 
-    public List<ResourceCount> getResources() {
+    public List<AcceptResourceCount> getResources() {
         return resources;
     }
 }

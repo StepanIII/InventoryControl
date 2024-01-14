@@ -4,6 +4,8 @@ public class ResourceCountResponse {
 
     private Long id;
 
+    private Long resourceId;
+
     private String name;
 
     private Integer count;
@@ -11,8 +13,9 @@ public class ResourceCountResponse {
     public ResourceCountResponse() {
     }
 
-    public ResourceCountResponse(Long id, String name, Integer count) {
+    public ResourceCountResponse(Long id, Long resourceId, String name, Integer count) {
         this.id = id;
+        this.resourceId = resourceId;
         this.name = name;
         this.count = count;
     }
@@ -23,6 +26,14 @@ public class ResourceCountResponse {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
     }
 
     public String getName() {

@@ -44,6 +44,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleAllExceptions(Exception ex) {
+        ex.printStackTrace();
         return ResponseEntity.internalServerError().body(
                 new ExceptionResponse("Internal server error", ex.getMessage()));
     }

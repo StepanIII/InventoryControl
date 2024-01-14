@@ -1,9 +1,9 @@
-package com.example.inventory.control.controllers;
+package com.example.inventory.control.controllers.acceptance;
 
 import com.example.inventory.control.AbstractTest;
 import com.example.inventory.control.entities.AcceptanceEntity;
 import com.example.inventory.control.entities.BenefactorEntity;
-import com.example.inventory.control.entities.ResourceCountEntity;
+import com.example.inventory.control.entities.AcceptResourceCountEntity;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.enums.ResourceType;
@@ -14,10 +14,8 @@ import com.example.inventory.control.repositories.ResourceCountRepository;
 import com.example.inventory.control.ui.models.requests.acceptance.AddAcceptRequest;
 import com.example.inventory.control.ui.models.requests.acceptance.ResourceCountRequest;
 import com.example.inventory.control.ui.models.responses.StatusResponse;
-import com.example.inventory.control.ui.models.responses.acceptance.AcceptResponse;
-import com.example.inventory.control.ui.models.responses.acceptance.AcceptanceResponse;
+import com.example.inventory.control.ui.models.responses.acceptance.AcceptResourcesResponse;
 import com.example.inventory.control.ui.models.responses.acceptance.AddAcceptResponse;
-import com.example.inventory.control.ui.models.responses.acceptance.ResourceCountResponse;
 import com.example.inventory.control.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+// Вынести тесты в отдельные классы для разного функционала
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AcceptanceControllerTest extends AbstractTest {
 
@@ -134,10 +133,48 @@ public class AcceptanceControllerTest extends AbstractTest {
         assertThat(body).isNotNull()
                 .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS);
         AcceptanceEntity savedAccept = acceptanceRepository.findById(body.getAddedAccept().getId()).orElseThrow();
-        List<ResourceCountEntity> savedResourceCounts = resourceCountRepository.findAllByAcceptanceId(savedAccept.getId());
+        List<AcceptResourceCountEntity> savedResourceCounts = resourceCountRepository.findAllByAcceptanceId(savedAccept.getId());
 
         assertAcceptance(addAcceptRequest, savedAccept);
         assertResourceCount(addAcceptRequest.getResources(), savedResourceCounts);
+    }
+
+    @Test
+    public void shouldReturnErrorResponseWhenGetAcceptById() {
+        Long acceptId = TestUtils.generatedRandomId();
+        ResponseEntity<AcceptResourcesResponse> responseEntity = restTemplate.getForEntity(
+                TestEndpoint.ACCEPTANCE_ENDPOINT + "/{id}",
+                AcceptResourcesResponse.class,
+                acceptId);
+
+        assertThat(responseEntity).isNotNull()
+                .matches(r -> r.getStatusCode().is2xxSuccessful());
+        AcceptResourcesResponse body = responseEntity.getBody();
+        assertThat(body).isNotNull()
+                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getDescription().equals(String.format("Приемка с идентификатором 'id: %d' не найдена", acceptId)));
+    }
+
+    @Test
+    public void shouldReturnSuccessResponseWhenGetAcceptById() {
+        BenefactorEntity benefactor = createBenefactor("Иванов", "Иван", "Иванович");
+        WarehouseEntity warehouse = createWarehouse("Склад_1");
+        ResourceEntity firstResource = createResource("Яблоки", ResourceType.FOOD, Units.KILOGRAM);
+        AcceptanceEntity acceptance = createAcceptance(warehouse, benefactor, List.of(createResourceCount(firstResource, 6)));
+
+        ResponseEntity<AcceptResourcesResponse> responseEntity = restTemplate.getForEntity(
+                TestEndpoint.ACCEPTANCE_ENDPOINT + "/{id}",
+                AcceptResourcesResponse.class,
+                acceptance.getId());
+
+        assertThat(responseEntity).isNotNull()
+                .matches(r -> r.getStatusCode().is2xxSuccessful());
+        AcceptResourcesResponse body = responseEntity.getBody();
+        assertThat(body).isNotNull()
+                .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS)
+                .matches(b -> b.getDescription().equals(String.format("Приемка с идентификатором 'id: %d' найдена", acceptance.getId())));
+
+        // Проверять найденную приемку
     }
 
 //    @Test
@@ -178,12 +215,12 @@ public class AcceptanceControllerTest extends AbstractTest {
                 .matches(a -> a.getWarehouseId().equals(expectedAccept.getWarehouse().getId()));
     }
 
-    private void assertResourceCount(List<ResourceCountRequest> verifiableResourceCounts, List<ResourceCountEntity> expectedResourceCounts) {
+    private void assertResourceCount(List<ResourceCountRequest> verifiableResourceCounts, List<AcceptResourceCountEntity> expectedResourceCounts) {
         boolean isEqualResources = false;
         for (ResourceCountRequest resourceCountRequest : verifiableResourceCounts) {
-            for (ResourceCountEntity resourceCountEntity : expectedResourceCounts) {
-                if (resourceCountRequest.getResourceId().equals(resourceCountEntity.getResource().getId()) &&
-                        resourceCountRequest.getCount().equals(resourceCountEntity.getCount())) {
+            for (AcceptResourceCountEntity acceptResourceCountEntity : expectedResourceCounts) {
+                if (resourceCountRequest.getResourceId().equals(acceptResourceCountEntity.getResource().getId()) &&
+                        resourceCountRequest.getCount().equals(acceptResourceCountEntity.getCount())) {
                     isEqualResources = true;
                     break;
                 }

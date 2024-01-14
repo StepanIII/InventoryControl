@@ -2,9 +2,12 @@ package com.example.inventory.control.ui.models.responses;
 
 public abstract class BaseResponse {
 
-    private final StatusResponse statusResponse; // Переделать на boolean
+    private StatusResponse statusResponse; // Переделать на boolean
 
-    private final String description;
+    private String description;
+
+    public BaseResponse() {
+    }
 
     public BaseResponse(StatusResponse statusResponse, String description) {
         this.statusResponse = statusResponse;

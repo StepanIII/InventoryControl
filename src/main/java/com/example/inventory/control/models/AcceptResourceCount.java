@@ -2,22 +2,26 @@ package com.example.inventory.control.models;
 
 import java.util.Optional;
 
-public final class ResourceCount {
+// Переделать модель
+public final class AcceptResourceCount {
 
     private final Long id;
 
     private final Long resourceId;
 
+    private final String name;
+
     private final Integer count;
 
-    public ResourceCount(Long id, Long resourceId, Integer count) {
+    public AcceptResourceCount(Long id, Long resourceId, String name, Integer count) {
         this.id = id;
         this.resourceId = resourceId;
+        this.name = name;
         this.count = count;
     }
 
-    public static ResourceCount create(Long resourceId, Integer count) {
-        return new ResourceCount(null, resourceId, count);
+    public static AcceptResourceCount create(Long resourceId, Integer count) {
+        return new AcceptResourceCount(null, resourceId, null, count);
     }
 
     public Optional<Long> id() {
@@ -26,6 +30,10 @@ public final class ResourceCount {
 
     public Long getResourceId() {
         return resourceId;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Integer getCount() {
