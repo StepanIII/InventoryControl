@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Списания</title>
+</head>
+<body>
+<div id="header">
+    <div id="subheader_first">
+        <button type="button" id="resource_management_btn" onclick="handleResourceManagementBtn()">Управление ресурсами</button>
+    </div>
+    <br>
+    <div id="subheader_second"></div>
+</div>
+
+<div id="content">
+    <br>
+    <button type="button" id="add_write_off_btn" onclick="handleAddWriteOffBtn()">Добавить</button>
+    <br>
+    <table id="write_off_table">
+        <tbody><tr><td>№</td><td>Время</td><td>Откуда</td></tr></tbody>
+    </table>
+</div>
+
+
+<div id="footer"></div>
+
+<script src="/utils.js"></script>
+<script src="/url.js"></script>
+<script src="/rest-methods.js"></script>
+<script src="/index.js"></script>
+<script src="/ui/write-off/write-off.js"></script>
+
+</body>
+</html>

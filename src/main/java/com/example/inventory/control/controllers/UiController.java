@@ -33,4 +33,14 @@ public class UiController {
         return "resources.html";
     }
 
+    @GetMapping("/write-off/all")
+    public String writeOff() {
+        return "write-off.html";
+    }
+
+    @GetMapping("/write-off/edit")
+    public String writeOffEdit() {
+        return "write-off-edit.html";
+    }
+
 }

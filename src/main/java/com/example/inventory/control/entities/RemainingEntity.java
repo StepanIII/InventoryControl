@@ -12,8 +12,8 @@ import jakarta.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "WAREHOUSE_RESOURCE_COUNT")
-public class WarehouseResourceCountEntity {
+@Table(name = "REMAINING")
+public class RemainingEntity {
     /**
      * Идентификатор.
      */
@@ -78,7 +78,7 @@ public class WarehouseResourceCountEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WarehouseResourceCountEntity that = (WarehouseResourceCountEntity) o;
+        RemainingEntity that = (RemainingEntity) o;
         return Objects.equals(id, that.id) && Objects.equals(resource, that.resource) && Objects.equals(count, that.count);
     }
 

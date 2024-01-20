@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить списание</title>
+</head>
+<body>
+<p>Место хранения:</p><p id="selected_warehouse" hidden></p><p id="selected_warehouse_id" hidden></p>
+<button onclick="handleWarehouseSelect()">Выбрать из справочника</button>
+<div id="warehouse_block" hidden>
+    <table id="warehouse_table_select">
+        <tbody><tr><td>Код</td><td>Наименование</td></tr></tbody>
+    </table>
+</div>
+<br>
+<br>
+<button onclick="handleResourceSelect()">Выбрать ресурсы из справочника</button>
+<div id="select_resources_block" hidden>
+    <table id="resources_table_select">
+        <tbody><tr><td>Код</td><td>Наименование</td><td>Количество</td></tr></tbody>
+    </table>
+    <button id="select_resource_btn" onclick="handleSelectResourceBtn()">Выбрать</button>
+</div>
+<br>
+<table id="selected_resource_table">
+    <tbody><tr><td>Код</td><td>Наименование</td><td>Количество</td><td>Операция</td></tr></tbody>
+</table>
+<br>
+<button id="save_write_off_btn" onclick="handleSaveWriteOffBtn()">Сохранить</button>
+
+<script src="/utils.js"></script>
+<script src="/url.js"></script>
+<script src="/rest-methods.js"></script>
+<script src="/ui/write-off/write-off-edit.js"></script>
+
+</body>
+</html>

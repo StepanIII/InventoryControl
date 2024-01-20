@@ -6,5 +6,7 @@ public final class TestEndpoint {
     public static final String ACCEPTANCE_ENDPOINT = "/acceptance";
     public static final String BENEFACTOR_ENDPOINT = "/benefactor";
     public static final String WAREHOUSE_ENDPOINT = "/warehouse";
+    public static final String WRITE_OFF_ENDPOINT = "/write-off";
+    public static final String REMAINING_ENDPOINT = "/remaining";
 
 }

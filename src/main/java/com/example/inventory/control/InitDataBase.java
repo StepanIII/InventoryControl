@@ -1,28 +1,24 @@
 package com.example.inventory.control;
 
+import com.example.inventory.control.entities.AcceptResourceCountEntity;
 import com.example.inventory.control.entities.AcceptanceEntity;
 import com.example.inventory.control.entities.BenefactorEntity;
-import com.example.inventory.control.entities.AcceptResourceCountEntity;
+import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
-import com.example.inventory.control.entities.WarehouseResourceCountEntity;
+import com.example.inventory.control.entities.WriteOffEntity;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Units;
 import com.example.inventory.control.repositories.AcceptanceRepository;
 import com.example.inventory.control.repositories.BenefactorRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
-import com.example.inventory.control.repositories.WarehouseResourceCountRepository;
+import com.example.inventory.control.repositories.WriteOffRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class InitDataBase {
@@ -40,7 +36,7 @@ public class InitDataBase {
     private BenefactorRepository benefactorRepository;
 
     @Autowired
-    private WarehouseResourceCountRepository warehouseResourceCountRepository;
+    private WriteOffRepository writeOffRepository;
 
     @PostConstruct
     public void addData() {
@@ -60,16 +56,19 @@ public class InitDataBase {
         WarehouseEntity warehouse3 = createWarehouseEntity("Склад3");
 
         List<AcceptResourceCountEntity> acceptResourceCount1 = List.of(createResourceCount(resource1, 5));
-        createAcceptanceEntityAndAddResourcesToWarehouse(warehouse1, benefactor1, acceptResourceCount1);
+        createAcceptanceEntity(warehouse1, benefactor1, acceptResourceCount1);
         addWarehouseResourceCounts(warehouse1, acceptResourceCount1);
 
         List<AcceptResourceCountEntity> acceptResourceCount2 = List.of(createResourceCount(resource1, 6), createResourceCount(resource2, 3));
-        createAcceptanceEntityAndAddResourcesToWarehouse(warehouse1, benefactor2, acceptResourceCount2);
+        createAcceptanceEntity(warehouse1, benefactor2, acceptResourceCount2);
         addWarehouseResourceCounts(warehouse1, acceptResourceCount2);
 
         List<AcceptResourceCountEntity> acceptResourceCount3 = List.of(createResourceCount(resource1, 2), createResourceCount(resource2, 5), createResourceCount(resource3, 1));
-        createAcceptanceEntityAndAddResourcesToWarehouse(warehouse2, benefactor2, acceptResourceCount3);
+        createAcceptanceEntity(warehouse2, benefactor2, acceptResourceCount3);
         addWarehouseResourceCounts(warehouse2, acceptResourceCount3);
+
+        createWriteOffEntity(warehouse1);
+        createWriteOffEntity(warehouse2);
     }
 
 
@@ -81,7 +80,7 @@ public class InitDataBase {
         return resourceRepository.save(resourceEntity);
     }
 
-    private AcceptanceEntity createAcceptanceEntityAndAddResourcesToWarehouse(WarehouseEntity warehouse, BenefactorEntity benefactor, List<AcceptResourceCountEntity> resourceCounts) {
+    private AcceptanceEntity createAcceptanceEntity(WarehouseEntity warehouse, BenefactorEntity benefactor, List<AcceptResourceCountEntity> resourceCounts) {
         AcceptanceEntity acceptanceEntity = new AcceptanceEntity();
         acceptanceEntity.setWarehouse(warehouse);
         acceptanceEntity.setBenefactor(benefactor);
@@ -98,18 +97,18 @@ public class InitDataBase {
     public void addWarehouseResourceCounts(WarehouseEntity warehouse, List<AcceptResourceCountEntity> resourceCounts) {
         for (AcceptResourceCountEntity acceptResourceCount : resourceCounts) {
             boolean updated = false;
-            for (WarehouseResourceCountEntity warehouseResourceCount : warehouse.getResourceCounts()) {
+            for (RemainingEntity warehouseResourceCount : warehouse.getResourceCounts()) {
                 if (warehouseResourceCount.getResource().getId().equals(acceptResourceCount.getResource().getId())) {
                     warehouseResourceCount.setCount(warehouseResourceCount.getCount() + acceptResourceCount.getCount());
                     updated = true;
                 }
             }
             if (!updated) {
-                WarehouseResourceCountEntity newWarehouseResourceCountEntity = new WarehouseResourceCountEntity();
-                newWarehouseResourceCountEntity.setResource(acceptResourceCount.getResource());
-                newWarehouseResourceCountEntity.setCount(acceptResourceCount.getCount());
-                newWarehouseResourceCountEntity.setWarehouse(warehouse);
-                warehouse.getResourceCounts().add(newWarehouseResourceCountEntity);
+                RemainingEntity newRemainingEntity = new RemainingEntity();
+                newRemainingEntity.setResource(acceptResourceCount.getResource());
+                newRemainingEntity.setCount(acceptResourceCount.getCount());
+                newRemainingEntity.setWarehouse(warehouse);
+                warehouse.getResourceCounts().add(newRemainingEntity);
             }
         }
         warehouseRepository.save(warehouse);
@@ -128,6 +127,12 @@ public class InitDataBase {
         acceptResourceCountEntity.setResource(resource);
         acceptResourceCountEntity.setCount(count);
         return acceptResourceCountEntity;
+    }
+
+    private WriteOffEntity createWriteOffEntity(WarehouseEntity warehouse) {
+        WriteOffEntity writeOffEntity = new WriteOffEntity();
+        writeOffEntity.setWarehouse(warehouse);
+        return writeOffRepository.save(writeOffEntity);
     }
 
 }

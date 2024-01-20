@@ -10,9 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,7 +38,7 @@ public class WarehouseEntity {
      * Хранимые ресурсы.
      */
     @OneToMany(mappedBy = "warehouse",fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<WarehouseResourceCountEntity> resourceCounts = new HashSet<>(); // переделать на set для сохранения уникальности
+    private Set<RemainingEntity> resourceCounts = new HashSet<>(); // переделать на set для сохранения уникальности
 
 
     public Long getId() {
@@ -59,7 +57,7 @@ public class WarehouseEntity {
         this.name = name;
     }
 
-    public Set<WarehouseResourceCountEntity> getResourceCounts() {
+    public Set<RemainingEntity> getResourceCounts() {
         return resourceCounts;
     }
 }
