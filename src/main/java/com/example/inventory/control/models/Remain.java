@@ -1,5 +1,6 @@
 package com.example.inventory.control.models;
 
+import java.util.Objects;
 import java.util.Optional;
 
 // Привязать к складу
@@ -41,5 +42,22 @@ public class Remain {
 
     public String getWarehouseName() {
         return warehouseName;
+    }
+
+    public Remain updateCount(int count) {
+        return new Remain(id, resourceId, resourceName, count, warehouseName);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Remain remain = (Remain) o;
+        return Objects.equals(resourceId, remain.resourceId) && Objects.equals(resourceName, remain.resourceName) && Objects.equals(warehouseName, remain.warehouseName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(resourceId, resourceName, warehouseName);
     }
 }

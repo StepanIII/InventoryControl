@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Сущность таблицы "WRITEOFF" (Списания).
+ * Сущность таблицы "WRITE_OFF" (Списания).
  */
 @Entity
 @Table(name = "WRITE_OFF")

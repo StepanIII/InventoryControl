@@ -10,7 +10,7 @@ getData(WRITE_OFF_URL).then((response) => {
     for (let i = 0; i < writeOffs.length; i++) {
         let writeOff = writeOffs[i]
         let tr = createTr([writeOff.id, writeOff.createdTime, writeOff.warehouseName])
-        // tr.addEventListener('click', handleEditAcceptanceTr)
+        tr.addEventListener('click', handleEditWriteOffTr)
         tBody.appendChild(tr)
     }
 })
@@ -18,6 +18,6 @@ getData(WRITE_OFF_URL).then((response) => {
 function handleEditWriteOffTr(e) {
     let selectedEditAcceptance = e.currentTarget
     let tdId = selectedEditAcceptance.childNodes[0]
-    localStorage.setItem('accept_id', tdId.textContent)
-    window.location.replace(UI_ACCEPTANCE_EDIT_URL)
+    localStorage.setItem('write_off_id', tdId.textContent)
+    window.location.replace(UI_WRITE_OFF_EDIT_URL)
 }

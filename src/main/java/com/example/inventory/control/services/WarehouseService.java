@@ -22,4 +22,12 @@ public interface WarehouseService {
      */
     Optional<Warehouse> getWarehouseById(Long id);
 
+    /**
+     * Обновить место хранения.
+     *
+     * @param warehouse обновляемое место хранения.
+     * @return обновленное место хранения.
+     */
+    Warehouse update(Warehouse warehouse);
+
 }

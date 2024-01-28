@@ -1,9 +1,9 @@
 package com.example.inventory.control.services.mapper;
 
-import com.example.inventory.control.entities.AcceptanceEntity;
 import com.example.inventory.control.entities.RemainingEntity;
-import com.example.inventory.control.models.Acceptance;
 import com.example.inventory.control.models.Remain;
+import com.example.inventory.control.repositories.ResourceRepository;
+import com.example.inventory.control.repositories.WarehouseRepository;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Mapper(componentModel = "spring")
 public abstract class RemainingMapper {
 
+    @Autowired
+    private ResourceRepository resourceRepository;
+
+    @Autowired
+    private WarehouseRepository warehouseRepository;
 
     /**
      * Преобразовать в доменную модель.
@@ -28,8 +33,20 @@ public abstract class RemainingMapper {
                 entity.getCount(),
                 entity.getWarehouse().getName());
     }
-//
 
+    /**
+     *
+     * @return
+     * @param remain
+     */
+    public RemainingEntity toEntity(Remain remain) {
+        RemainingEntity entity = new RemainingEntity();
+        entity.setId(remain.id().orElse(null));
+        entity.setCount(remain.getCount());
+        entity.setResource(resourceRepository.findById(remain.getResourceId()).orElseThrow());
+        entity.setWarehouse(warehouseRepository.findByName(remain.getWarehouseName()).orElseThrow());
+        return entity;
+    }
 
 
 }

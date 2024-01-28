@@ -14,6 +14,9 @@ public abstract class WriteOffMapper {
     @Autowired
     private WarehouseMapper warehouseMapper;
 
+    @Autowired
+    private WriteOffCountMapper writeOffCountMapper;
+
     /**
      * Преобразовать в сущность.
      *
@@ -35,7 +38,11 @@ public abstract class WriteOffMapper {
      * @return доменная модель
      */
     public WriteOff toDomain(WriteOffEntity entity) {
-        return new WriteOff(entity.getId(), entity.getCreatedTime(), warehouseMapper.toDomain(entity.getWarehouse()));
+        return new WriteOff(
+                entity.getId(),
+                entity.getCreatedTime(),
+                warehouseMapper.toDomain(entity.getWarehouse()),
+                entity.getResourceCounts().stream().map(writeOffCountMapper::toDomain).toList());
     }
 
 }

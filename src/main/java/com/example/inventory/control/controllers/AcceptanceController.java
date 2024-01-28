@@ -73,7 +73,6 @@ public class AcceptanceController {
                     id, response.getDescription()));
         }
         return ResponseEntity.ok(response);
-
     }
 
     @GetMapping("/{id}")

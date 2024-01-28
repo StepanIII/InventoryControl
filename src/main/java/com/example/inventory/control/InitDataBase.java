@@ -7,6 +7,7 @@ import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.entities.WriteOffEntity;
+import com.example.inventory.control.entities.WriteOffResourceCountEntity;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Units;
 import com.example.inventory.control.repositories.AcceptanceRepository;
@@ -42,7 +43,6 @@ public class InitDataBase {
     public void addData() {
 
         ResourceEntity resource1 = createResource("Яблоки", ResourceType.FOOD, Units.KILOGRAM);
-        resource1.setName("aaa");
         ResourceEntity resource2 = createResource("Пеленки", ResourceType.HYGIENE_PRODUCT, Units.THINGS);
         ResourceEntity resource3 = createResource("Ботинки", ResourceType.CLOTHING, Units.PAIR);
 
@@ -63,12 +63,17 @@ public class InitDataBase {
         createAcceptanceEntity(warehouse1, benefactor2, acceptResourceCount2);
         addWarehouseResourceCounts(warehouse1, acceptResourceCount2);
 
-        List<AcceptResourceCountEntity> acceptResourceCount3 = List.of(createResourceCount(resource1, 2), createResourceCount(resource2, 5), createResourceCount(resource3, 1));
+        List<AcceptResourceCountEntity> acceptResourceCount3 = List.of(createResourceCount(resource1, 2), createResourceCount(resource2, 5), createResourceCount(resource3, 5));
         createAcceptanceEntity(warehouse2, benefactor2, acceptResourceCount3);
         addWarehouseResourceCounts(warehouse2, acceptResourceCount3);
 
-        createWriteOffEntity(warehouse1);
-        createWriteOffEntity(warehouse2);
+        List<WriteOffResourceCountEntity> writeOffResourceCount1 = List.of(createWriteOffResourceCount(resource1, 2), createWriteOffResourceCount(resource2, 1));
+        createWriteOffEntity(warehouse1, writeOffResourceCount1);
+        removeWarehouseResourceCounts(warehouse1, writeOffResourceCount1);
+
+        List<WriteOffResourceCountEntity> writeOffResourceCount2 = List.of(createWriteOffResourceCount(resource1, 1), createWriteOffResourceCount(resource3, 1));
+        createWriteOffEntity(warehouse2, writeOffResourceCount2);
+        removeWarehouseResourceCounts(warehouse2, writeOffResourceCount2);
     }
 
 
@@ -114,6 +119,25 @@ public class InitDataBase {
         warehouseRepository.save(warehouse);
     }
 
+    public void removeWarehouseResourceCounts(WarehouseEntity warehouse, List<WriteOffResourceCountEntity> resourceCounts) {
+        for (WriteOffResourceCountEntity writeOffResourceCount : resourceCounts) {
+            boolean removed = false;
+            for (RemainingEntity warehouseResourceCount : warehouse.getResourceCounts()) {
+                if (warehouseResourceCount.getResource().getId().equals(writeOffResourceCount.getResource().getId())) {
+                    if (warehouseResourceCount.getCount() < warehouseResourceCount.getCount()) {
+                        System.out.println("Такого количества ресурсов нет на складе");
+                    }
+                    warehouseResourceCount.setCount(warehouseResourceCount.getCount() - writeOffResourceCount.getCount());
+                    removed = true;
+                }
+            }
+            if (!removed) {
+                System.out.println("Таких ресурсов нет на складе");
+            }
+        }
+        warehouseRepository.save(warehouse);
+    }
+
     private BenefactorEntity createBenefactorEntity(String lastName, String firstName, String middleName) {
         BenefactorEntity benefactorEntity = new BenefactorEntity();
         benefactorEntity.setLastName(lastName);
@@ -129,10 +153,22 @@ public class InitDataBase {
         return acceptResourceCountEntity;
     }
 
-    private WriteOffEntity createWriteOffEntity(WarehouseEntity warehouse) {
+    private WriteOffEntity createWriteOffEntity(WarehouseEntity warehouse, List<WriteOffResourceCountEntity> resourceCounts) {
         WriteOffEntity writeOffEntity = new WriteOffEntity();
         writeOffEntity.setWarehouse(warehouse);
+        writeOffEntity = writeOffRepository.save(writeOffEntity);
+        for (WriteOffResourceCountEntity writeOffResourceCount : resourceCounts) {
+            writeOffResourceCount.setWriteOff(writeOffEntity);
+        }
+        writeOffEntity.getResourceCounts().addAll(resourceCounts);
         return writeOffRepository.save(writeOffEntity);
+    }
+
+    private WriteOffResourceCountEntity createWriteOffResourceCount(ResourceEntity resource, int count) {
+        WriteOffResourceCountEntity writeOffResourceCountEntity = new WriteOffResourceCountEntity();
+        writeOffResourceCountEntity.setResource(resource);
+        writeOffResourceCountEntity.setCount(count);
+        return writeOffResourceCountEntity;
     }
 
 }

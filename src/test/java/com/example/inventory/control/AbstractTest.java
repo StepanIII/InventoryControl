@@ -11,6 +11,7 @@ import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Units;
 import com.example.inventory.control.repositories.AcceptanceRepository;
 import com.example.inventory.control.repositories.BenefactorRepository;
+import com.example.inventory.control.repositories.RemainingRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
 import com.example.inventory.control.repositories.WriteOffRepository;
@@ -31,19 +32,22 @@ public abstract class AbstractTest {
     protected TestRestTemplate restTemplate;
 
     @Autowired
-    private AcceptanceRepository acceptanceRepository;
+    protected AcceptanceRepository acceptanceRepository;
 
     @Autowired
-    private WarehouseRepository warehouseRepository;
+    protected WarehouseRepository warehouseRepository;
 
     @Autowired
-    private WriteOffRepository writeOffRepository;
+    protected WriteOffRepository writeOffRepository;
 
     @Autowired
-    private BenefactorRepository benefactorRepository;
+    protected BenefactorRepository benefactorRepository;
 
     @Autowired
-    private ResourceRepository resourceRepository;
+    protected ResourceRepository resourceRepository;
+
+    @Autowired
+    protected RemainingRepository remainingRepository;
 
     @BeforeEach
     @AfterEach
@@ -53,6 +57,7 @@ public abstract class AbstractTest {
         warehouseRepository.deleteAll();
         benefactorRepository.deleteAll();
         resourceRepository.deleteAll();
+        resourceRepository.deleteAll();
     }
 
     protected AcceptanceEntity createAcceptance(WarehouseEntity warehouse, BenefactorEntity benefactor, List<AcceptResourceCountEntity> resources) {
@@ -60,7 +65,10 @@ public abstract class AbstractTest {
         acceptanceEntity.setWarehouse(warehouse);
         acceptanceEntity.setBenefactor(benefactor);
         acceptanceEntity.getResourceCounts().addAll(resources);
-        return acceptanceRepository.save(acceptanceEntity);
+        acceptanceEntity = acceptanceRepository.save(acceptanceEntity);
+
+        addWarehouseResourceCounts(warehouse, resources);
+        return acceptanceEntity;
     }
 
     protected WarehouseEntity createWarehouse(String name) {

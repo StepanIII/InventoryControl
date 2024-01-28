@@ -1,31 +1,23 @@
 let writeOffId = localStorage.getItem('write_off_id');
-// if (acceptId !== null) {
-//     getData(ACCEPTANCE_URL + "/" + acceptId).then(response => {
-//         let benefactor = response.benefactor
-//         let warehouse = response.warehouse
-//         let addedResources = response.resources
-//
-//         let selectedBenefactor = getElement('selected_benefactor')
-//         selectedBenefactor.textContent = benefactor.fio
-//         selectedBenefactor.hidden = false
-//
-//         let selectedBenefactorId = getElement('selected_benefactor_id')
-//         selectedBenefactorId.textContent = benefactor.id
-//
-//         let selectedWarehouse = getElement('selected_warehouse')
-//         selectedWarehouse.textContent = warehouse.name
-//         selectedWarehouse.hidden = false
-//
-//         let selectedWarehouseId = getElement('selected_warehouse_id')
-//         selectedWarehouseId.textContent = warehouse.id
-//
-//         let selectedResourceTableBody = document.querySelector('#selected_resource_table tbody')
-//         addedResources.forEach(r => {
-//             selectedResourceTableBody.appendChild(createTr([r.id, r.name, r.count, createDeleteAcceptResourceBtn()]))
-//         })
-//     })
-//     localStorage.removeItem('accept_id')
-// }
+if (writeOffId !== null) {
+    getData(WRITE_OFF_URL + "/" + writeOffId).then(response => {
+        let warehouse = response.warehouse
+        let removedResources = response.resources
+
+        let selectedWarehouse = getElement('selected_warehouse')
+        selectedWarehouse.textContent = warehouse.name
+        selectedWarehouse.hidden = false
+
+        let selectedWarehouseId = getElement('selected_warehouse_id')
+        selectedWarehouseId.textContent = warehouse.id
+
+        let selectedResourceTableBody = document.querySelector('#selected_resource_table tbody')
+        removedResources.forEach(r => {
+            selectedResourceTableBody.appendChild(createTr([r.id, r.name, r.count, createDeleteWriteOffResourceBtn()]))
+        })
+    })
+    localStorage.removeItem('accept_id')
+}
 
 function createDeleteWriteOffResourceBtn() {
     let btn = createBtn('Удалить', '')
@@ -106,7 +98,7 @@ function handleSelectResourceBtn() {
                 if (tdCodeValue === selectCode) {
                     selectedTr = tr
                     break
-                }warehouses
+                }
             }
             if (selectedTr !== null) {
                 selectedTr.childNodes[2].textContent = (Number(selectedTr.childNodes[2].textContent) + Number(selectCount)).toString()
@@ -137,10 +129,15 @@ function handleSaveWriteOffBtn() {
         warehouseId: warehouseId,
         resources: resourcesRequest
     }
-    postData(WRITE_OFF_URL, writeOffRequest).then(window.location.replace(UI_WRITE_OFF_ALL_URL))
-    // if (writeOffId !== null) {
-    //     putData(ACCEPTANCE_URL + "/" + writeOffId, writeOffRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
-    // } else {
-    //     postData(WRITE_OFF_URL, acceptRequest).then(window.location.replace(UI_WRITE_OFF_ALL_URL))
-    // }
+    if (writeOffId !== null) {
+        putData(WRITE_OFF_URL + "/" + writeOffId, writeOffRequest).then(response => {
+            console.log(response.description)
+            window.location.replace(UI_WRITE_OFF_ALL_URL)
+        })
+    } else {
+        postData(WRITE_OFF_URL, writeOffRequest).then(response => {
+            console.log(response.description)
+            window.location.replace(UI_WRITE_OFF_ALL_URL)
+        })
+    }
 }

@@ -60,4 +60,8 @@ public class WarehouseEntity {
     public Set<RemainingEntity> getResourceCounts() {
         return resourceCounts;
     }
+
+    public void setResourceCounts(Set<RemainingEntity> resourceCounts) {
+        this.resourceCounts = resourceCounts;
+    }
 }
