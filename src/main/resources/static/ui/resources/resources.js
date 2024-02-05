@@ -5,6 +5,7 @@ let fieldInProcessChanged = false
 saveResourcesBtnHandler(getElement('save_resource_btn'))
 
 getData(RESOURCES_URL).then((response) => {
+    console.log(response.description)
     let lastLine = getElement('header_resources_table')
     let resources = response.resources
     for (let i = 0; i < resources.length; i++) {

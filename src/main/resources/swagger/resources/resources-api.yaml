@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info:
+  title: Resources
+  description: Api предоставляет доступ для работы с ресурсами
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/resource'
+paths:
+  /resource:
+    $ref: 'resource-methods.yaml'
+  

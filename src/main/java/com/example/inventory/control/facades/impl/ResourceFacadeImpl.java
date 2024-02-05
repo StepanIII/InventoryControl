@@ -28,6 +28,14 @@ public final class ResourceFacadeImpl implements ResourceFacade {
         this.resourceMapper = resourceMapper;
     }
 
+    @Override
+    public ResourcesResponse getListAllResources() {
+        List<Resource> listAllResources = resourceService.getListAllResources();
+        return new ResourcesResponse(listAllResources.stream()
+                .map(resourceMapper::toDTO)
+                .collect(Collectors.toList()));
+    }
+
     // Возвращать только идентификатор
     @Override
     public AddResourceResponse addResource(AddResourceRequest request) {
@@ -54,14 +62,6 @@ public final class ResourceFacadeImpl implements ResourceFacade {
         return new UpdateResourceResponse(
                 StatusResponse.SUCCESS,
                 String.format("Обновление ресурса выполнено успешно 'id: %d'.", id));
-    }
-
-    @Override
-    public ResourcesResponse getListAllResources() {
-        List<Resource> listAllResources = resourceService.getListAllResources();
-        return new ResourcesResponse(listAllResources.stream()
-                .map(resourceMapper::toDTO)
-                .collect(Collectors.toList()));
     }
 
     @Override

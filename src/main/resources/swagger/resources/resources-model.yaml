@@ -1,0 +1,57 @@
+components:
+  GetAllResourcesResponse:
+    type: object
+    description: Ответ со списком всех ресурсов
+    required:
+      - resources
+      - state
+    properties:
+      resources:
+        description: Список ресурсов
+        type: array
+        items:
+          type: object
+          required:
+            - id
+            - name
+            - resourceType
+            - unit
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 1
+              description: Идентификатор ресурса
+            name:
+              type: string
+              minLength: 1
+              maxLength: 255
+              example: Яблоки
+              description: Наименование ресурса
+            resourceType:
+              type: string
+              minLength: 1
+              maxLength: 255
+              example: Тип ресурса
+              description: Продукт
+            unit:
+              type: string
+              minLength: 1
+              maxLength: 255
+              example: Единица измерения
+              description: Кг
+      state:
+        type: object
+        description: Статус ответа
+        required:
+          - code
+          - description
+        properties:
+          code:
+            type: string
+            description: Код статуса
+            enum:
+              - success
+          description:
+            type: string
+            description: Описание статуса

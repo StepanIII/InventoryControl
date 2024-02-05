@@ -13,6 +13,11 @@ import com.example.inventory.control.ui.models.responses.resource.UpdateResource
 public interface ResourceFacade {
 
     /**
+     * Получить список всех ресурсов.
+     */
+    ResourcesResponse getListAllResources();
+
+    /**
      * Добавить новый ресурс.
      *
      * @param request запрос с данными нового ресурса.
@@ -28,11 +33,6 @@ public interface ResourceFacade {
      * @return ответ со статусом.
      */
     UpdateResourceResponse updateResource(Long id, UpdateResourceRequest request);
-
-    /**
-     * Получить список всех ресурсов.
-     */
-    ResourcesResponse getListAllResources();
 
     /**
      * Удалить ресурс.

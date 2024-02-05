@@ -36,6 +36,14 @@ public class ResourceController {
         this.resourceFacade = resourceFacade;
     }
 
+    @GetMapping
+    public ResponseEntity<ResourcesResponse> getAllResources() {
+        LOGGER.info("Запрос на получение всех ресурсов.");
+        ResourcesResponse resourcesResponse = resourceFacade.getListAllResources();
+        LOGGER.info("Запрос на получение всех ресурсов выполнен успешно."); // Количество полученых ресурсов
+        return ResponseEntity.ok(resourcesResponse);
+    }
+
     @PostMapping
     public ResponseEntity<AddResourceResponse> addResource(@Valid @RequestBody AddResourceRequest request) {
         LOGGER.info(String.format("Запрос на добавление ресурса 'name: %s'.", request.getName()));
@@ -62,14 +70,6 @@ public class ResourceController {
                     id, response.getDescription()));
         }
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping
-    public ResponseEntity<ResourcesResponse> getAllResources() {
-        LOGGER.info("Запрос на получение всех ресурсов.");
-        ResourcesResponse resourcesResponse = resourceFacade.getListAllResources();
-        LOGGER.info("Запрос на получение всех ресурсов выполнен успешно.");
-        return ResponseEntity.ok(resourcesResponse);
     }
 
     // @NotNull нужна?
