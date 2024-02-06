@@ -2,8 +2,8 @@ package com.example.inventory.control.facades.impl;
 
 import com.example.inventory.control.facades.RemainingFacade;
 import com.example.inventory.control.services.RemainingService;
-import com.example.inventory.control.ui.models.responses.remaining.RemainResponse;
-import com.example.inventory.control.ui.models.responses.remaining.RemainingResponse;
+import com.example.inventory.control.api.responses.remaining.RemainResponse;
+import com.example.inventory.control.api.responses.remaining.RemainingResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

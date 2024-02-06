@@ -80,8 +80,8 @@ public class InitDataBase {
     private ResourceEntity createResource(String name, ResourceType type, Units units) {
         ResourceEntity resourceEntity = new ResourceEntity();
         resourceEntity.setName(name);
-        resourceEntity.setResourceType(type);
-        resourceEntity.setUnits(units);
+        resourceEntity.setType(type);
+        resourceEntity.setUnit(units);
         return resourceRepository.save(resourceEntity);
     }
 

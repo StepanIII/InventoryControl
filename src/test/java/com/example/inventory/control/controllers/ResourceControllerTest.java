@@ -4,14 +4,11 @@ import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.TestEndpoint;
 import com.example.inventory.control.enums.Units;
-import com.example.inventory.control.ui.models.requests.UpdateResourceRequest;
-import com.example.inventory.control.ui.models.responses.resource.AddResourceResponse;
-import com.example.inventory.control.ui.models.responses.resource.DeleteResourceResponse;
-import com.example.inventory.control.ui.models.responses.resource.ResourceResponse;
-import com.example.inventory.control.ui.models.requests.AddResourceRequest;
-import com.example.inventory.control.ui.models.responses.resource.ResourcesResponse;
-import com.example.inventory.control.ui.models.responses.StatusResponse;
-import com.example.inventory.control.ui.models.responses.resource.UpdateResourceResponse;
+import com.example.inventory.control.api.models.responses.resource.AddResourceResponse;
+import com.example.inventory.control.api.responses.dto.ResourceDto;
+import com.example.inventory.control.api.resources.ResourceRequest;
+import com.example.inventory.control.api.resources.ResourcesResponse;
+import com.example.inventory.control.api.responses.StatusResponse;
 import com.example.inventory.control.repositories.ResourceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +34,7 @@ public class ResourceControllerTest {
 
     @Test
     public void shouldAddResource() {
-        AddResourceRequest addResourceRequest = new AddResourceRequest();
+        ResourceRequest addResourceRequest = new ResourceRequest();
         addResourceRequest.setResourceType(ResourceType.FOOD);
         addResourceRequest.setName("Яблоки красные");
         addResourceRequest.setUnits(Units.KILOGRAM);
@@ -50,13 +47,13 @@ public class ResourceControllerTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS);
+                .matches(b -> b.getStatus() == StatusResponse.SUCCESS);
         // Проверить описание?
         assertThat(responseEntity.getBody().getAddedResource()).isNotNull()
                 .matches(r -> r.getId() != null)
                 .matches(r -> r.getResourceType() == ResourceType.FOOD)
                 .matches(r -> r.getName().equals("Яблоки красные"))
-                .matches(r -> r.getUnits() == Units.KILOGRAM);
+                .matches(r -> r.getUnit() == Units.KILOGRAM);
 
         resourceRepository.deleteById(responseEntity.getBody().getAddedResource().getId());
     }
@@ -80,7 +77,7 @@ public class ResourceControllerTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Ресурс не найден 'id: %d'.", 10L)));
     }
 
@@ -105,7 +102,7 @@ public class ResourceControllerTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS)
+                .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
                 .matches(b -> b.getDescription().equals(String.format("Обновление ресурса выполнено успешно 'id: %d'.", resourceEntity.getId())));
 
         resourceRepository.deleteById(resourceEntity.getId());
@@ -127,7 +124,7 @@ public class ResourceControllerTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull();
-        List<ResourceResponse> resourceResponseList = responseEntity.getBody().getResources();
+        List<ResourceDto> resourceResponseList = responseEntity.getBody().getResources();
         assertResourceResponse(resourceResponseList.get(0), createdResourceEntities.get(0));
         assertResourceResponse(resourceResponseList.get(1), createdResourceEntities.get(1));
         assertResourceResponse(resourceResponseList.get(2), createdResourceEntities.get(2));
@@ -148,7 +145,7 @@ public class ResourceControllerTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR);
+                .matches(b -> b.getStatus() == StatusResponse.ERROR);
     }
 
     @Test
@@ -170,7 +167,7 @@ public class ResourceControllerTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS);
+                .matches(b -> b.getStatus() == StatusResponse.SUCCESS);
         assertThat(resourceRepository.existsById(resourceId)).isFalse();
         resourceRepository.deleteAll(createdResourceEntities);
     }
@@ -189,17 +186,17 @@ public class ResourceControllerTest {
     private ResourceEntity createResourceEntity(String name, ResourceType type, Units units) {
         ResourceEntity resourceEntity = new ResourceEntity();
         resourceEntity.setName(name);
-        resourceEntity.setResourceType(type);
-        resourceEntity.setUnits(units);
+        resourceEntity.setType(type);
+        resourceEntity.setUnit(units);
         return resourceRepository.save(resourceEntity);
     }
 
-    private void assertResourceResponse(ResourceResponse verifiableResource, ResourceEntity expectedResource) {
+    private void assertResourceResponse(ResourceDto verifiableResource, ResourceEntity expectedResource) {
         assertThat(verifiableResource)
                 .matches(r -> r.getId().equals(expectedResource.getId()))
                 .matches(r -> r.getName().equals(expectedResource.getName()))
-                .matches(r -> r.getResourceType().equals(expectedResource.getResourceType()))
-                .matches(r -> r.getUnits().equals(expectedResource.getUnits()));
+                .matches(r -> r.getResourceType().equals(expectedResource.getType()))
+                .matches(r -> r.getUnit().equals(expectedResource.getUnit()));
     }
 
 }

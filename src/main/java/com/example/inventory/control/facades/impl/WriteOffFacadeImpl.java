@@ -1,25 +1,21 @@
 package com.example.inventory.control.facades.impl;
 
 import com.example.inventory.control.facades.WriteOffFacade;
-import com.example.inventory.control.models.AcceptResourceCount;
-import com.example.inventory.control.models.Acceptance;
-import com.example.inventory.control.models.Warehouse;
-import com.example.inventory.control.models.WriteOff;
-import com.example.inventory.control.models.WriteOffResourceCount;
+import com.example.inventory.control.domain.models.WriteOff;
+import com.example.inventory.control.domain.models.WriteOffResourceCount;
 import com.example.inventory.control.services.WarehouseService;
 import com.example.inventory.control.services.WriteOffService;
-import com.example.inventory.control.ui.models.requests.writeOff.UpdateWriteOffRequest;
-import com.example.inventory.control.ui.models.responses.StatusResponse;
-import com.example.inventory.control.ui.models.responses.acceptance.UpdateAcceptResponse;
-import com.example.inventory.control.ui.models.responses.warehouse.WarehouseResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.AddWriteOffRequest;
-import com.example.inventory.control.ui.models.responses.writeoff.AddWriteOffResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.UpdateWriteOffResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffResourceCountRequest;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffResourceCountResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffResourcesResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffsResponse;
+import com.example.inventory.control.api.requests.writeOff.UpdateWriteOffRequest;
+import com.example.inventory.control.api.responses.StatusResponse;
+import com.example.inventory.control.api.warehouse.model.WarehouseBody;
+import com.example.inventory.control.api.writeoff.AddWriteOffRequest;
+import com.example.inventory.control.api.writeoff.AddWriteOffResponse;
+import com.example.inventory.control.api.writeoff.UpdateWriteOffResponse;
+import com.example.inventory.control.api.writeoff.WriteOffResourceCountRequest;
+import com.example.inventory.control.api.writeoff.WriteOffResourceCountResponse;
+import com.example.inventory.control.api.writeoff.WriteOffResourcesResponse;
+import com.example.inventory.control.api.writeoff.model.WriteOffBody;
+import com.example.inventory.control.api.writeoff.WriteOffsResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,9 +35,9 @@ public class WriteOffFacadeImpl implements WriteOffFacade {
 
     @Override
     public WriteOffsResponse getListAllWriteOff() {
-        List<WriteOffResponse> writeOffResponseList = writeOffService
+        List<WriteOffBody> writeOffResponseList = writeOffService
                 .getListAllWriteOff().stream()
-                .map(w -> new WriteOffResponse(w.id().orElseThrow(), w.getCreatedTime(), w.getWarehouse().getName()))
+                .map(w -> new WriteOffBody(w.id().orElseThrow(), w.getCreatedTime(), w.getWarehouse().getName()))
                 .toList();
         return new WriteOffsResponse(writeOffResponseList);
     }
@@ -55,9 +51,9 @@ public class WriteOffFacadeImpl implements WriteOffFacade {
                     String.format("Списание с идентификатором 'id: %d' не найдено", id));
         }
         WriteOff writeOff = writeOffCandidate.get();
-        Warehouse warehouse = writeOff.getWarehouse();
+        com.example.inventory.control.domain.models.Warehouse warehouse = writeOff.getWarehouse();
 
-        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouse.id().orElseThrow(), warehouse.getName());
+        WarehouseBody warehouseResponse = new WarehouseBody(warehouse.id().orElseThrow(), warehouse.getName());
         List<WriteOffResourceCountResponse> resourcesResponse = writeOff.getWriteOffResourceCounts().stream()
                 .map(r -> new WriteOffResourceCountResponse(
                         r.id().orElseThrow(),
@@ -78,11 +74,11 @@ public class WriteOffFacadeImpl implements WriteOffFacade {
     @Override
     @Transactional
     public AddWriteOffResponse addWriteOff(AddWriteOffRequest request) {
-        Optional<Warehouse> warehouseCandidate = warehouseService.getWarehouseById(request.getWarehouseId());
+        Optional<com.example.inventory.control.domain.models.Warehouse> warehouseCandidate = warehouseService.getWarehouseById(request.getWarehouseId());
         if (warehouseCandidate.isEmpty()) {
             return new AddWriteOffResponse(StatusResponse.ERROR, String.format("Место хранения с идентификатором = %d не найдено.", request.getWarehouseId()));
         }
-        Warehouse warehouse = warehouseCandidate.get();
+        com.example.inventory.control.domain.models.Warehouse warehouse = warehouseCandidate.get();
         List<Long> writeOffResourceIds = request.getResources().stream().map(WriteOffResourceCountRequest::getResourceId).toList();
         if (!warehouse.hasAllResources(writeOffResourceIds)) {
             return new AddWriteOffResponse(StatusResponse.ERROR, "На складе нет таких ресурсов.");
@@ -112,12 +108,12 @@ public class WriteOffFacadeImpl implements WriteOffFacade {
                     StatusResponse.ERROR,
                     String.format("Списание с идентификатором 'id: %d' не найдено", id));
         }
-        Optional<Warehouse> warehouseCandidate = warehouseService.getWarehouseById(request.getWarehouseId());
+        Optional<com.example.inventory.control.domain.models.Warehouse> warehouseCandidate = warehouseService.getWarehouseById(request.getWarehouseId());
         if (warehouseCandidate.isEmpty()) {
             return new UpdateWriteOffResponse(StatusResponse.ERROR,
                     String.format("Место хранения с идентификатором = %d не найдено.", request.getWarehouseId()));
         }
-        Warehouse warehouse = warehouseCandidate.get();
+        com.example.inventory.control.domain.models.Warehouse warehouse = warehouseCandidate.get();
         List<Long> writeOffResourceIds = request.getResources().stream().map(WriteOffResourceCountRequest::getResourceId).toList();
         if (!warehouse.hasAllResources(writeOffResourceIds)) {
             return new UpdateWriteOffResponse(StatusResponse.ERROR, "На складе нет таких ресурсов.");

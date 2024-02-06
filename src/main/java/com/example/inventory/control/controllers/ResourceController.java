@@ -1,13 +1,11 @@
 package com.example.inventory.control.controllers;
 
+import com.example.inventory.control.api.resources.ResourceRequest;
+import com.example.inventory.control.api.responses.BaseResponse;
+import com.example.inventory.control.api.responses.StatusResponse;
+import com.example.inventory.control.api.resources.ResourceResponse;
+import com.example.inventory.control.api.resources.ResourcesResponse;
 import com.example.inventory.control.facades.ResourceFacade;
-import com.example.inventory.control.ui.models.requests.AddResourceRequest;
-import com.example.inventory.control.ui.models.requests.UpdateResourceRequest;
-import com.example.inventory.control.ui.models.responses.resource.AddResourceResponse;
-import com.example.inventory.control.ui.models.responses.resource.DeleteResourceResponse;
-import com.example.inventory.control.ui.models.responses.resource.ResourcesResponse;
-import com.example.inventory.control.ui.models.responses.StatusResponse;
-import com.example.inventory.control.ui.models.responses.resource.UpdateResourceResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -39,18 +37,18 @@ public class ResourceController {
     @GetMapping
     public ResponseEntity<ResourcesResponse> getAllResources() {
         LOGGER.info("Запрос на получение всех ресурсов.");
-        ResourcesResponse resourcesResponse = resourceFacade.getListAllResources();
-        LOGGER.info("Запрос на получение всех ресурсов выполнен успешно."); // Количество полученых ресурсов
-        return ResponseEntity.ok(resourcesResponse);
+        ResourcesResponse response = resourceFacade.getAllResources();
+        LOGGER.info(String.format("Запрос на получение всех ресурсов выполнен успешно. Количество: %d.", response.getResources().size()));
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<AddResourceResponse> addResource(@Valid @RequestBody AddResourceRequest request) {
+    public ResponseEntity<ResourceResponse> addResource(@Valid @RequestBody ResourceRequest request) {
         LOGGER.info(String.format("Запрос на добавление ресурса 'name: %s'.", request.getName()));
-        AddResourceResponse response = resourceFacade.addResource(request);
-        if (response.getStatusResponse() == StatusResponse.SUCCESS)  {
+        ResourceResponse response = resourceFacade.addResource(request);
+        if (response.getStatus() == StatusResponse.SUCCESS) {
             LOGGER.info(String.format("Запрос на добавление ресурса 'name: %s, id: %d' выполнен успешно.",
-                    response.getAddedResource().getName(), response.getAddedResource().getId()));
+                    response.getResource().getName(), response.getResource().getId()));
         } else {
             LOGGER.info(String.format("Запрос на добавление ресурса 'name: %s' не выполнен. Причина: %s",
                     request.getName(), response.getDescription()));
@@ -59,26 +57,24 @@ public class ResourceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateResourceResponse> updateResource(@NotNull @PathVariable Long id,
-                                                                 @Valid @RequestBody UpdateResourceRequest request) {
+    public ResponseEntity<ResourceResponse> updateResource(@NotNull @PathVariable Long id,
+                                                           @Valid @RequestBody ResourceRequest request) {
         LOGGER.info(String.format("Запрос на обновление ресурса 'id: %d'.", id));
-        UpdateResourceResponse response = resourceFacade.updateResource(id, request);
-        if (response.getStatusResponse() == StatusResponse.SUCCESS)  {
-            LOGGER.info(String.format("Запрос на добавление ресурса 'id: %d' выполнен успешно.", id));
+        ResourceResponse response = resourceFacade.updateResource(id, request);
+        if (response.getStatus() == StatusResponse.SUCCESS) {
+            LOGGER.info(String.format("Запрос на обновление ресурса 'id: %d' выполнен успешно.", id));
         } else {
-            LOGGER.info(String.format("Запрос на добавление ресурса 'id: %d' не выполнен. Причина: %s",
+            LOGGER.info(String.format("Запрос на обновление ресурса 'id: %d' не выполнен. Причина: %s",
                     id, response.getDescription()));
         }
         return ResponseEntity.ok(response);
     }
 
-    // @NotNull нужна?
-    // Переделать на delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<DeleteResourceResponse> deleteResource(@NotNull @PathVariable Long id) {
+    public ResponseEntity<BaseResponse> deleteResource(@NotNull @PathVariable Long id) {
         LOGGER.info(String.format("Запрос на удаление ресурса 'id: %d'.", id));
-        DeleteResourceResponse response = resourceFacade.deleteResource(id);
-        if (response.getStatusResponse() == StatusResponse.SUCCESS)  {
+        BaseResponse response = resourceFacade.deleteResource(id);
+        if (response.getStatus() == StatusResponse.SUCCESS) {
             LOGGER.info(String.format("Запрос на удаление ресурса выполнен успешно 'id: %d'.", id));
         } else {
             LOGGER.info(String.format("Запрос на удаление ресурса не выполнен 'id: %d. " +

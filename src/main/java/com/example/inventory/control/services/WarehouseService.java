@@ -1,6 +1,6 @@
 package com.example.inventory.control.services;
 
-import com.example.inventory.control.models.Warehouse;
+import com.example.inventory.control.domain.models.Warehouse;
 
 import java.util.List;
 import java.util.Optional;

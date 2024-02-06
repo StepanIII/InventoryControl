@@ -4,25 +4,15 @@ let fieldInProcessChanged = false
 
 saveResourcesBtnHandler(getElement('save_resource_btn'))
 
-getData(RESOURCES_URL).then((response) => {
+getData(RESOURCES_URL).then(response => {
     console.log(response.description)
+
     let lastLine = getElement('header_resources_table')
     let resources = response.resources
     for (let i = 0; i < resources.length; i++) {
         let resource = resources[i]
-        let tr = document.createElement('tr')
-        tr.innerHTML =
-            '<td>' + resource.id + '</td>' +
-            '<td>' + resource.name + '</td>' +
-            '<td>' + resource.resourceType + '</td>' +
-            '<td>' + resource.units + '</td>' +
-            '<td><button id="delete_resource_btn" type="button">Удалить</button></td>'
-
-        let delResourcesBtn = tr.childNodes[4].firstChild
-        delResourceBtnHandler(delResourcesBtn)
-
+        let tr = createTr([resource.id, resource.name, resource.type, resource.unit, createDeleteResourceBtn])
         addChangeTableValueHandler(tr)
-
         for (let j = 0; j < tr.childNodes.length; j++) {
             tr.childNodes[j].addEventListener('keydown', changeResourceHandler)
         }
@@ -106,6 +96,7 @@ function saveChangesResourceBtnHandler(e) {
     putData(RESOURCES_URL + "/" + code, changedResource)
         .then((response) => {
             console.log(response)
+            // Брать обновленный ресурс из тела ответа
             tds[0].firstChild.remove()
             tds[1].firstChild.remove()
             tds[2].firstChild.remove()

@@ -1,6 +1,6 @@
 package com.example.inventory.control.services;
 
-import com.example.inventory.control.models.WriteOff;
+import com.example.inventory.control.domain.models.WriteOff;
 
 import java.util.List;
 import java.util.Optional;

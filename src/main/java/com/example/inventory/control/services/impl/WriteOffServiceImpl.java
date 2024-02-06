@@ -1,11 +1,11 @@
 package com.example.inventory.control.services.impl;
 
 import com.example.inventory.control.entities.WriteOffEntity;
-import com.example.inventory.control.models.WriteOff;
+import com.example.inventory.control.domain.models.WriteOff;
 import com.example.inventory.control.repositories.WriteOffRepository;
 import com.example.inventory.control.services.WriteOffService;
-import com.example.inventory.control.services.mapper.WriteOffCountMapper;
-import com.example.inventory.control.services.mapper.WriteOffMapper;
+import com.example.inventory.control.mapper.WriteOffCountMapper;
+import com.example.inventory.control.mapper.WriteOffMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

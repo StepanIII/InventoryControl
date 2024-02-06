@@ -1,16 +1,15 @@
 package com.example.inventory.control.services.impl;
 
 import com.example.inventory.control.entities.ResourceEntity;
-import com.example.inventory.control.models.Resource;
+import com.example.inventory.control.domain.models.Resource;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.services.ResourceService;
-import com.example.inventory.control.services.mapper.ResourceMapper;
+import com.example.inventory.control.mapper.ResourceMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
@@ -24,27 +23,26 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    @Transactional
-    public Resource save(Resource resource) {
-        ResourceEntity resourceEntity = resourceRepository.save(resourceMapper.toResourceEntity(resource));
-        return resourceMapper.toResource(resourceEntity);
+    @Transactional(readOnly = true)
+    public List<Resource> getListAllResources() {
+        return resourceRepository.findAll().stream()
+                .map(resourceMapper::toDomainModel)
+                .toList();
     }
 
     @Override
-    public Optional<Resource> findById(Long id) {
-        Optional<ResourceEntity> resourceEntityCandidate = resourceRepository.findById(id);
-        if (resourceEntityCandidate.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(resourceMapper.toResource(resourceEntityCandidate.get()));
+    @Transactional
+    public Resource save(Resource resource) {
+        ResourceEntity resourceEntity = resourceMapper.toEntity(resource);
+        resourceEntity = resourceRepository.save(resourceEntity);
+        return resourceMapper.toDomainModel(resourceEntity);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Resource> getListAllResources() {
-        return resourceRepository.findAll().stream()
-                .map(resourceMapper::toResource)
-                .collect(Collectors.toList());
+    public Optional<Resource> findById(Long id) {
+        Optional<ResourceEntity> resourceEntityCandidate = resourceRepository.findById(id);
+        return resourceEntityCandidate.map(resourceMapper::toDomainModel);
     }
 
     @Override
@@ -54,14 +52,16 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsById(Long id) {
         return resourceRepository.existsById(id);
     }
 
     @Override
-    public List<Long> findAllIds(List<Long> ids) {
-        return resourceRepository.findAllIdsByIds(ids);
+    @Transactional(readOnly = true)
+    public boolean existsAllByIds(List<Long> ids) {
+        List<Long> foundIds = resourceRepository.findIdsByIds(ids);
+        return foundIds.size() == ids.size();
     }
-
 
 }

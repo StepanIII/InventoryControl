@@ -1,25 +1,15 @@
 package com.example.inventory.control.controllers.writeoff;
 
 import com.example.inventory.control.AbstractTest;
-import com.example.inventory.control.entities.AcceptanceEntity;
-import com.example.inventory.control.entities.BenefactorEntity;
-import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.entities.WriteOffEntity;
-import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.TestEndpoint;
-import com.example.inventory.control.enums.Units;
-import com.example.inventory.control.ui.models.responses.StatusResponse;
-import com.example.inventory.control.ui.models.responses.acceptance.AcceptResourcesResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffResourcesResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffsResponse;
+import com.example.inventory.control.api.responses.StatusResponse;
+import com.example.inventory.control.api.writeoff.WriteOffResourcesResponse;
 import com.example.inventory.control.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 import static com.example.inventory.control.enums.TestEndpoint.WRITE_OFF_ENDPOINT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +30,7 @@ public class WriteOffControllerGetByIdTest extends AbstractTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         WriteOffResourcesResponse body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Списание с идентификатором 'id: %d' не найдено", writeOffId)));
     }
 
@@ -58,7 +48,7 @@ public class WriteOffControllerGetByIdTest extends AbstractTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         WriteOffResourcesResponse body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS)
+                .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
                 .matches(b -> b.getDescription().equals(String.format("Списание с идентификатором 'id: %d' найдено", writeOff.getId())));
 
         // Проверять найденное списание

@@ -11,10 +11,8 @@ import com.example.inventory.control.enums.TestEndpoint;
 import com.example.inventory.control.enums.Units;
 import com.example.inventory.control.repositories.AcceptanceRepository;
 import com.example.inventory.control.repositories.ResourceCountRepository;
-import com.example.inventory.control.ui.models.requests.acceptance.ResourceCountRequest;
-import com.example.inventory.control.ui.models.requests.acceptance.UpdateAcceptRequest;
-import com.example.inventory.control.ui.models.responses.StatusResponse;
-import com.example.inventory.control.ui.models.responses.acceptance.UpdateAcceptResponse;
+import com.example.inventory.control.api.acceptance.ResourceCountRequest;
+import com.example.inventory.control.api.responses.StatusResponse;
 import com.example.inventory.control.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +57,7 @@ public class UpdateAcceptanceControllerTest extends AbstractTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         UpdateAcceptResponse body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Приемка с идентификатором 'id: %d' не найдена", acceptId)));
     }
 
@@ -87,7 +85,7 @@ public class UpdateAcceptanceControllerTest extends AbstractTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         UpdateAcceptResponse body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Благодетель с идентификатором = %d не найден.", benefactorId)));
     }
 
@@ -116,7 +114,7 @@ public class UpdateAcceptanceControllerTest extends AbstractTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         UpdateAcceptResponse body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Место хранения с идентификатором = %d не найдено.", warehouseId)));
     }
 
@@ -150,7 +148,7 @@ public class UpdateAcceptanceControllerTest extends AbstractTest {
         UpdateAcceptResponse body = responseEntity.getBody();
         List<String> newResourceIds = newResources.stream().map(r -> String.valueOf(r.getResourceId())).toList();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Ресурсы не найдены 'ids: %s'.", String.join(",", newResourceIds))));
     }
 
@@ -185,7 +183,7 @@ public class UpdateAcceptanceControllerTest extends AbstractTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         UpdateAcceptResponse body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS);
+                .matches(b -> b.getStatus() == StatusResponse.SUCCESS);
         AcceptanceEntity savedAccept = acceptanceRepository.findById(acceptance.getId()).orElseThrow();
         List<AcceptResourceCountEntity> savedResourceCounts = resourceCountRepository.findAllByAcceptanceId(savedAccept.getId());
         assertAcceptance(updateAcceptRequest, savedAccept);

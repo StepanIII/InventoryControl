@@ -5,8 +5,8 @@ import com.example.inventory.control.enums.TestEndpoint;
 import com.example.inventory.control.repositories.AcceptanceRepository;
 import com.example.inventory.control.repositories.BenefactorRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
-import com.example.inventory.control.ui.models.responses.benefactor.BenefactorResponse;
-import com.example.inventory.control.ui.models.responses.benefactor.BenefactorsResponse;
+import com.example.inventory.control.api.benefactor.model.BenefactorBody;
+import com.example.inventory.control.api.benefactor.BenefactorsResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,7 +52,7 @@ public class BenefactorControllerTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull();
 
-        List<BenefactorResponse> benefactorsResponseList = responseEntity.getBody().getBenefactors();
+        List<BenefactorBody> benefactorsResponseList = responseEntity.getBody().getBenefactors();
         assertBenefactorResponse(benefactorsResponseList.get(0), createdBenefactorEntities.get(0));
         assertBenefactorResponse(benefactorsResponseList.get(1), createdBenefactorEntities.get(1));
         assertBenefactorResponse(benefactorsResponseList.get(2), createdBenefactorEntities.get(2));
@@ -68,7 +68,7 @@ public class BenefactorControllerTest {
         return benefactorRepository.save(benefactorEntity);
     }
 
-    private void assertBenefactorResponse(BenefactorResponse benefactorResponse, BenefactorEntity benefactorEntity) {
+    private void assertBenefactorResponse(BenefactorBody benefactorResponse, BenefactorEntity benefactorEntity) {
         String benefactorFioExpected = benefactorEntity.getLastName() + " " + benefactorEntity.getFirstName() + " " + benefactorEntity.getMiddleName();
         assertThat(benefactorResponse).isNotNull()
                 .matches(b -> b.getId().equals(benefactorEntity.getId()))

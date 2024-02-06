@@ -1,4 +1,4 @@
-const ACCEPTANCE_URL = 'http://localhost:8080/acceptance'
+const ACCEPTANCE_URL = 'http://localhost:8080/accept'
 const BENEFACTORS_URL = 'http://localhost:8080/benefactor'
 const REMAINING_URL = 'http://localhost:8080/remaining'
 const RESOURCES_URL = 'http://localhost:8080/resource'

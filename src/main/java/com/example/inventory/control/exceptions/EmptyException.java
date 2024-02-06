@@ -1,7 +1,7 @@
 package com.example.inventory.control.exceptions;
 
 /**
- * Выбрасывается, когда приложение пытается использовать пустую строку.
+ * Выбрасывается, когда в качестве параметра передается пустая строка.
  */
 public final class EmptyException extends RuntimeException {
 

@@ -8,11 +8,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Репозиторий сущности "Ресурсы".
+ * Репозиторий для работы с ресурсами.
  */
 @Repository
 public interface ResourceRepository extends JpaRepository<ResourceEntity, Long> {
 
+    /**
+     * Получить идентификаторы ресурсов по переданному списку идентификаторов.
+     *
+     * @param ids список иденифкаторов ресурсов.
+     * @return список найденных идентификаторов ресурсов.
+     */
     @Query("select r.id from ResourceEntity r where r.id in(?1)")
-    List<Long> findAllIdsByIds(List<Long> ids);
+    List<Long> findIdsByIds(List<Long> ids);
 }

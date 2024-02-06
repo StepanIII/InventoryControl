@@ -8,20 +8,17 @@ import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.entities.WriteOffEntity;
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.TestEndpoint;
 import com.example.inventory.control.enums.Units;
-import com.example.inventory.control.ui.models.responses.StatusResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.AddWriteOffRequest;
-import com.example.inventory.control.ui.models.responses.writeoff.AddWriteOffResponse;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffResourceCountRequest;
-import com.example.inventory.control.ui.models.responses.writeoff.WriteOffResourcesResponse;
+import com.example.inventory.control.api.responses.StatusResponse;
+import com.example.inventory.control.api.writeoff.AddWriteOffRequest;
+import com.example.inventory.control.api.writeoff.AddWriteOffResponse;
+import com.example.inventory.control.api.writeoff.WriteOffResourceCountRequest;
 import com.example.inventory.control.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Objects;
 
 import static com.example.inventory.control.enums.TestEndpoint.WRITE_OFF_ENDPOINT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +37,7 @@ public class WriteOffControllerAddTest extends AbstractTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Место хранения с идентификатором = %d не найдено.", request.getWarehouseId())));
     }
 
@@ -61,7 +58,7 @@ public class WriteOffControllerAddTest extends AbstractTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals("На складе нет таких ресурсов."));
     }
 
@@ -82,7 +79,7 @@ public class WriteOffControllerAddTest extends AbstractTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals("На складе нет такого количества ресурсов."));
     }
 
@@ -103,7 +100,7 @@ public class WriteOffControllerAddTest extends AbstractTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS)
+                .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
                 .matches(b -> b.getDescription().equals("Списание создано."));
 
         List<RemainingEntity> remainingEntities = remainingRepository.findAllByWarehouseId(warehouse.getId());

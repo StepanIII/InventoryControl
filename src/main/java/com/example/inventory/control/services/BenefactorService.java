@@ -1,6 +1,6 @@
 package com.example.inventory.control.services;
 
-import com.example.inventory.control.models.Benefactor;
+import com.example.inventory.control.domain.models.Benefactor;
 
 import java.util.List;
 import java.util.Optional;

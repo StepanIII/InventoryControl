@@ -1,6 +1,6 @@
 package com.example.inventory.control.services;
 
-import com.example.inventory.control.models.Remain;
+import com.example.inventory.control.domain.models.Remain;
 
 import java.util.List;
 

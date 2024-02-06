@@ -1,7 +1,7 @@
 package com.example.inventory.control.controllers;
 
 import com.example.inventory.control.facades.WarehouseFacade;
-import com.example.inventory.control.ui.models.responses.warehouse.WarehousesResponse;
+import com.example.inventory.control.api.warehouse.WarehousesResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;

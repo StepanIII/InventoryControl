@@ -55,8 +55,17 @@ public class AcceptanceEntity {
     /**
      * Добавленные ресурсы.
      */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "acceptance", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AcceptResourceCountEntity> resourceCounts = new ArrayList<>();
+
+    public AcceptanceEntity() {
+    }
+
+    public AcceptanceEntity(Long id, WarehouseEntity warehouse, BenefactorEntity benefactor) {
+        this.id = id;
+        this.warehouse = warehouse;
+        this.benefactor = benefactor;
+    }
 
     @PrePersist
     public void setCreatedTime() {
@@ -67,16 +76,9 @@ public class AcceptanceEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public LocalDateTime getCreatedTime() {
         return createdTime;
-    }
-
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
     }
 
     public WarehouseEntity getWarehouse() {

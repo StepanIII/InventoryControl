@@ -5,8 +5,8 @@ import com.example.inventory.control.enums.TestEndpoint;
 import com.example.inventory.control.repositories.AcceptanceRepository;
 import com.example.inventory.control.repositories.BenefactorRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
-import com.example.inventory.control.ui.models.responses.warehouse.WarehouseResponse;
-import com.example.inventory.control.ui.models.responses.warehouse.WarehousesResponse;
+import com.example.inventory.control.api.warehouse.model.WarehouseBody;
+import com.example.inventory.control.api.warehouse.WarehousesResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,7 +52,7 @@ public class WarehouseControllerTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull();
 
-        List<WarehouseResponse> warehousesResponseList = responseEntity.getBody().getWarehouses();
+        List<WarehouseBody> warehousesResponseList = responseEntity.getBody().getWarehouses();
         assertWarehouseResponse(warehousesResponseList.get(0), createdWarehouseEntities.get(0));
         assertWarehouseResponse(warehousesResponseList.get(1), createdWarehouseEntities.get(1));
         assertWarehouseResponse(warehousesResponseList.get(2), createdWarehouseEntities.get(2));
@@ -66,7 +66,7 @@ public class WarehouseControllerTest {
         return warehouseRepository.save(warehouseEntity);
     }
 
-    private void assertWarehouseResponse(WarehouseResponse warehouseResponse, WarehouseEntity warehouseEntity) {
+    private void assertWarehouseResponse(WarehouseBody warehouseResponse, WarehouseEntity warehouseEntity) {
         assertThat(warehouseResponse).isNotNull()
                 .matches(b -> b.getId().equals(warehouseEntity.getId()))
                 .matches(b -> b.getName().equals(warehouseEntity.getName()));

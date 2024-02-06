@@ -1,6 +1,6 @@
 package com.example.inventory.control.controllers;
 
-import com.example.inventory.control.ui.models.responses.ExceptionResponse;
+import com.example.inventory.control.api.responses.ExceptionResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

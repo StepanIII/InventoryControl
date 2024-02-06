@@ -3,9 +3,8 @@ package com.example.inventory.control.utils;
 import com.example.inventory.control.exceptions.EmptyException;
 import io.micrometer.common.util.StringUtils;
 
-// Тесты
 /**
- * Утилита для проверки необходимости параметров.
+ * Утилита для проверки обязательности параметров.
  */
 public final class CheckParamUtil {
 

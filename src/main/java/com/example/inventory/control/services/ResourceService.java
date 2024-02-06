@@ -1,6 +1,6 @@
 package com.example.inventory.control.services;
 
-import com.example.inventory.control.models.Resource;
+import com.example.inventory.control.domain.models.Resource;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,10 +11,16 @@ import java.util.Optional;
 public interface ResourceService {
 
     /**
+     * Получить список всех ресурсов.
+     *
+     */
+    List<Resource> getListAllResources();
+
+    /**
      * Сохранить ресурс.
      *
      * @param resource сохраняемый ресурс.
-     * @return
+     * @return сохраненный ресурс.
      */
     Resource save(Resource resource);
 
@@ -26,10 +32,20 @@ public interface ResourceService {
     Optional<Resource> findById(Long id);
 
     /**
-     * Получить список всех ресурсов.
+     * Проверить наличие ресурса по идентификатору.
      *
+     * @param id идентификатор ресурса.
+     * @return true - если ресурс есть иначе false.
      */
-    List<Resource> getListAllResources();
+    boolean existsById(Long id);
+
+    /**
+     * Проверить наличие всех ресурсов по списку идентификаторов.
+     *
+     * @param ids идентификаторы ресурсов.
+     * @return true - если есть все ресурсы с переданными идентификаторами иначе false.
+     */
+    boolean existsAllByIds(List<Long> ids);
 
     /**
      * Удалить ресурс по идентификатору.
@@ -38,18 +54,4 @@ public interface ResourceService {
      */
     void deleteById(Long id);
 
-    /**
-     * Проверить наличие ресурса в базе данных по идентификатору.
-     *
-     * @param id идентификатор ресурса.
-     * @return true - если ресурс есть в базе данных иначе false.
-     */
-    boolean existsById(Long id);
-
-    /**
-     * Получить список идентификаторов ресурсов по списку идентификаторов.
-     *
-     * @param ids список идентификаторов для поиска.
-     */
-    List<Long> findAllIds(List<Long> ids);
 }

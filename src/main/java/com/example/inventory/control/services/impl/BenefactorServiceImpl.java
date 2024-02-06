@@ -1,10 +1,10 @@
 package com.example.inventory.control.services.impl;
 
 import com.example.inventory.control.entities.BenefactorEntity;
-import com.example.inventory.control.models.Benefactor;
+import com.example.inventory.control.domain.models.Benefactor;
 import com.example.inventory.control.repositories.BenefactorRepository;
 import com.example.inventory.control.services.BenefactorService;
-import com.example.inventory.control.services.mapper.BenefactorMapper;
+import com.example.inventory.control.mapper.BenefactorMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

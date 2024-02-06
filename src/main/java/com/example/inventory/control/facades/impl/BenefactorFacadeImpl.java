@@ -2,8 +2,8 @@ package com.example.inventory.control.facades.impl;
 
 import com.example.inventory.control.facades.BenefactorFacade;
 import com.example.inventory.control.services.BenefactorService;
-import com.example.inventory.control.ui.models.responses.benefactor.BenefactorResponse;
-import com.example.inventory.control.ui.models.responses.benefactor.BenefactorsResponse;
+import com.example.inventory.control.api.benefactor.model.BenefactorBody;
+import com.example.inventory.control.api.benefactor.BenefactorsResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +20,9 @@ public final class BenefactorFacadeImpl implements BenefactorFacade {
 
     @Override
     public BenefactorsResponse getListAllBenefactors() {
-        List<BenefactorResponse> listBenefactorResponse = benefactorService
+        List<BenefactorBody> listBenefactorResponse = benefactorService
                 .getListAllBenefactors().stream()
-                .map(b -> new BenefactorResponse(b.id().orElseThrow(), b.getFio()))
+                .map(b -> new BenefactorBody(b.id().orElseThrow(), b.getFio()))
                 .collect(Collectors.toList());
         return new BenefactorsResponse(listBenefactorResponse);
     }

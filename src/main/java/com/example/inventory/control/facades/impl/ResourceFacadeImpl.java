@@ -1,21 +1,19 @@
 package com.example.inventory.control.facades.impl;
 
+import com.example.inventory.control.api.resources.ResourceRequest;
+import com.example.inventory.control.api.responses.BaseResponse;
+import com.example.inventory.control.api.responses.StatusResponse;
+import com.example.inventory.control.api.responses.dto.ResourceDto;
+import com.example.inventory.control.api.resources.ResourceResponse;
+import com.example.inventory.control.api.resources.ResourcesResponse;
+import com.example.inventory.control.domain.models.Resource;
 import com.example.inventory.control.facades.ResourceFacade;
-import com.example.inventory.control.models.Resource;
-import com.example.inventory.control.ui.models.requests.AddResourceRequest;
-import com.example.inventory.control.ui.models.requests.UpdateResourceRequest;
-import com.example.inventory.control.ui.models.responses.resource.AddResourceResponse;
-import com.example.inventory.control.ui.models.responses.resource.DeleteResourceResponse;
-import com.example.inventory.control.ui.models.responses.resource.ResourcesResponse;
-import com.example.inventory.control.ui.models.responses.StatusResponse;
-import com.example.inventory.control.ui.models.responses.resource.UpdateResourceResponse;
+import com.example.inventory.control.mapper.ResourceMapper;
 import com.example.inventory.control.services.ResourceService;
-import com.example.inventory.control.services.mapper.ResourceMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public final class ResourceFacadeImpl implements ResourceFacade {
@@ -29,54 +27,62 @@ public final class ResourceFacadeImpl implements ResourceFacade {
     }
 
     @Override
-    public ResourcesResponse getListAllResources() {
-        List<Resource> listAllResources = resourceService.getListAllResources();
-        return new ResourcesResponse(listAllResources.stream()
-                .map(resourceMapper::toDTO)
-                .collect(Collectors.toList()));
+    public ResourcesResponse getAllResources() {
+        List<ResourceDto> resources = resourceService.getListAllResources().stream()
+                .map(resourceMapper::toDto)
+                .toList();
+        ResourcesResponse response = new ResourcesResponse();
+        response.setStatus(StatusResponse.SUCCESS);
+        response.setDescription(String.format("Ресурсы получены успешно. Количество %d.", resources.size()));
+        response.setResources(resources);
+        return response;
     }
 
-    // Возвращать только идентификатор
     @Override
-    public AddResourceResponse addResource(AddResourceRequest request) {
-        Resource resource = Resource.create(request.getName(), request.getResourceType(), request.getUnits());
+    public ResourceResponse addResource(ResourceRequest request) {
+        Resource resource = Resource.create(request.getName(), request.getType(), request.getUnit());
         Resource savedResource = resourceService.save(resource);
-        return new AddResourceResponse(
-                StatusResponse.SUCCESS,
-                String.format("Добавление ресурса выполнено успешно 'id: %d'.", savedResource.id().orElseThrow()),
-                resourceMapper.toDTO(savedResource));
+        ResourceResponse response = new ResourceResponse();
+        response.setStatus(StatusResponse.SUCCESS);
+        response.setDescription(String.format("Добавление ресурса выполнено успешно 'id: %d'.", savedResource.id().orElseThrow()));
+        response.setResource(resourceMapper.toDto(savedResource));
+        return response;
     }
 
     @Override
-    public UpdateResourceResponse updateResource(Long id, UpdateResourceRequest request) {
+    public ResourceResponse updateResource(Long id, ResourceRequest request) {
         Optional<Resource> resourceCandidate = resourceService.findById(id);
         if (resourceCandidate.isEmpty()) {
-            return new UpdateResourceResponse(StatusResponse.ERROR, String.format("Ресурс не найден 'id: %d'.", id));
+            ResourceResponse response = new ResourceResponse();
+            response.setStatus(StatusResponse.RESOURCE_NOT_FOUND);
+            response.setDescription(String.format("Ресурс не найден 'id: %d'.", id));
+            return response;
         }
         Resource resource = resourceCandidate.get();
         resource = resource
                 .updateName(request.getName())
                 .updateType(request.getType())
-                .updateUnits(request.getUnits());
+                .updateUnits(request.getUnit());
         resourceService.save(resource);
-        return new UpdateResourceResponse(
-                StatusResponse.SUCCESS,
-                String.format("Обновление ресурса выполнено успешно 'id: %d'.", id));
+        ResourceResponse response = new ResourceResponse();
+        response.setStatus(StatusResponse.SUCCESS);
+        response.setDescription(String.format("Обновление ресурса выполнено успешно 'id: %d'.", id));
+        return response;
     }
 
     @Override
-    public DeleteResourceResponse deleteResource(Long id) {
-        DeleteResourceResponse response;
+    public BaseResponse deleteResource(Long id) {
         if (!resourceService.existsById(id)) {
-            response = new DeleteResourceResponse(
-                    StatusResponse.ERROR,
-                    String.format("Ресурс не найден 'id: %d'.", id));
-        } else {
-            resourceService.deleteById(id);
-            response = new DeleteResourceResponse(
-                    StatusResponse.SUCCESS,
-                    String.format("Удаление ресурса выполенено успешно 'id: %d'.", id));
+            BaseResponse response = new BaseResponse();
+            response.setStatus(StatusResponse.RESOURCE_NOT_FOUND);
+            response.setDescription(String.format("Ресурс не найден 'id: %d'.", id));
+            return response;
         }
+        resourceService.deleteById(id);
+        BaseResponse response = new BaseResponse();
+        response.setStatus(StatusResponse.SUCCESS);
+        response.setDescription(String.format("Удаление ресурса выполенено успешно 'id: %d'.", id));
         return response;
     }
+
 }

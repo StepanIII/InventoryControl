@@ -1,7 +1,7 @@
 package com.example.inventory.control.controllers;
 
 import com.example.inventory.control.facades.BenefactorFacade;
-import com.example.inventory.control.ui.models.responses.benefactor.BenefactorsResponse;
+import com.example.inventory.control.api.benefactor.BenefactorsResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;

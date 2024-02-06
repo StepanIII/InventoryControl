@@ -1,7 +1,7 @@
 package com.example.inventory.control.controllers;
 
 import com.example.inventory.control.facades.RemainingFacade;
-import com.example.inventory.control.ui.models.responses.remaining.RemainingResponse;
+import com.example.inventory.control.api.responses.remaining.RemainingResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;

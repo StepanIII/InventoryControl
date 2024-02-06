@@ -18,6 +18,7 @@ import com.example.inventory.control.repositories.WriteOffRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ import java.util.List;
 
 @Component
 @Profile(value = "test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class AbstractTest {
 
     @Autowired
@@ -88,8 +90,8 @@ public abstract class AbstractTest {
     protected ResourceEntity createResource(String name, ResourceType type, Units units) {
         ResourceEntity resourceEntity = new ResourceEntity();
         resourceEntity.setName(name);
-        resourceEntity.setResourceType(type);
-        resourceEntity.setUnits(units);
+        resourceEntity.setType(type);
+        resourceEntity.setUnit(units);
         return resourceRepository.save(resourceEntity);
     }
 

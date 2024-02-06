@@ -7,7 +7,7 @@ import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Units;
-import com.example.inventory.control.ui.models.responses.remaining.RemainingResponse;
+import com.example.inventory.control.api.responses.remaining.RemainingResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;

@@ -35,12 +35,26 @@ public class AcceptResourceCountEntity {
     @Column(name = "COUNT")
     private Integer count;
 
-    public Long getId() {
-        return id;
+    /**
+     * Приемка.
+     */
+    @ManyToOne
+    @JoinColumn(name = "ACCEPT_ID")
+    private AcceptanceEntity acceptance;
+
+    public AcceptResourceCountEntity() {
     }
 
-    public void setId(Long id) {
+    public AcceptResourceCountEntity(Long id, ResourceEntity resource, Integer count, AcceptanceEntity acceptance) {
         this.id = id;
+        this.resource = resource;
+        this.count = count;
+        this.acceptance = acceptance;
+    }
+
+
+    public Long getId() {
+        return id;
     }
 
     public ResourceEntity getResource() {
@@ -59,5 +73,11 @@ public class AcceptResourceCountEntity {
         this.count = count;
     }
 
+    public AcceptanceEntity getAcceptance() {
+        return acceptance;
+    }
 
+    public void setAcceptance(AcceptanceEntity acceptance) {
+        this.acceptance = acceptance;
+    }
 }

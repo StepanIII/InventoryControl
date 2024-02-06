@@ -1,6 +1,6 @@
 package com.example.inventory.control.facades;
 
-import com.example.inventory.control.ui.models.responses.benefactor.BenefactorsResponse;
+import com.example.inventory.control.api.benefactor.BenefactorsResponse;
 
 /**
  * Фасад для работы с благодетелями.

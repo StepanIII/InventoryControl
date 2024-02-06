@@ -3,8 +3,8 @@ package com.example.inventory.control.controllers;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.TestEndpoint;
 import com.example.inventory.control.enums.Units;
-import com.example.inventory.control.ui.models.requests.AddResourceRequest;
-import com.example.inventory.control.ui.models.responses.ExceptionResponse;
+import com.example.inventory.control.api.resources.ResourceRequest;
+import com.example.inventory.control.api.responses.ExceptionResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,7 @@ public class RestExceptionHandlerTest {
 
     @Test
     public void shouldReturnExceptionResponseIfRequestParamNameIsEmpty() {
-        AddResourceRequest addResourceRequest = new AddResourceRequest();
+        ResourceRequest addResourceRequest = new ResourceRequest();
         addResourceRequest.setName("");
         addResourceRequest.setResourceType(ResourceType.FOOD);
         addResourceRequest.setUnits(Units.KILOGRAM);

@@ -2,8 +2,8 @@ package com.example.inventory.control.facades.impl;
 
 import com.example.inventory.control.facades.WarehouseFacade;
 import com.example.inventory.control.services.WarehouseService;
-import com.example.inventory.control.ui.models.responses.warehouse.WarehouseResponse;
-import com.example.inventory.control.ui.models.responses.warehouse.WarehousesResponse;
+import com.example.inventory.control.api.warehouse.model.WarehouseBody;
+import com.example.inventory.control.api.warehouse.WarehousesResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +20,9 @@ public class WarehouseFacadeImpl implements WarehouseFacade {
 
     @Override
     public WarehousesResponse getListAllWarehouses() {
-        List<WarehouseResponse> warehouseList = warehouseService
+        List<WarehouseBody> warehouseList = warehouseService
                 .getAllListWarehouses().stream()
-                .map(w -> new WarehouseResponse(w.id().orElseThrow(), w.getName()))
+                .map(w -> new WarehouseBody(w.id().orElseThrow(), w.getName()))
                 .collect(Collectors.toList());
         return new WarehousesResponse(warehouseList);
     }

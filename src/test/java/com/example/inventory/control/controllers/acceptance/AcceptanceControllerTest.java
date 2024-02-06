@@ -11,11 +11,10 @@ import com.example.inventory.control.enums.TestEndpoint;
 import com.example.inventory.control.enums.Units;
 import com.example.inventory.control.repositories.AcceptanceRepository;
 import com.example.inventory.control.repositories.ResourceCountRepository;
-import com.example.inventory.control.ui.models.requests.acceptance.AddAcceptRequest;
-import com.example.inventory.control.ui.models.requests.acceptance.ResourceCountRequest;
-import com.example.inventory.control.ui.models.responses.StatusResponse;
-import com.example.inventory.control.ui.models.responses.acceptance.AcceptResourcesResponse;
-import com.example.inventory.control.ui.models.responses.acceptance.AddAcceptResponse;
+import com.example.inventory.control.api.acceptance.AcceptRequest;
+import com.example.inventory.control.api.acceptance.ResourceCountRequest;
+import com.example.inventory.control.api.responses.StatusResponse;
+import com.example.inventory.control.api.acceptance.model.AcceptResourcesBody;
 import com.example.inventory.control.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class AcceptanceControllerTest extends AbstractTest {
 
     @Test
     public void shouldReturnErrorResponseIfBenefactorNotFound() {
-        AddAcceptRequest addAcceptRequest = new AddAcceptRequest(
+        AcceptRequest addAcceptRequest = new AcceptRequest(
                 TestUtils.generatedRandomId(),
                 TestUtils.generatedRandomId(),
                 List.of(new ResourceCountRequest(TestUtils.generatedRandomId(), 5)));
@@ -56,7 +55,7 @@ public class AcceptanceControllerTest extends AbstractTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         AddAcceptResponse body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Благодетель с идентификатором = %d не найден.", addAcceptRequest.getBenefactorId())));
 
     }
@@ -64,7 +63,7 @@ public class AcceptanceControllerTest extends AbstractTest {
     @Test
     public void shouldReturnErrorResponseIfWarehouseNotFound() {
         BenefactorEntity benefactor = createBenefactor("Иванов", "Иван", "Иванович");
-        AddAcceptRequest addAcceptRequest = new AddAcceptRequest(
+        AcceptRequest addAcceptRequest = new AcceptRequest(
                 benefactor.getId(),
                 TestUtils.generatedRandomId(),
                 List.of(new ResourceCountRequest(TestUtils.generatedRandomId(), 5)));
@@ -78,7 +77,7 @@ public class AcceptanceControllerTest extends AbstractTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         AddAcceptResponse body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Место хранения с идентификатором = %d не найдено.", addAcceptRequest.getWarehouseId())));
 
     }
@@ -91,7 +90,7 @@ public class AcceptanceControllerTest extends AbstractTest {
                 new ResourceCountRequest(TestUtils.generatedRandomId(), 5),
                 new ResourceCountRequest(TestUtils.generatedRandomId(), 2),
                 new ResourceCountRequest(TestUtils.generatedRandomId(), 4));
-        AddAcceptRequest addAcceptRequest = new AddAcceptRequest(
+        AcceptRequest addAcceptRequest = new AcceptRequest(
                 benefactor.getId(),
                 warehouse.getId(),
                 addedResources);
@@ -104,7 +103,7 @@ public class AcceptanceControllerTest extends AbstractTest {
         AddAcceptResponse body = responseEntity.getBody();
         List<String> addedResourceIds = addedResources.stream().map(r -> String.valueOf(r.getResourceId())).toList();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Ресурсы не найдены 'ids: %s'.", String.join(",", addedResourceIds))));
     }
 
@@ -117,7 +116,7 @@ public class AcceptanceControllerTest extends AbstractTest {
         List<ResourceCountRequest> addedResources = List.of(
                 new ResourceCountRequest(firstResource.getId(), 5),
                 new ResourceCountRequest(secondResource.getId(), 2));
-        AddAcceptRequest addAcceptRequest = new AddAcceptRequest(
+        AcceptRequest addAcceptRequest = new AcceptRequest(
                 benefactor.getId(),
                 warehouse.getId(),
                 addedResources);
@@ -131,7 +130,7 @@ public class AcceptanceControllerTest extends AbstractTest {
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         AddAcceptResponse body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS);
+                .matches(b -> b.getStatus() == StatusResponse.SUCCESS);
         AcceptanceEntity savedAccept = acceptanceRepository.findById(body.getAddedAccept().getId()).orElseThrow();
         List<AcceptResourceCountEntity> savedResourceCounts = resourceCountRepository.findAllByAcceptanceId(savedAccept.getId());
 
@@ -142,16 +141,16 @@ public class AcceptanceControllerTest extends AbstractTest {
     @Test
     public void shouldReturnErrorResponseWhenGetAcceptById() {
         Long acceptId = TestUtils.generatedRandomId();
-        ResponseEntity<AcceptResourcesResponse> responseEntity = restTemplate.getForEntity(
+        ResponseEntity<AcceptResourcesBody> responseEntity = restTemplate.getForEntity(
                 TestEndpoint.ACCEPTANCE_ENDPOINT + "/{id}",
-                AcceptResourcesResponse.class,
+                AcceptResourcesBody.class,
                 acceptId);
 
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
-        AcceptResourcesResponse body = responseEntity.getBody();
+        AcceptResourcesBody body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.ERROR)
+                .matches(b -> b.getStatus() == StatusResponse.ERROR)
                 .matches(b -> b.getDescription().equals(String.format("Приемка с идентификатором 'id: %d' не найдена", acceptId)));
     }
 
@@ -162,16 +161,16 @@ public class AcceptanceControllerTest extends AbstractTest {
         ResourceEntity firstResource = createResource("Яблоки", ResourceType.FOOD, Units.KILOGRAM);
         AcceptanceEntity acceptance = createAcceptance(warehouse, benefactor, List.of(createResourceCount(firstResource, 6)));
 
-        ResponseEntity<AcceptResourcesResponse> responseEntity = restTemplate.getForEntity(
+        ResponseEntity<AcceptResourcesBody> responseEntity = restTemplate.getForEntity(
                 TestEndpoint.ACCEPTANCE_ENDPOINT + "/{id}",
-                AcceptResourcesResponse.class,
+                AcceptResourcesBody.class,
                 acceptance.getId());
 
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
-        AcceptResourcesResponse body = responseEntity.getBody();
+        AcceptResourcesBody body = responseEntity.getBody();
         assertThat(body).isNotNull()
-                .matches(b -> b.getStatusResponse() == StatusResponse.SUCCESS)
+                .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
                 .matches(b -> b.getDescription().equals(String.format("Приемка с идентификатором 'id: %d' найдена", acceptance.getId())));
 
         // Проверять найденную приемку
@@ -209,7 +208,7 @@ public class AcceptanceControllerTest extends AbstractTest {
 //    }
 
 
-    private void assertAcceptance(AddAcceptRequest verifiableAccept, AcceptanceEntity expectedAccept) {
+    private void assertAcceptance(AcceptRequest verifiableAccept, AcceptanceEntity expectedAccept) {
         assertThat(verifiableAccept).isNotNull()
                 .matches(a -> a.getBenefactorId().equals(expectedAccept.getBenefactor().getId()))
                 .matches(a -> a.getWarehouseId().equals(expectedAccept.getWarehouse().getId()));

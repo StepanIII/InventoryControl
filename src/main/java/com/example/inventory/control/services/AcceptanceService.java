@@ -1,6 +1,6 @@
 package com.example.inventory.control.services;
 
-import com.example.inventory.control.models.Acceptance;
+import com.example.inventory.control.domain.models.Accept;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,15 +13,15 @@ public interface AcceptanceService {
     /**
      * Получить список всех приемок.
      */
-    List<Acceptance> getListAllAcceptance();
+    List<Accept> getListAllAcceptance();
 
     /**
-     * Сохранить новыую приемку.
+     * Сохранить приемку.
      *
-     * @param newAcceptance новая приемка.
+     * @param accept сохраняемая приемка.
      * @return сохраненная приемка.
      */
-    Acceptance save(Acceptance newAcceptance);
+    Accept save(Accept accept);
 
     /**
      * Получить приемку по идентификтору.
@@ -29,5 +29,5 @@ public interface AcceptanceService {
      * @param id идентификатор приемки.
      * @return найденная приемка.
      */
-    Optional<Acceptance> findById(Long id);
+    Optional<Accept> findById(Long id);
 }

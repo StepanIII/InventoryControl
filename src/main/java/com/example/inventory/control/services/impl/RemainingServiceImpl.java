@@ -1,9 +1,9 @@
 package com.example.inventory.control.services.impl;
 
-import com.example.inventory.control.models.Remain;
+import com.example.inventory.control.domain.models.Remain;
 import com.example.inventory.control.repositories.RemainingRepository;
 import com.example.inventory.control.services.RemainingService;
-import com.example.inventory.control.services.mapper.RemainingMapper;
+import com.example.inventory.control.mapper.RemainingMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
