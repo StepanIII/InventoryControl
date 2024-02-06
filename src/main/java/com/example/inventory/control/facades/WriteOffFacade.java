@@ -1,9 +1,7 @@
 package com.example.inventory.control.facades;
 
-import com.example.inventory.control.api.requests.writeOff.UpdateWriteOffRequest;
-import com.example.inventory.control.api.writeoff.AddWriteOffRequest;
-import com.example.inventory.control.api.writeoff.AddWriteOffResponse;
-import com.example.inventory.control.api.writeoff.UpdateWriteOffResponse;
+import com.example.inventory.control.api.BaseResponse;
+import com.example.inventory.control.api.writeoff.WriteOffRequest;
 import com.example.inventory.control.api.writeoff.WriteOffResourcesResponse;
 import com.example.inventory.control.api.writeoff.WriteOffsResponse;
 
@@ -13,7 +11,7 @@ import com.example.inventory.control.api.writeoff.WriteOffsResponse;
 public interface WriteOffFacade {
 
     /**
-     * Получить список всех списаний.
+     * Получить все списания.
      */
     WriteOffsResponse getListAllWriteOff();
 
@@ -26,19 +24,19 @@ public interface WriteOffFacade {
     WriteOffResourcesResponse getWriteOffById(Long id);
 
     /**
-     * Добавить новое списание.
+     * Добавить списание.
      *
      * @param request запрос с данными нового списания.
      * @return ответ со статусом обработки.
      */
-    AddWriteOffResponse addWriteOff(AddWriteOffRequest request);
+    BaseResponse addWriteOff(WriteOffRequest request);
 
-    /**
-     * Обновить списание.
-     *
-     * @param id       идентификатор списания.
-     * @param request  запрос с обновляемым спсианием.
-     * @return ответ со статусом обработки.
-     */
-    UpdateWriteOffResponse updateWriteOff(Long id, UpdateWriteOffRequest request);
+//    /**
+//     * Обновить списание.
+//     *
+//     * @param id       идентификатор списания.
+//     * @param request  запрос с обновляемым спсианием.
+//     * @return ответ со статусом обработки.
+//     */
+//    UpdateWriteOffResponse updateWriteOff(Long id, UpdateWriteOffRequest request);
 }

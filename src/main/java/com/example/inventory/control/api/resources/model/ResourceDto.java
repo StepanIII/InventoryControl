@@ -1,4 +1,4 @@
-package com.example.inventory.control.api.responses.dto;
+package com.example.inventory.control.api.resources.model;
 
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Units;

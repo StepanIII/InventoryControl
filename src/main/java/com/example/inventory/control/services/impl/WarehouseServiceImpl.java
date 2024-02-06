@@ -18,22 +18,22 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     private final WarehouseRepository warehouseRepository;
     private final WarehouseMapper warehouseMapper;
-    private final RemainingMapper remainingMapper;
 
-    public WarehouseServiceImpl(WarehouseRepository warehouseRepository, WarehouseMapper warehouseMapper, RemainingMapper remainingMapper) {
+    public WarehouseServiceImpl(WarehouseRepository warehouseRepository, WarehouseMapper warehouseMapper) {
         this.warehouseRepository = warehouseRepository;
         this.warehouseMapper = warehouseMapper;
-        this.remainingMapper = remainingMapper;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Warehouse> getAllListWarehouses() {
         return warehouseRepository.findAll().stream()
                 .map(warehouseMapper::toDomain)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Warehouse> getWarehouseById(Long id) {
         Optional<WarehouseEntity> warehouseEntityCandidate = warehouseRepository.findById(id);
         return warehouseEntityCandidate.map(warehouseMapper::toDomain);
@@ -41,10 +41,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     @Transactional
-    public Warehouse update(Warehouse warehouse) {
-        WarehouseEntity entity = warehouseRepository.findById(warehouse.id().orElseThrow()).orElseThrow();
-        entity.getResourceCounts().clear();
-        entity.getResourceCounts().addAll(warehouse.getRemains().stream().map(remainingMapper::toEntity).collect(Collectors.toSet()));
+    public Warehouse save(Warehouse warehouse) {
+        WarehouseEntity entity = warehouseMapper.toEntity(warehouse);
         entity = warehouseRepository.save(entity);
         return warehouseMapper.toDomain(entity);
     }

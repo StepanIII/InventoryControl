@@ -1,4 +1,4 @@
-package com.example.inventory.control.api.responses;
+package com.example.inventory.control.api;
 
 /**
  * Стандартный класс ответа клиенту.

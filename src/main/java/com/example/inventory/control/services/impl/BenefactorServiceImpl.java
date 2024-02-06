@@ -28,7 +28,7 @@ public class BenefactorServiceImpl implements BenefactorService {
     public List<Benefactor> getListAllBenefactors() {
         return benefactorRepository.findAll().stream()
                 .map(benefactorMapper::toDomain)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.inventory.control.api.responses.dto;
+package com.example.inventory.control.api.acceptance.model;
 
 import java.time.LocalDateTime;
 

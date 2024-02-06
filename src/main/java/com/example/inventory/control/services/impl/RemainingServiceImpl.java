@@ -5,6 +5,7 @@ import com.example.inventory.control.repositories.RemainingRepository;
 import com.example.inventory.control.services.RemainingService;
 import com.example.inventory.control.mapper.RemainingMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,8 +21,11 @@ public class RemainingServiceImpl implements RemainingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Remain> getListRemaining() {
-        return remainingRepository.findAll().stream().map(remainingMapper::toDomain).toList();
+        return remainingRepository.findAll().stream()
+                .map(remainingMapper::toDomain)
+                .toList();
     }
 
 }

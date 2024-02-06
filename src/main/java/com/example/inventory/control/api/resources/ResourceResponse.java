@@ -1,7 +1,7 @@
 package com.example.inventory.control.api.resources;
 
-import com.example.inventory.control.api.responses.BaseResponse;
-import com.example.inventory.control.api.responses.dto.ResourceDto;
+import com.example.inventory.control.api.BaseResponse;
+import com.example.inventory.control.api.resources.model.ResourceDto;
 
 /**
  * Ответ на запрос добавления, изменения ресурса.

@@ -1,9 +1,13 @@
 package com.example.inventory.control.controllers;
 
+import com.example.inventory.control.api.BaseResponse;
+import com.example.inventory.control.api.StatusResponse;
+import com.example.inventory.control.api.writeoff.WriteOffRequest;
+import com.example.inventory.control.api.writeoff.WriteOffResourcesResponse;
 import com.example.inventory.control.api.writeoff.WriteOffsResponse;
 import com.example.inventory.control.facades.WriteOffFacade;
-import com.example.inventory.control.api.responses.StatusResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,11 +41,11 @@ public class WriteOffController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WriteOffResourcesResponse> getWriteOffById(@Valid @PathVariable Long id) {
+    public ResponseEntity<WriteOffResourcesResponse> getWriteOffById(@Valid @NotNull @PathVariable Long id) {
         LOGGER.info(String.format("Запрос на получение списания 'id: %s'.", id));
         WriteOffResourcesResponse response = writeOffFacade.getWriteOffById(id);
         if (response.getStatus() == StatusResponse.SUCCESS) {
-            LOGGER.info(String.format("Запрос на получение списания 'id: %d' выполнен успешно.", response.getId()));
+            LOGGER.info(String.format("Запрос на получение списания 'id: %d' выполнен успешно.", response.getWriteOffResources().getId()));
         } else {
             LOGGER.info(String.format("Запрос на получение списания не выполнен. Причина: %s", response.getDescription()));
         }
@@ -49,13 +53,13 @@ public class WriteOffController {
     }
 
     @PostMapping
-    public ResponseEntity<AddWriteOffResponse> addWriteOff(@Valid @RequestBody AddWriteOffRequest request) {
+    public ResponseEntity<BaseResponse> addWriteOff(@Valid @RequestBody WriteOffRequest request) {
         LOGGER.info("Запрос на добавление списания.");
-        AddWriteOffResponse response = writeOffFacade.addWriteOff(request);
+        BaseResponse response = writeOffFacade.addWriteOff(request);
         if (response.getStatus() == StatusResponse.SUCCESS) {
-            LOGGER.info("Запрос на добавление списания 'id: %d' выполнен успешно.");
+            LOGGER.info("Запрос на добавление списания выполнен успешно.");
         } else {
-            LOGGER.info(String.format("Запрос на добавление приемки не выполнен. Причина: %s",
+            LOGGER.info(String.format("Запрос на добавление списания не выполнен. Причина: %s",
                     response.getDescription()));
         }
         return ResponseEntity.ok(response);

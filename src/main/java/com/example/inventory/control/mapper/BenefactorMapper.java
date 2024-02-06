@@ -38,12 +38,12 @@ public abstract class BenefactorMapper {
 
     /**
      *
-     * @param domain
+     * @param domainModel
      * @return
      */
-    public BenefactorBody toResponse(Benefactor domain) {
+    public BenefactorBody toBodyResponse(Benefactor domainModel) {
         BenefactorBody benefactor = new BenefactorBody();
-        benefactor.setId(domain.id().orElseThrow());
+        benefactor.setId(domainModel.id().orElseThrow());
         benefactor.setFio(benefactor.getFio());
         return benefactor;
     }

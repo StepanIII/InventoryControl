@@ -1,7 +1,7 @@
 package com.example.inventory.control.api.acceptance;
 
 import com.example.inventory.control.api.acceptance.model.AcceptResourcesBody;
-import com.example.inventory.control.api.responses.BaseResponse;
+import com.example.inventory.control.api.BaseResponse;
 
 /**
  * Ответ на запрос получения приемки.

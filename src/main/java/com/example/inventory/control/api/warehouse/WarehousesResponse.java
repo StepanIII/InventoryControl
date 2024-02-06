@@ -1,23 +1,25 @@
 package com.example.inventory.control.api.warehouse;
 
+import com.example.inventory.control.api.BaseResponse;
+import com.example.inventory.control.api.warehouse.model.WarehouseBody;
+
 import java.util.List;
 
-public class WarehousesResponse {
+/**
+ * Ответ на запрос получения всех мест хранения.
+ */
+public class WarehousesResponse extends BaseResponse {
 
-    private List<WarehouseResponse> warehouses;
+    /**
+     * Места хранения.
+     */
+    private List<WarehouseBody> warehouses;
 
-    public WarehousesResponse() {
-    }
-
-    public WarehousesResponse(List<WarehouseResponse> warehouses) {
-        this.warehouses = warehouses;
-    }
-
-    public List<WarehouseResponse> getWarehouses() {
+    public List<WarehouseBody> getWarehouses() {
         return warehouses;
     }
 
-    public void setWarehouses(List<WarehouseResponse> warehouses) {
+    public void setWarehouses(List<WarehouseBody> warehouses) {
         this.warehouses = warehouses;
     }
 }

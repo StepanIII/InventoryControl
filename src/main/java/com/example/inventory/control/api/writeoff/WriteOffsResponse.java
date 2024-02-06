@@ -1,7 +1,7 @@
 package com.example.inventory.control.api.writeoff;
 
 
-import com.example.inventory.control.api.responses.BaseResponse;
+import com.example.inventory.control.api.BaseResponse;
 import com.example.inventory.control.api.writeoff.model.WriteOffBody;
 
 import java.util.List;

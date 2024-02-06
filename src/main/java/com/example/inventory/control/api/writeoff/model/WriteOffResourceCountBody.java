@@ -1,32 +1,21 @@
-package com.example.inventory.control.api.writeoff;
+package com.example.inventory.control.api.writeoff.model;
 
-public class WriteOffResourceCountResponse {
+public class WriteOffResourceCountBody {
 
-    private Long id;
-
+    /**
+     * Идентификатор ресурса.
+     */
     private Long resourceId;
 
+    /**
+     * Наименование.
+     */
     private String name;
 
+    /**
+     * Количество.
+     */
     private Integer count;
-
-    public WriteOffResourceCountResponse() {
-    }
-
-    public WriteOffResourceCountResponse(Long id, Long resourceId, String name, Integer count) {
-        this.id = id;
-        this.resourceId = resourceId;
-        this.name = name;
-        this.count = count;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getResourceId() {
         return resourceId;

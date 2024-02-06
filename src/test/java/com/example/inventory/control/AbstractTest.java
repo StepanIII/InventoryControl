@@ -59,7 +59,6 @@ public abstract class AbstractTest {
         warehouseRepository.deleteAll();
         benefactorRepository.deleteAll();
         resourceRepository.deleteAll();
-        resourceRepository.deleteAll();
     }
 
     protected AcceptanceEntity createAcceptance(WarehouseEntity warehouse, BenefactorEntity benefactor, List<AcceptResourceCountEntity> resources) {
@@ -95,10 +94,11 @@ public abstract class AbstractTest {
         return resourceRepository.save(resourceEntity);
     }
 
-    protected AcceptResourceCountEntity createResourceCount(ResourceEntity resource, int count) {
+    protected AcceptResourceCountEntity createResourceCount(ResourceEntity resource, int count, AcceptanceEntity acceptance) {
         AcceptResourceCountEntity resourceCount = new AcceptResourceCountEntity();
         resourceCount.setResource(resource);
         resourceCount.setCount(count);
+        resourceCount.setAcceptance(acceptance);
         return resourceCount;
     }
 

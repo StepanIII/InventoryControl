@@ -1,7 +1,7 @@
 package com.example.inventory.control.controllers;
 
 import com.example.inventory.control.facades.RemainingFacade;
-import com.example.inventory.control.api.responses.remaining.RemainingResponse;
+import com.example.inventory.control.api.remaining.RemainingResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,7 @@ public class RemainingController {
     public ResponseEntity<RemainingResponse> getAllRemaining() {
         LOGGER.info("Запрос на получение всех остатков.");
         RemainingResponse response = remainingFacade.getListAllRemaining();
-        LOGGER.info("Запрос на получение всех остатков выполнен успешно.");
+        LOGGER.info(String.format("Запрос на получение всех остатков выполнен успешно. Количество: %d.", response.getRemaining().size()));
         return ResponseEntity.ok(response);
     }
 

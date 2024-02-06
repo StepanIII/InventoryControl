@@ -1,6 +1,6 @@
 package com.example.inventory.control.facades;
 
-import com.example.inventory.control.api.responses.remaining.RemainingResponse;
+import com.example.inventory.control.api.remaining.RemainingResponse;
 
 /**
  * Фасад для работы с остатками.
@@ -8,9 +8,8 @@ import com.example.inventory.control.api.responses.remaining.RemainingResponse;
 public interface RemainingFacade {
 
     /**
-     * Получить список всех остатков.
+     * Получить все остатки.
      */
     RemainingResponse getListAllRemaining();
-
 
 }

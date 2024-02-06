@@ -23,11 +23,11 @@ public interface WarehouseService {
     Optional<Warehouse> getWarehouseById(Long id);
 
     /**
-     * Обновить место хранения.
+     * Сохранить место хранения.
      *
-     * @param warehouse обновляемое место хранения.
-     * @return обновленное место хранения.
+     * @param warehouse сохраняемое место хранения.
+     * @return сохраненное место хранения.
      */
-    Warehouse update(Warehouse warehouse);
+    Warehouse save(Warehouse warehouse);
 
 }

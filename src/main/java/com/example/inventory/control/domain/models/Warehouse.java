@@ -60,16 +60,20 @@ public final class Warehouse {
     }
 
     public boolean hasCountResources(long resourceId, int countResources) {
-        Remain remain = remains.stream().filter(r -> r.getResourceId().equals(resourceId)).findAny().orElseThrow();
+        Remain remain = remains.stream()
+                .filter(r -> r.getResourceId().equals(resourceId))
+                .findAny().orElseThrow();
         return remain.getCount() >= countResources;
     }
 
-    public void writeOffResources(long resourceId, int countResources) {
-        Remain remain = remains.stream().filter(r -> r.getResourceId().equals(resourceId)).findAny().orElseThrow();
+    public Warehouse writeOffResources(long resourceId, int countResources) {
+        Remain remain = remains.stream()
+                .filter(r -> r.getResourceId().equals(resourceId))
+                .findAny().orElseThrow();
         remains.remove(remain);
         remain = remain.updateCount(remain.getCount() - countResources);
         remains.add(remain);
-//        return this;
+        return this;
     }
 
 }

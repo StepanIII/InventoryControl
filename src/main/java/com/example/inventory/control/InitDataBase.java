@@ -89,6 +89,10 @@ public class InitDataBase {
         AcceptanceEntity acceptanceEntity = new AcceptanceEntity();
         acceptanceEntity.setWarehouse(warehouse);
         acceptanceEntity.setBenefactor(benefactor);
+        acceptanceEntity = acceptanceRepository.save(acceptanceEntity);
+        for (AcceptResourceCountEntity acceptResourceCount : resourceCounts) {
+            acceptResourceCount.setAcceptance(acceptanceEntity);
+        }
         acceptanceEntity.getResourceCounts().addAll(resourceCounts);
         return acceptanceRepository.save(acceptanceEntity);
     }

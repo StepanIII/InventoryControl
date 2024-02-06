@@ -1,13 +1,10 @@
 package com.example.inventory.control.services.impl;
 
-import com.example.inventory.control.entities.AcceptResourceCountEntity;
 import com.example.inventory.control.entities.AcceptanceEntity;
-import com.example.inventory.control.entities.RemainingEntity;
-import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.domain.models.Accept;
 import com.example.inventory.control.repositories.AcceptanceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
-import com.example.inventory.control.services.AcceptanceService;
+import com.example.inventory.control.services.AcceptService;
 import com.example.inventory.control.mapper.AcceptMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AcceptanceServiceImpl implements AcceptanceService {
+public class AcceptanceServiceImpl implements AcceptService {
 
     private final AcceptanceRepository acceptanceRepository;
     private final WarehouseRepository warehouseRepository;

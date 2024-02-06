@@ -1,7 +1,7 @@
 package com.example.inventory.control.facades;
 
 import com.example.inventory.control.api.resources.ResourceRequest;
-import com.example.inventory.control.api.responses.BaseResponse;
+import com.example.inventory.control.api.BaseResponse;
 import com.example.inventory.control.api.resources.ResourceResponse;
 import com.example.inventory.control.api.resources.ResourcesResponse;
 

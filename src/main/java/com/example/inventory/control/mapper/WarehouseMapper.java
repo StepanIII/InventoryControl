@@ -1,11 +1,13 @@
 package com.example.inventory.control.mapper;
 
 import com.example.inventory.control.api.warehouse.model.WarehouseBody;
+import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.domain.models.Warehouse;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -20,14 +22,20 @@ public abstract class WarehouseMapper {
     /**
      * Преобразовать в сущность.
      *
-     * @param domain преобразоваемая доменная модель
+     * @param domainModel преобразоваемая доменная модель
      * @return сущность
      */
-    public WarehouseEntity toEntity(Warehouse domain) {
+    public WarehouseEntity toEntity(Warehouse domainModel) {
         WarehouseEntity entity = new WarehouseEntity();
-        entity.setId(domain.id().orElse(null));
-        entity.setName(domain.getName());
-        entity.setResourceCounts(domain.getRemains().stream().map(remainingMapper::toEntity).collect(Collectors.toSet()));
+        entity.setId(domainModel.id().orElse(null));
+        entity.setName(domainModel.getName());
+
+        Set<RemainingEntity> remainingEntities = domainModel.getRemains().stream()
+                .map(remainingMapper::toEntity)
+                .collect(Collectors.toSet());
+
+        entity.getResourceCounts().clear();
+        entity.getResourceCounts().addAll(remainingEntities);
         return entity;
     }
 
@@ -46,11 +54,11 @@ public abstract class WarehouseMapper {
      * @param domainModel
      * @return
      */
-    public WarehouseBody toResponse(Warehouse domainModel) {
-        WarehouseBody response = new WarehouseBody();
-        response.setId(domainModel.id().orElseThrow());
-        response.setName(domainModel.getName());
-        return response;
+    public WarehouseBody toBodyResponse(Warehouse domainModel) {
+        WarehouseBody body = new WarehouseBody();
+        body.setId(domainModel.id().orElseThrow());
+        body.setName(domainModel.getName());
+        return body;
     }
 
 

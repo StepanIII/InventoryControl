@@ -1,27 +1,26 @@
 package com.example.inventory.control.api.benefactor;
 
 
+import com.example.inventory.control.api.benefactor.model.BenefactorBody;
+import com.example.inventory.control.api.BaseResponse;
+
 import java.util.List;
 
 /**
- * Тело ответа "Благодетели".
+ * Ответ на запрос получения всех благодетелй.
  */
-public class BenefactorsResponse {
+public class BenefactorsResponse extends BaseResponse {
 
-    private List<BenefactorResponse> benefactors;
+    /**
+     * Благодетели.
+     */
+    private List<BenefactorBody> benefactors;
 
-    public BenefactorsResponse() {
-    }
-
-    public BenefactorsResponse(List<BenefactorResponse> benefactors) {
-        this.benefactors = benefactors;
-    }
-
-    public List<BenefactorResponse> getBenefactors() {
+    public List<BenefactorBody> getBenefactors() {
         return benefactors;
     }
 
-    public void setBenefactors(List<BenefactorResponse> benefactors) {
+    public void setBenefactors(List<BenefactorBody> benefactors) {
         this.benefactors = benefactors;
     }
 }

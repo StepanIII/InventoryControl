@@ -2,7 +2,7 @@ package com.example.inventory.control.mapper;
 
 import com.example.inventory.control.api.acceptance.model.AcceptResourcesBody;
 import com.example.inventory.control.api.acceptance.model.ResourceCountBody;
-import com.example.inventory.control.api.responses.dto.AcceptDto;
+import com.example.inventory.control.api.acceptance.model.AcceptDto;
 import com.example.inventory.control.entities.AcceptResourceCountEntity;
 import com.example.inventory.control.entities.AcceptanceEntity;
 import com.example.inventory.control.domain.models.Accept;
@@ -39,7 +39,7 @@ public abstract class AcceptMapper {
                 benefactorMapper.toEntity(domainModel.getBenefactor()));
 
         List<AcceptResourceCountEntity> resources = domainModel.getResources().stream()
-                .map(resourceCountMapper::toEntity)
+                .map(r -> resourceCountMapper.toEntity(r, entity))
                 .toList();
 
         // В будущем передалать, не добавляя поностью новые ресурсы, а добавляя новые и изменяя старые.
@@ -91,8 +91,8 @@ public abstract class AcceptMapper {
         AcceptResourcesBody response = new AcceptResourcesBody();
         response.setId(domainModel.id().orElseThrow());
         response.setCreatedTime(domainModel.getCreatedTime());
-        response.setBenefactor(benefactorMapper.toResponse(domainModel.getBenefactor()));
-        response.setWarehouse(warehouseMapper.toResponse(domainModel.getWarehouse()));
+        response.setBenefactor(benefactorMapper.toBodyResponse(domainModel.getBenefactor()));
+        response.setWarehouse(warehouseMapper.toBodyResponse(domainModel.getWarehouse()));
 
         List<ResourceCountBody> resourceCountsResponse = domainModel.getResources().stream()
                 .map(resourceCountMapper::toResponse)

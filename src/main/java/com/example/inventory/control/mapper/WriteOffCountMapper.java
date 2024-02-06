@@ -1,5 +1,6 @@
 package com.example.inventory.control.mapper;
 
+import com.example.inventory.control.api.writeoff.model.WriteOffResourceCountBody;
 import com.example.inventory.control.entities.WriteOffResourceCountEntity;
 import com.example.inventory.control.domain.models.WriteOffResourceCount;
 import com.example.inventory.control.repositories.ResourceRepository;
@@ -22,5 +23,18 @@ public abstract class WriteOffCountMapper {
 
     public WriteOffResourceCount toDomain(WriteOffResourceCountEntity entity) {
         return new WriteOffResourceCount(entity.getId(), entity.getResource().getId(), entity.getResource().getName(), entity.getCount());
+    }
+
+    /**
+     *
+     * @param domainModel
+     * @return
+     */
+    public WriteOffResourceCountBody toResponseBody(WriteOffResourceCount domainModel) {
+        WriteOffResourceCountBody body = new WriteOffResourceCountBody();
+        body.setResourceId(domainModel.getResourceId());
+        body.setName(domainModel.getName());
+        body.setCount(domainModel.getCount());
+        return body;
     }
 }

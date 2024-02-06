@@ -1,23 +1,27 @@
 package com.example.inventory.control.api.writeoff;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
 /**
- * Модель запроса для добавления списания.
+ * Запрос на добавление списания.
  */
-public class AddWriteOffRequest {
+public class WriteOffRequest {
 
+    /**
+     * Идентификатор места хранения.
+     */
     @NotNull
     private Long warehouseId;
 
-    // Min length
+    /**
+     * Ресурсы.
+     */
     @NotNull
+    @Size(min = 1)
     private List<WriteOffResourceCountRequest> resources;
-
-    public AddWriteOffRequest() {
-    }
 
     public Long getWarehouseId() {
         return warehouseId;

@@ -3,22 +3,23 @@ package com.example.inventory.control.api.writeoff;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Тело запроса "Количество ресурсов для списания".
+ */
 public class WriteOffResourceCountRequest {
 
+    /**
+     * Идентификатор.
+     */
     @NotNull
     private Long resourceId;
 
+    /**
+     * Количество.
+     */
     @NotNull
     @Min(value = 1)
     private Integer count;
-
-    public WriteOffResourceCountRequest() {
-    }
-
-    public WriteOffResourceCountRequest(Long resourceId, Integer count) {
-        this.resourceId = resourceId;
-        this.count = count;
-    }
 
     public Long getResourceId() {
         return resourceId;
@@ -35,6 +36,4 @@ public class WriteOffResourceCountRequest {
     public void setCount(Integer count) {
         this.count = count;
     }
-
-
 }

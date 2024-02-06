@@ -1,9 +1,11 @@
 package com.example.inventory.control.facades.impl;
 
+import com.example.inventory.control.api.StatusResponse;
 import com.example.inventory.control.facades.RemainingFacade;
+import com.example.inventory.control.mapper.RemainingMapper;
 import com.example.inventory.control.services.RemainingService;
-import com.example.inventory.control.api.responses.remaining.RemainResponse;
-import com.example.inventory.control.api.responses.remaining.RemainingResponse;
+import com.example.inventory.control.api.remaining.model.RemainBodyResponse;
+import com.example.inventory.control.api.remaining.RemainingResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,18 +14,23 @@ import java.util.List;
 public final class RemainingFacadeImpl implements RemainingFacade {
 
     private final RemainingService remainingService;
+    private final RemainingMapper remainingMapper;
 
-    public RemainingFacadeImpl(RemainingService remainingService) {
+    public RemainingFacadeImpl(RemainingService remainingService, RemainingMapper remainingMapper) {
         this.remainingService = remainingService;
+        this.remainingMapper = remainingMapper;
     }
 
     @Override
     public RemainingResponse getListAllRemaining() {
-        List<RemainResponse> remainResponseList = remainingService
-                .getListRemaining().stream()
-                .map(r -> new RemainResponse(r.getResourceId(), r.getResourceName(), r.getCount(), r.getWarehouseName()))
+        List<RemainBodyResponse> remainingResponseList = remainingService.getListRemaining().stream()
+                .map(remainingMapper::toBodyResponse)
                 .toList();
-        return new RemainingResponse(remainResponseList);
+        RemainingResponse response = new RemainingResponse();
+        response.setStatus(StatusResponse.SUCCESS);
+        response.setDescription(String.format("Остатки получены успешно. Количество: %d.", remainingResponseList.size()));
+        response.setRemaining(remainingResponseList);
+        return response;
     }
 
 }

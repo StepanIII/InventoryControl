@@ -4,16 +4,16 @@ import com.example.inventory.control.api.acceptance.AcceptRequest;
 import com.example.inventory.control.api.acceptance.AcceptResourcesResponse;
 import com.example.inventory.control.api.acceptance.AcceptanceResponse;
 import com.example.inventory.control.api.acceptance.ResourceCountRequest;
-import com.example.inventory.control.api.responses.BaseResponse;
-import com.example.inventory.control.api.responses.StatusResponse;
-import com.example.inventory.control.api.responses.dto.AcceptDto;
+import com.example.inventory.control.api.BaseResponse;
+import com.example.inventory.control.api.StatusResponse;
+import com.example.inventory.control.api.acceptance.model.AcceptDto;
 import com.example.inventory.control.domain.models.Accept;
 import com.example.inventory.control.domain.models.AcceptResourceCount;
 import com.example.inventory.control.domain.models.Benefactor;
 import com.example.inventory.control.domain.models.Warehouse;
 import com.example.inventory.control.facades.AcceptFacade;
 import com.example.inventory.control.mapper.AcceptMapper;
-import com.example.inventory.control.services.AcceptanceService;
+import com.example.inventory.control.services.AcceptService;
 import com.example.inventory.control.services.BenefactorService;
 import com.example.inventory.control.services.ResourceService;
 import com.example.inventory.control.services.WarehouseService;
@@ -25,18 +25,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public final class AcceptanceFacadeImpl implements AcceptFacade {
+public class AcceptFacadeImpl implements AcceptFacade {
 
-    private final AcceptanceService acceptanceService;
+    private final AcceptService acceptService;
     private final BenefactorService benefactorService;
     private final ResourceService resourceService;
     private final WarehouseService warehouseService;
     private final AcceptMapper acceptMapper;
 
-    public AcceptanceFacadeImpl(AcceptanceService acceptanceService, BenefactorService benefactorService,
-                                ResourceService resourceService, WarehouseService warehouseService,
-                                AcceptMapper acceptMapper) {
-        this.acceptanceService = acceptanceService;
+    public AcceptFacadeImpl(AcceptService acceptService, BenefactorService benefactorService,
+                            ResourceService resourceService, WarehouseService warehouseService,
+                            AcceptMapper acceptMapper) {
+        this.acceptService = acceptService;
         this.benefactorService = benefactorService;
         this.resourceService = resourceService;
         this.warehouseService = warehouseService;
@@ -45,7 +45,7 @@ public final class AcceptanceFacadeImpl implements AcceptFacade {
 
     @Override
     public AcceptanceResponse getAllAcceptance() {
-        List<AcceptDto> acceptance = acceptanceService.getListAllAcceptance().stream()
+        List<AcceptDto> acceptance = acceptService.getListAllAcceptance().stream()
                 .map(acceptMapper::toDto)
                 .toList();
         AcceptanceResponse response = new AcceptanceResponse();
@@ -57,7 +57,7 @@ public final class AcceptanceFacadeImpl implements AcceptFacade {
 
     @Override
     public AcceptResourcesResponse getAcceptById(Long id) {
-        Optional<Accept> acceptanceCandidate = acceptanceService.findById(id);
+        Optional<Accept> acceptanceCandidate = acceptService.findById(id);
         if (acceptanceCandidate.isEmpty()) {
             AcceptResourcesResponse response = new AcceptResourcesResponse();
             response.setStatus(StatusResponse.ACCEPT_NOT_FOUND);
@@ -104,10 +104,10 @@ public final class AcceptanceFacadeImpl implements AcceptFacade {
                 .map(r -> AcceptResourceCount.create(r.getResourceId(), r.getCount()))
                 .toList();
         Accept createdAcceptance = Accept.create(warehouseCandidate.get(), benefactorCandidate.get(), acceptResourceCounts);
-        createdAcceptance = acceptanceService.save(createdAcceptance);
+        createdAcceptance = acceptService.save(createdAcceptance);
         Warehouse warehouse = warehouseCandidate.get();
         warehouse = warehouse.addResources(acceptResourceCounts);
-        warehouseService.update(warehouse);
+        warehouseService.save(warehouse);
         BaseResponse response = new BaseResponse();
         response.setStatus(StatusResponse.SUCCESS);
         response.setDescription(String.format("Примка добавлена успешно 'id: %d'.", createdAcceptance.id().orElseThrow()));

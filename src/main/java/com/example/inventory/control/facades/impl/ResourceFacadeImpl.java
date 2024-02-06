@@ -1,9 +1,9 @@
 package com.example.inventory.control.facades.impl;
 
 import com.example.inventory.control.api.resources.ResourceRequest;
-import com.example.inventory.control.api.responses.BaseResponse;
-import com.example.inventory.control.api.responses.StatusResponse;
-import com.example.inventory.control.api.responses.dto.ResourceDto;
+import com.example.inventory.control.api.BaseResponse;
+import com.example.inventory.control.api.StatusResponse;
+import com.example.inventory.control.api.resources.model.ResourceDto;
 import com.example.inventory.control.api.resources.ResourceResponse;
 import com.example.inventory.control.api.resources.ResourcesResponse;
 import com.example.inventory.control.domain.models.Resource;

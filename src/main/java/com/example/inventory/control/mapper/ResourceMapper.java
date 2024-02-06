@@ -1,6 +1,6 @@
 package com.example.inventory.control.mapper;
 
-import com.example.inventory.control.api.responses.dto.ResourceDto;
+import com.example.inventory.control.api.resources.model.ResourceDto;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.domain.models.Resource;
 import org.mapstruct.Mapper;

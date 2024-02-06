@@ -8,7 +8,7 @@ import com.example.inventory.control.api.benefactor.BenefactorsResponse;
 public interface BenefactorFacade {
 
     /**
-     * Получить список всех благодетелей.
+     * Получить всех благодетелей.
      */
     BenefactorsResponse getListAllBenefactors();
 

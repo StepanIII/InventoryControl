@@ -3,7 +3,7 @@ package com.example.inventory.control.facades;
 import com.example.inventory.control.api.acceptance.AcceptRequest;
 import com.example.inventory.control.api.acceptance.AcceptResourcesResponse;
 import com.example.inventory.control.api.acceptance.AcceptanceResponse;
-import com.example.inventory.control.api.responses.BaseResponse;
+import com.example.inventory.control.api.BaseResponse;
 
 /**
  * Фасад для работы с приемками.

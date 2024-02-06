@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Сервис для работы с приемками.
  */
-public interface AcceptanceService {
+public interface AcceptService {
 
     /**
      * Получить список всех приемок.

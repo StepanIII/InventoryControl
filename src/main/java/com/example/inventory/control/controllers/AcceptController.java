@@ -1,19 +1,17 @@
 package com.example.inventory.control.controllers;
 
 import com.example.inventory.control.api.acceptance.AcceptResourcesResponse;
-import com.example.inventory.control.api.responses.BaseResponse;
+import com.example.inventory.control.api.BaseResponse;
 import com.example.inventory.control.facades.AcceptFacade;
 import com.example.inventory.control.api.acceptance.AcceptRequest;
-import com.example.inventory.control.api.responses.StatusResponse;
+import com.example.inventory.control.api.StatusResponse;
 import com.example.inventory.control.api.acceptance.AcceptanceResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

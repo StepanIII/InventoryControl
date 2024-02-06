@@ -1,5 +1,6 @@
 package com.example.inventory.control.mapper;
 
+import com.example.inventory.control.api.remaining.model.RemainBodyResponse;
 import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.domain.models.Remain;
 import com.example.inventory.control.repositories.ResourceRepository;
@@ -46,6 +47,20 @@ public abstract class RemainingMapper {
         entity.setResource(resourceRepository.findById(remain.getResourceId()).orElseThrow());
         entity.setWarehouse(warehouseRepository.findByName(remain.getWarehouseName()).orElseThrow());
         return entity;
+    }
+
+    /**
+     *
+     * @param domainModel
+     * @return
+     */
+    public RemainBodyResponse toBodyResponse(Remain domainModel) {
+        RemainBodyResponse response = new RemainBodyResponse();
+        response.setResourceId(domainModel.getResourceId());
+        response.setResourceName(domainModel.getResourceName());
+        response.setWarehouseName(domainModel.getWarehouseName());
+        response.setCount(domainModel.getCount());
+        return response;
     }
 
 
