@@ -3,6 +3,8 @@ package com.example.inventory.control.facades;
 import com.example.inventory.control.api.resources.ResourceRequest;
 import com.example.inventory.control.api.BaseResponse;
 import com.example.inventory.control.api.resources.ResourceResponse;
+import com.example.inventory.control.api.resources.ResourceTypesResponse;
+import com.example.inventory.control.api.resources.ResourceUnitsResponse;
 import com.example.inventory.control.api.resources.ResourcesResponse;
 
 /**
@@ -16,6 +18,14 @@ public interface ResourceFacade {
      * @return ответ со статусом и ресурсами.
      */
     ResourcesResponse getAllResources();
+
+    /**
+     * Получить ресурс по идентификатору.
+     *
+     * @param id идентификатор ресурса.
+     * @return ответ со статусом и ресурсами.
+     */
+    ResourceResponse getResourceById(Long id);
 
     /**
      * Добавить ресурс.
@@ -41,4 +51,19 @@ public interface ResourceFacade {
      * @return ответ со статусом.
      */
     BaseResponse deleteResource(Long id);
+
+    /**
+     * Получить типы ресурсов.
+     *
+     * @return ответ со статусом и типами ресурсов.
+     */
+    ResourceTypesResponse getAllResourceTypes();
+
+    /**
+     * Получить единицы измерения ресурсов.
+     *
+     * @return ответ со статусом и единицами измерения ресурсов.
+     */
+    ResourceUnitsResponse getAllResourceUnits();
+
 }

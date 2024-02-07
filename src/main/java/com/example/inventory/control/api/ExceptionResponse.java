@@ -8,23 +8,23 @@ public final class ExceptionResponse {
     /**
      * Код ошибки.
      */
-    private StatusResponse code;
+    private final StatusResponse errorCode;
 
     /**
      * Описание.
      */
-    private String description;
+    private final String errorDescription;
 
-    public ExceptionResponse(StatusResponse code, String description) {
-        this.code = code;
-        this.description = description;
+    public ExceptionResponse(StatusResponse errorCode, String errorDescription) {
+        this.errorCode = errorCode;
+        this.errorDescription = errorDescription;
     }
 
-    public StatusResponse getCode() {
-        return code;
+    public StatusResponse getErrorCode() {
+        return errorCode;
     }
 
-    public String getDescription() {
-        return description;
+    public String getErrorDescription() {
+        return errorDescription;
     }
 }

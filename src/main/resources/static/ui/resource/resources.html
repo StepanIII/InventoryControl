@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Приемка</title>
+    <title>Ресурсы</title>
 </head>
 <body>
 <div id="header">
@@ -15,10 +15,12 @@
 
 <div id="content">
     <br>
-    <button type="button" id="add_acceptance_btn" onclick="handleAddAcceptanceBtn()">Добавить</button>
+    <p id="error_desc"></p>
     <br>
-    <table id="acceptance_table">
-        <tbody><tr><td>№</td><td>Время</td><td>Место хранения</td><td>Благодетель</td></tr></tbody>
+    <button type="button" id="add_acceptance_btn" onclick="handleAddResourceBtn()">Добавить</button>
+    <br>
+    <table id="resources_table">
+        <tbody><tr id="header_resources_table"><td>Код</td><td>Наименование</td><td>Тип</td><td>Еденицы измерения</td><td>Операция</td></tr></tbody>
     </table>
 </div>
 
@@ -31,7 +33,7 @@
 <script src="/url.js"></script>
 <script src="/rest-methods.js"></script>
 <script src="/index.js"></script>
-<script src="/ui/acceptance/acceptance.js"></script>
+<script src="/ui/resource/resources.js"></script>
 
 </body>
 </html>

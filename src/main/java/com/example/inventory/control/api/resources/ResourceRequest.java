@@ -14,8 +14,8 @@ public class ResourceRequest {
     /**
      * Наименование.
      */
-    @NotBlank
-    @Size(min = 1, max = 255)
+    @NotBlank(message = "Наименование не должно быть пустым")
+    @Size(min = 1, max = 255, message = "Количество символов наименования должно быть в диапозоне от 1 до 255")
     private String name;
 
     /**

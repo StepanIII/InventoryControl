@@ -64,6 +64,9 @@ public final class Benefactor {
     }
 
     public String getFio() {
+        if (middleName == null) {
+            return lastName + " " + firstName;
+        }
         return lastName + " " + firstName + " " + middleName;
     }
 }

@@ -1,6 +1,6 @@
 let acceptId = localStorage.getItem('accept_id');
 if (acceptId !== null) {
-    getData(ACCEPTANCE_URL + "/" + acceptId).then(response => {
+    getData(ACCEPT_URL + "/" + acceptId).then(response => {
         let benefactor = response.benefactor
         let warehouse = response.warehouse
         let addedResources = response.resources
@@ -27,6 +27,29 @@ if (acceptId !== null) {
     localStorage.removeItem('accept_id')
 }
 
+function handleBenefactorSelect() {
+    getData(BENEFACTORS_URL).then(response => {
+        console.log(response)
+
+        let table = getElement('benefactor_table');
+        let tBody = createElement('tBody')
+
+        response.benefactors.forEach(benefactor => {
+            let tr = createTr([benefactor.id, benefactor.fio])
+            tr.onclick = () => {
+                getElement('selected_benefactor').textContent = benefactor.fio
+                getElement('selected_benefactor_id').textContent = benefactor.id
+                tBody.remove()
+                table.hidden = true
+            }
+            tBody.appendChild(tr)
+        })
+
+        table.appendChild(tBody)
+        table.hidden = false
+    })
+}
+
 function createDeleteAcceptResourceBtn() {
     let btn = createBtn('Удалить', '')
     btn.onclick = (e) => {
@@ -36,33 +59,7 @@ function createDeleteAcceptResourceBtn() {
     return btn
 }
 
-function handleBenefactorSelect() {
-    getData(BENEFACTORS_URL).then((response) => {
-        let tBody = document.querySelector('#benefactor_table_select tbody')
-        removeChildNodes(tBody)
-        let trHeader = createTr(['Код', 'ФИО'])
-        tBody.appendChild(trHeader)
 
-        let benefactors = response.benefactors
-        benefactors.forEach((benefactor) => {
-            let tr = createTr([benefactor.id, benefactor.fio])
-            tr.addEventListener('click', handleSelectBenefactorTr)
-            tBody.appendChild(tr)
-        })
-    })
-    getElement('benefactor_block').hidden = false
-}
-
-function handleSelectBenefactorTr(e) {
-    let tr = e.currentTarget
-    let id = tr.childNodes[0].textContent
-    let fio = tr.childNodes[1].textContent
-    let pFio = getElement('selected_benefactor')
-    getElement('selected_benefactor_id').textContent = id
-    pFio.textContent = fio
-    pFio.hidden = false
-    getElement('benefactor_block').hidden = true
-}
 
 function handleWarehouseSelect() {
     getData(WAREHOUSES_URL).then((response) => {
@@ -94,7 +91,7 @@ function handleSelectWarehouseTr(e) {
 }
 
 function handleResourceSelect() {
-    getData(RESOURCES_URL).then((response) => {
+    getData(RESOURCE_URL).then((response) => {
         let tBody = document.querySelector('#resources_table_select tbody')
         removeChildNodes(tBody)
         let trHeader = createTr(['Код', 'Наименование', 'Количество'])
@@ -167,8 +164,8 @@ function handleSaveAcceptanceBtn() {
         resources: resourcesRequest
     }
     if (acceptId !== null) {
-        putData(ACCEPTANCE_URL + "/" + acceptId, acceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
+        putData(ACCEPT_URL + "/" + acceptId, acceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
     } else {
-        postData(ACCEPTANCE_URL, acceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
+        postData(ACCEPT_URL, acceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
     }
 }

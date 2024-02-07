@@ -1,3 +1,4 @@
+const SUCCESS = "SUCCESS"
 // Вынести этот метод отднльно для всех страниц ресурсов, а не добавлять на каждую страницу отдельно
 function handleResourceManagementBtn() {
     fillSubheaderSecond()

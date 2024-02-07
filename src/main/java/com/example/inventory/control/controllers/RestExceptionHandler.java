@@ -42,11 +42,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         StringBuilder responseDescriptionBuilder = new StringBuilder();
         int i = 0;
         while (matcher.find()) {
-            responseDescriptionBuilder.append(matcher.group(1));
-            if (i % 2 == 0) {
-                responseDescriptionBuilder.append(" - ");
-            } else {
-                responseDescriptionBuilder.append("; ");
+            if (i % 2 != 0) {
+                responseDescriptionBuilder
+                        .append(matcher.group(1))
+                        .append("; ");
             }
             i++;
         }
@@ -54,7 +53,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             responseDescriptionBuilder.append(ex.getMessage());
         }
         String responseDescription = responseDescriptionBuilder.toString().trim();
-        LOGGER.warning(responseDescription);
+        LOGGER.warning(ex.getMessage());
         return ResponseEntity.badRequest().body(
                 new ExceptionResponse(StatusResponse.METHOD_ARGUMENT_NOT_VALID, responseDescription));
     }
@@ -64,14 +63,31 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 //        ExceptionResponse exceptionResponse = new ExceptionResponse();
 //        exceptionResponse.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'",
 //                ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
-//        exceptionResponse.setDescription(ex.getCode());
+//        exceptionResponse.setDescription(ex.getErrorCode());
 //        return ResponseEntity.badRequest().body(exceptionResponse);
 //    }
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleAllExceptions(Exception ex) {
+        String errorMessage = ex.getMessage();
+        ExceptionResponse response;
+        if (errorMessage.contains("Cannot delete or update a parent row")) {
+            response = new ExceptionResponse(StatusResponse.NOT_DELETE_PARENT, "Невозможно удалить запись, так как она используется в другом месте.");
+        } else {
+            response = new ExceptionResponse(StatusResponse.INTERNAL_SERVER_ERROR, ex.getMessage());
+        }
+
         LOGGER.warning(ex.getMessage());
-        return ResponseEntity.internalServerError().body(
-                new ExceptionResponse(StatusResponse.INTERNAL_SERVER_ERROR, ex.getMessage()));
+        return ResponseEntity.internalServerError().body(response);
     }
+
+//            while (matcher.find()) {
+//        responseDescriptionBuilder.append(matcher.group(1));
+//        if (i % 2 == 0) {
+//            responseDescriptionBuilder.append(" - ");
+//        } else {
+//            responseDescriptionBuilder.append("; ");
+//        }
+//        i++;
+//    }
 }

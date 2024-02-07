@@ -13,24 +13,29 @@ public class UiController {
         return "index.html";
     }
 
-    @GetMapping("/acceptance/all")
+    @GetMapping("/accept/all")
     public String acceptance() {
         return "acceptance.html";
     }
 
-    @GetMapping("/acceptance/edit")
+    @GetMapping("/accept/edit")
     public String acceptanceEdit() {
         return "acceptance-edit.html";
     }
 
-    @GetMapping("/remaining/all")
+    @GetMapping("/remain/all")
     public String remaining() {
         return "remaining.html";
     }
 
-    @GetMapping("/resources/all")
+    @GetMapping("/resource/all")
     public String resources() {
         return "resources.html";
+    }
+
+    @GetMapping("/resource/edit")
+    public String resourceEdit() {
+        return "resource-edit.html";
     }
 
     @GetMapping("/write-off/all")

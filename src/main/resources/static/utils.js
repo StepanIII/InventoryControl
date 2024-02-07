@@ -31,7 +31,7 @@ const createTr = (columns) => {
         } else if (typeof element === 'string' || typeof element === 'number') {
             td.textContent = element
         } else {
-            console.error('Невозможно добавить элемент или значение в td. Тип данных : ' + typeof element)
+            console.error('Невозможно добавить элемент или значение "' + element + '" в td. Тип данных : ' + typeof element)
         }
         tr.appendChild(td)
     }
@@ -44,6 +44,7 @@ const createTable = (id, columns) => {
     table.appendChild(trHeader)
     return table
 }
+
 
 // Удалить все строки, кроме шапки
 // const clearTable = (table) => {
@@ -67,4 +68,8 @@ const removeChildNodes = (element) => {
     while (element.hasChildNodes()) {
         element.firstChild.remove()
     }
+}
+
+const stringIsBlank = (value) => {
+    return value === null || value.length === 0
 }

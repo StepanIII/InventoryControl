@@ -37,7 +37,7 @@
 //                .matches(r -> r.getStatusCode().is2xxSuccessful());
 //        assertThat(responseEntity.getBody()).isNotNull()
 //                .matches(b -> b.getStatus() == StatusResponse.ERROR)
-//                .matches(b -> b.getDescription().equals(String.format("Место хранения с идентификатором = %d не найдено.", request.getWarehouseId())));
+//                .matches(b -> b.getErrorDescription().equals(String.format("Место хранения с идентификатором = %d не найдено.", request.getWarehouseId())));
 //    }
 //
 //    @Test
@@ -58,7 +58,7 @@
 //                .matches(r -> r.getStatusCode().is2xxSuccessful());
 //        assertThat(responseEntity.getBody()).isNotNull()
 //                .matches(b -> b.getStatus() == StatusResponse.ERROR)
-//                .matches(b -> b.getDescription().equals("На складе нет таких ресурсов."));
+//                .matches(b -> b.getErrorDescription().equals("На складе нет таких ресурсов."));
 //    }
 //
 //    @Test
@@ -79,7 +79,7 @@
 //                .matches(r -> r.getStatusCode().is2xxSuccessful());
 //        assertThat(responseEntity.getBody()).isNotNull()
 //                .matches(b -> b.getStatus() == StatusResponse.ERROR)
-//                .matches(b -> b.getDescription().equals("На складе нет такого количества ресурсов."));
+//                .matches(b -> b.getErrorDescription().equals("На складе нет такого количества ресурсов."));
 //    }
 //
 //    @Test
@@ -100,7 +100,7 @@
 //                .matches(r -> r.getStatusCode().is2xxSuccessful());
 //        assertThat(responseEntity.getBody()).isNotNull()
 //                .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
-//                .matches(b -> b.getDescription().equals("Списание создано."));
+//                .matches(b -> b.getErrorDescription().equals("Списание создано."));
 //
 //        List<RemainingEntity> remainingEntities = remainingRepository.findAllByWarehouseId(warehouse.getId());
 //        System.out.println("///////////////");

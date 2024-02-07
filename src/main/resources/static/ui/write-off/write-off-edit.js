@@ -59,7 +59,7 @@ function handleSelectWarehouseTr(e) {
 }
 
 function handleResourceSelect() {
-    getData(RESOURCES_URL).then((response) => {
+    getData(RESOURCE_URL).then((response) => {
         let tBody = document.querySelector('#resources_table_select tbody')
         removeChildNodes(tBody)
         let trHeader = createTr(['Код', 'Наименование', 'Количество'])

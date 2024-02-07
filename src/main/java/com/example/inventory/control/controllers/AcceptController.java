@@ -75,7 +75,7 @@ public class AcceptController {
 //                    id));
 //        } else {
 //            LOGGER.info(String.format("Запрос на обновление приемки не выполнен 'id: %d'. Причина: %s",
-//                    id, response.getDescription()));
+//                    id, response.getErrorDescription()));
 //        }
 //        return ResponseEntity.ok(response);
 //    }

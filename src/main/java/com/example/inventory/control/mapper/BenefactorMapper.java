@@ -44,7 +44,7 @@ public abstract class BenefactorMapper {
     public BenefactorBody toBodyResponse(Benefactor domainModel) {
         BenefactorBody benefactor = new BenefactorBody();
         benefactor.setId(domainModel.id().orElseThrow());
-        benefactor.setFio(benefactor.getFio());
+        benefactor.setFio(domainModel.getFio());
         return benefactor;
     }
 

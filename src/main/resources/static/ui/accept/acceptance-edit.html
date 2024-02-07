@@ -5,14 +5,16 @@
     <title>Добавить приемку</title>
 </head>
 <body>
-<p>Благодетель:</p><p id="selected_benefactor" hidden></p><p id="selected_benefactor_id" hidden></p>
+
+<p>Благодетель:</p><p id="selected_benefactor"></p><p id="selected_benefactor_id" hidden></p>
 <button onclick="handleBenefactorSelect()">Выбрать из справочника</button>
-<div id="benefactor_block" hidden>
-    <table id="benefactor_table_select">
-        <tbody><tr><td>Код</td><td>ФИО</td></tr></tbody>
+<!--<div id="benefactor_block" hidden>-->
+    <table id="benefactor_table" hidden>
+        <tr><td>Код</td><td>ФИО</td></tr>
     </table>
-</div>
+<!--</div>-->
 <br>
+
 <br>
 <p>Место хранения:</p><p id="selected_warehouse" hidden></p><p id="selected_warehouse_id" hidden></p>
 <button onclick="handleWarehouseSelect()">Выбрать из справочника</button>
@@ -22,6 +24,7 @@
     </table>
 </div>
 <br>
+
 <br>
 <button onclick="handleResourceSelect()">Выбрать ресурсы из справочника</button>
 <div id="select_resources_block" hidden>
@@ -40,7 +43,7 @@
 <script src="/utils.js"></script>
 <script src="/url.js"></script>
 <script src="/rest-methods.js"></script>
-<script src="/ui/acceptance/acceptance-edit.js"></script>
+<script src="/ui/accept/acceptance-edit.js"></script>
 
 </body>
 </html>

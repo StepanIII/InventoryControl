@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.util.Objects;
-
+// Добавить размер
 /**
  * Сущность таблицы "RESOURCES" (Ресурсы).
  */
