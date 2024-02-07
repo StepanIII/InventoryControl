@@ -1,6 +1,7 @@
 package com.example.inventory.control.controllers;
 
 import com.example.inventory.control.api.ExceptionResponse;
+import com.example.inventory.control.api.StatusResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -15,28 +16,21 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// Написать тесты
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger LOGGER = Logger.getLogger(RestExceptionHandler.class.getName());
+
+    private static final Pattern PATTERN_ARG_NOT_VALID = Pattern.compile("default message \\[(.*?)]");
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers,
                                                                   HttpStatusCode status,
                                                                   WebRequest request) {
-        Pattern pattern = Pattern.compile("Unrecognized field \"(.*?)\"");
-        Matcher matcher = pattern.matcher(errorMessage);
-        if (matcher.find()) {
-            return "Не валидное поле: " + matcher.group(1);
-        } else {
-            return "Не удалось извлечь наименование не валидного поля";
-        }
-
-        LOGGER.warning(ex.getCause().getLocalizedMessage());
+        LOGGER.warning(ex.getMessage());
         return ResponseEntity.badRequest().body(
-                new ExceptionResponse("Malformed JSON Request", ex.getMessage()));
+                new ExceptionResponse(StatusResponse.MALFORMED_JSON_REQUEST, ex.getMessage()));
     }
 
     @Override
@@ -44,9 +38,25 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatusCode status,
                                                                   WebRequest request) {
-        LOGGER.warning(ex.getMessage());
+        Matcher matcher = PATTERN_ARG_NOT_VALID.matcher(ex.getMessage());
+        StringBuilder responseDescriptionBuilder = new StringBuilder();
+        int i = 0;
+        while (matcher.find()) {
+            responseDescriptionBuilder.append(matcher.group(1));
+            if (i % 2 == 0) {
+                responseDescriptionBuilder.append(" - ");
+            } else {
+                responseDescriptionBuilder.append("; ");
+            }
+            i++;
+        }
+        if (responseDescriptionBuilder.isEmpty()) {
+            responseDescriptionBuilder.append(ex.getMessage());
+        }
+        String responseDescription = responseDescriptionBuilder.toString().trim();
+        LOGGER.warning(responseDescription);
         return ResponseEntity.badRequest().body(
-                new ExceptionResponse("Method Argument Not Valid", ex.getMessage()));
+                new ExceptionResponse(StatusResponse.METHOD_ARGUMENT_NOT_VALID, responseDescription));
     }
 
     //    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
@@ -54,7 +64,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 //        ExceptionResponse exceptionResponse = new ExceptionResponse();
 //        exceptionResponse.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'",
 //                ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
-//        exceptionResponse.setDescription(ex.getMessage());
+//        exceptionResponse.setDescription(ex.getCode());
 //        return ResponseEntity.badRequest().body(exceptionResponse);
 //    }
 
@@ -62,6 +72,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleAllExceptions(Exception ex) {
         LOGGER.warning(ex.getMessage());
         return ResponseEntity.internalServerError().body(
-                new ExceptionResponse("Internal server error", ex.getMessage()));
+                new ExceptionResponse(StatusResponse.INTERNAL_SERVER_ERROR, ex.getMessage()));
     }
 }

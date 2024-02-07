@@ -2,7 +2,7 @@ package com.example.inventory.control.mapper;
 
 import com.example.inventory.control.api.acceptance.model.AcceptResourcesBody;
 import com.example.inventory.control.api.acceptance.model.ResourceCountBody;
-import com.example.inventory.control.api.acceptance.model.AcceptDto;
+import com.example.inventory.control.api.acceptance.model.AcceptBodyResponse;
 import com.example.inventory.control.entities.AcceptResourceCountEntity;
 import com.example.inventory.control.entities.AcceptanceEntity;
 import com.example.inventory.control.domain.models.Accept;
@@ -73,8 +73,8 @@ public abstract class AcceptMapper {
      * @param domainModel преобразоваемая доменная модель.
      * @return DTO.
      */
-    public AcceptDto toDto(Accept domainModel) {
-        AcceptDto dto = new AcceptDto();
+    public AcceptBodyResponse toDto(Accept domainModel) {
+        AcceptBodyResponse dto = new AcceptBodyResponse();
         dto.setId(domainModel.id().orElseThrow());
         dto.setCreatedTime(domainModel.getCreatedTime());
         dto.setBenefactorFio(domainModel.getBenefactor().getFio());

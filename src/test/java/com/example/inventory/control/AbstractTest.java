@@ -7,6 +7,7 @@ import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.entities.WriteOffEntity;
+import com.example.inventory.control.entities.WriteOffResourceCountEntity;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Units;
 import com.example.inventory.control.repositories.AcceptanceRepository;
@@ -22,8 +23,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Profile(value = "test")
@@ -65,11 +69,12 @@ public abstract class AbstractTest {
         AcceptanceEntity acceptanceEntity = new AcceptanceEntity();
         acceptanceEntity.setWarehouse(warehouse);
         acceptanceEntity.setBenefactor(benefactor);
-        acceptanceEntity.getResourceCounts().addAll(resources);
         acceptanceEntity = acceptanceRepository.save(acceptanceEntity);
-
-        addWarehouseResourceCounts(warehouse, resources);
-        return acceptanceEntity;
+        for (AcceptResourceCountEntity acceptResourceCount : resources) {
+            acceptResourceCount.setAcceptance(acceptanceEntity);
+        }
+        acceptanceEntity.getResourceCounts().addAll(resources);
+        return acceptanceRepository.save(acceptanceEntity);
     }
 
     protected WarehouseEntity createWarehouse(String name) {
@@ -94,11 +99,10 @@ public abstract class AbstractTest {
         return resourceRepository.save(resourceEntity);
     }
 
-    protected AcceptResourceCountEntity createResourceCount(ResourceEntity resource, int count, AcceptanceEntity acceptance) {
+    protected AcceptResourceCountEntity createResourceCount(ResourceEntity resource, int count) {
         AcceptResourceCountEntity resourceCount = new AcceptResourceCountEntity();
         resourceCount.setResource(resource);
         resourceCount.setCount(count);
-        resourceCount.setAcceptance(acceptance);
         return resourceCount;
     }
 
@@ -122,9 +126,21 @@ public abstract class AbstractTest {
         warehouseRepository.save(warehouse);
     }
 
-    protected WriteOffEntity createWriteOff(WarehouseEntity warehouse) {
+    protected WriteOffEntity createWriteOff(WarehouseEntity warehouse, List<WriteOffResourceCountEntity> resourceCounts) {
         WriteOffEntity writeOffEntity = new WriteOffEntity();
         writeOffEntity.setWarehouse(warehouse);
+        writeOffEntity = writeOffRepository.save(writeOffEntity);
+        for (WriteOffResourceCountEntity writeOffResourceCount : resourceCounts) {
+            writeOffResourceCount.setWriteOff(writeOffEntity);
+        }
+        writeOffEntity.getResourceCounts().addAll(resourceCounts);
         return writeOffRepository.save(writeOffEntity);
+    }
+
+    protected WriteOffResourceCountEntity createWriteOffResourceCount(ResourceEntity resource, int count) {
+        WriteOffResourceCountEntity writeOffResourceCountEntity = new WriteOffResourceCountEntity();
+        writeOffResourceCountEntity.setResource(resource);
+        writeOffResourceCountEntity.setCount(count);
+        return writeOffResourceCountEntity;
     }
 }

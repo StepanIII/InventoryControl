@@ -22,7 +22,7 @@ public final class BenefactorFacadeImpl implements BenefactorFacade {
     }
 
     @Override
-    public BenefactorsResponse getListAllBenefactors() {
+    public BenefactorsResponse getAllBenefactors() {
         List<BenefactorBody> listBenefactorResponse = benefactorService.getListAllBenefactors().stream()
                 .map(benefactorMapper::toBodyResponse)
                 .toList();

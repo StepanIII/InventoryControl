@@ -10,6 +10,6 @@ public interface BenefactorFacade {
     /**
      * Получить всех благодетелей.
      */
-    BenefactorsResponse getListAllBenefactors();
+    BenefactorsResponse getAllBenefactors();
 
 }

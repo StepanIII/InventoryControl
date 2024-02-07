@@ -22,7 +22,7 @@ public final class RemainingFacadeImpl implements RemainingFacade {
     }
 
     @Override
-    public RemainingResponse getListAllRemaining() {
+    public RemainingResponse getAllRemaining() {
         List<RemainBodyResponse> remainingResponseList = remainingService.getListRemaining().stream()
                 .map(remainingMapper::toBodyResponse)
                 .toList();

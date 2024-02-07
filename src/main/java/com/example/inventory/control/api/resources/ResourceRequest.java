@@ -15,7 +15,7 @@ public class ResourceRequest {
      * Наименование.
      */
     @NotBlank
-    @Size(min = 1, max = 255, message = "РАЗМЕР НЕ ВЕРЕН")
+    @Size(min = 1, max = 255)
     private String name;
 
     /**

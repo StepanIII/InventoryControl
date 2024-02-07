@@ -22,7 +22,7 @@ public class WarehouseFacadeImpl implements WarehouseFacade {
     }
 
     @Override
-    public WarehousesResponse getListAllWarehouses() {
+    public WarehousesResponse getAllWarehouses() {
         List<WarehouseBody> warehousesResponse = warehouseService.getAllListWarehouses().stream()
                 .map(warehouseMapper::toBodyResponse)
                 .toList();

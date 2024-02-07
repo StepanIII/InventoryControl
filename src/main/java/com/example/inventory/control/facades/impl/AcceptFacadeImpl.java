@@ -6,7 +6,7 @@ import com.example.inventory.control.api.acceptance.AcceptanceResponse;
 import com.example.inventory.control.api.acceptance.ResourceCountRequest;
 import com.example.inventory.control.api.BaseResponse;
 import com.example.inventory.control.api.StatusResponse;
-import com.example.inventory.control.api.acceptance.model.AcceptDto;
+import com.example.inventory.control.api.acceptance.model.AcceptBodyResponse;
 import com.example.inventory.control.domain.models.Accept;
 import com.example.inventory.control.domain.models.AcceptResourceCount;
 import com.example.inventory.control.domain.models.Benefactor;
@@ -45,7 +45,7 @@ public class AcceptFacadeImpl implements AcceptFacade {
 
     @Override
     public AcceptanceResponse getAllAcceptance() {
-        List<AcceptDto> acceptance = acceptService.getListAllAcceptance().stream()
+        List<AcceptBodyResponse> acceptance = acceptService.getListAllAcceptance().stream()
                 .map(acceptMapper::toDto)
                 .toList();
         AcceptanceResponse response = new AcceptanceResponse();

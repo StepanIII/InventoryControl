@@ -1,6 +1,7 @@
 package com.example.inventory.control.controllers.resources;
 
 import com.example.inventory.control.AbstractTest;
+import com.example.inventory.control.api.BaseResponse;
 import com.example.inventory.control.api.StatusResponse;
 import com.example.inventory.control.api.resources.ResourceRequest;
 import com.example.inventory.control.api.resources.ResourceResponse;
@@ -13,14 +14,15 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Base64;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ResourceControllerUpdateTest extends AbstractTest {
+public class ResourceControllerDeleteTest extends AbstractTest {
 
     @Test
-    public void shouldUpdateResource() {
+    public void shouldDeleteResource() {
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Units.KILOGRAM);
 
         ResourceRequest request = new ResourceRequest();
@@ -28,30 +30,21 @@ public class ResourceControllerUpdateTest extends AbstractTest {
         request.setType(ResourceType.CLOTHING);
         request.setUnit(Units.PAIR);
 
-        ResponseEntity<ResourceResponse> response = restTemplate.exchange(
+        ResponseEntity<BaseResponse> response = restTemplate.exchange(
                 Endpoint.RESOURCE + "/{id}",
-                HttpMethod.PUT,
+                HttpMethod.DELETE,
                 new HttpEntity<>(request),
-                ResourceResponse.class,
+                BaseResponse.class,
                 resource.getId());
 
         assertThat(response).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
 
-        ResourceEntity updatedResource = resourceRepository.findById(resource.getId()).orElse(null);
-        assertThat(updatedResource).isNotNull()
-                .matches(r -> r.getName().equals(request.getName()))
-                .matches(r -> r.getType() == request.getType())
-                .matches(r -> r.getUnit() == request.getUnit());
+        assertThat(resourceRepository.existsById(resource.getId())).isFalse();
 
         assertThat(response.getBody()).isNotNull()
                 .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
-                .matches(b -> b.getDescription().equals(String.format("Обновление ресурса выполнено успешно 'id: %d'.", updatedResource.getId())));
-        assertThat(response.getBody().getResource()).isNotNull()
-                .matches(r -> r.getId().equals(updatedResource.getId()))
-                .matches(r -> r.getName().equals(updatedResource.getName()))
-                .matches(r -> r.getType() == updatedResource.getType())
-                .matches(r -> r.getUnit() == updatedResource.getUnit());
+                .matches(b -> b.getDescription().equals(String.format("Удаление ресурса выполенено успешно 'id: %d'.", resource.getId())));
     }
 
 }

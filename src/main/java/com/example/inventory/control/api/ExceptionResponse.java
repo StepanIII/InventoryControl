@@ -6,22 +6,22 @@ package com.example.inventory.control.api;
 public final class ExceptionResponse {
 
     /**
-     * Сообщение.
+     * Код ошибки.
      */
-    private String message;
+    private StatusResponse code;
 
     /**
      * Описание.
      */
     private String description;
 
-    public ExceptionResponse(String message, String description) {
-        this.message = message;
+    public ExceptionResponse(StatusResponse code, String description) {
+        this.code = code;
         this.description = description;
     }
 
-    public String getMessage() {
-        return message;
+    public StatusResponse getCode() {
+        return code;
     }
 
     public String getDescription() {

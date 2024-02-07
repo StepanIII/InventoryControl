@@ -35,7 +35,7 @@ public class WriteOffFacadeImpl implements WriteOffFacade {
     }
 
     @Override
-    public WriteOffsResponse getListAllWriteOff() {
+    public WriteOffsResponse getAllWriteOff() {
         List<WriteOffBody> writeOffResponseList = writeOffService.getListAllWriteOff().stream()
                 .map(writeOffMapper::toWriteOffBody)
                 .toList();

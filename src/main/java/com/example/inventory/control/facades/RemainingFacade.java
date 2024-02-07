@@ -10,6 +10,6 @@ public interface RemainingFacade {
     /**
      * Получить все остатки.
      */
-    RemainingResponse getListAllRemaining();
+    RemainingResponse getAllRemaining();
 
 }

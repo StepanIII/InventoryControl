@@ -35,7 +35,7 @@ public class WriteOffController {
     @GetMapping
     public ResponseEntity<WriteOffsResponse> getAllWriteOff() {
         LOGGER.info("Запрос на получение всех списаний.");
-        WriteOffsResponse response = writeOffFacade.getListAllWriteOff();
+        WriteOffsResponse response = writeOffFacade.getAllWriteOff();
         LOGGER.info(String.format("Запрос на получение всех списаний выполнен успешно. Количество: %d.", response.getWriteOffs().size()));
         return ResponseEntity.ok(response);
     }

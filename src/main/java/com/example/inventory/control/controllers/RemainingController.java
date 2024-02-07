@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 @Validated
 @RestController
-@RequestMapping("/remaining")
+@RequestMapping("/remain")
 public class RemainingController {
 
     private static final Logger LOGGER = Logger.getLogger(RemainingController.class.getName());
@@ -26,7 +26,7 @@ public class RemainingController {
     @GetMapping
     public ResponseEntity<RemainingResponse> getAllRemaining() {
         LOGGER.info("Запрос на получение всех остатков.");
-        RemainingResponse response = remainingFacade.getListAllRemaining();
+        RemainingResponse response = remainingFacade.getAllRemaining();
         LOGGER.info(String.format("Запрос на получение всех остатков выполнен успешно. Количество: %d.", response.getRemaining().size()));
         return ResponseEntity.ok(response);
     }

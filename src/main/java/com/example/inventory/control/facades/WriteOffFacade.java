@@ -13,7 +13,7 @@ public interface WriteOffFacade {
     /**
      * Получить все списания.
      */
-    WriteOffsResponse getListAllWriteOff();
+    WriteOffsResponse getAllWriteOff();
 
     /**
      * Получить списание по идентификатору.

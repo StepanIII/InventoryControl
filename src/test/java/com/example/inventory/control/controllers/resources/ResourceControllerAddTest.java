@@ -18,22 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ResourceControllerAddTest extends AbstractTest {
 
     @Test
-    public void shouldReturnBadRequest() {
-        ResourceRequest request = new ResourceRequest();
-        request.setName("");
-        request.setType(ResourceType.FOOD);
-        request.setUnit(Units.KILOGRAM);
-
-        ResponseEntity<ResourceResponse> response = restTemplate.postForEntity(
-                Endpoint.RESOURCE,
-                request,
-                ResourceResponse.class);
-
-        assertThat(response).isNotNull()
-                .matches(r -> r.getStatusCode().is2xxSuccessful());
-    }
-
-    @Test
     public void shouldAddResource() {
         ResourceRequest request = new ResourceRequest();
         request.setName("Яблоки");

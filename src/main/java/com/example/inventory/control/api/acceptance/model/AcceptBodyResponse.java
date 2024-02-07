@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 /**
  * DTO для сущности "Приемка".
  */
-public class AcceptDto {
+public class AcceptBodyResponse {
 
     /**
      * Идентификатор.

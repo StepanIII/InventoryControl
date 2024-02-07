@@ -26,7 +26,7 @@ public class BenefactorController {
     @GetMapping
     public ResponseEntity<BenefactorsResponse> getAllBenefactors() {
         LOGGER.info("Запрос на получение всех благодетелей.");
-        BenefactorsResponse response = benefactorFacade.getListAllBenefactors();
+        BenefactorsResponse response = benefactorFacade.getAllBenefactors();
         LOGGER.info(String.format("Запрос на получение всех благодетелей выполнен успешно. Количество: %d.", response.getBenefactors().size()));
         return ResponseEntity.ok(response);
     }

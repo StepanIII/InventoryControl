@@ -26,7 +26,7 @@ public class WarehouseController {
     @GetMapping
     public ResponseEntity<WarehousesResponse> getAllWarehouses() {
         LOGGER.info("Запрос на получение всех мест хранения.");
-        WarehousesResponse response = warehouseFacade.getListAllWarehouses();
+        WarehousesResponse response = warehouseFacade.getAllWarehouses();
         LOGGER.info(String.format("Запрос на получение всех мест хранения выполнен успешно. Количество: %d.", response.getWarehouses().size()));
         return ResponseEntity.ok(response);
     }

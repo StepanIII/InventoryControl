@@ -63,10 +63,11 @@ public final class ResourceFacadeImpl implements ResourceFacade {
                 .updateName(request.getName())
                 .updateType(request.getType())
                 .updateUnits(request.getUnit());
-        resourceService.save(resource);
+        Resource updatedResource = resourceService.save(resource);
         ResourceResponse response = new ResourceResponse();
         response.setStatus(StatusResponse.SUCCESS);
         response.setDescription(String.format("Обновление ресурса выполнено успешно 'id: %d'.", id));
+        response.setResource(resourceMapper.toDto(updatedResource));
         return response;
     }
 

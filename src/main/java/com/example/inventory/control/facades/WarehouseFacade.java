@@ -10,6 +10,6 @@ public interface WarehouseFacade {
     /**
      * Получить все места хранения.
      */
-    WarehousesResponse getListAllWarehouses();
+    WarehousesResponse getAllWarehouses();
 
 }
