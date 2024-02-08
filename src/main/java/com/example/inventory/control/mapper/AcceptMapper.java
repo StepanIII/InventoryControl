@@ -3,6 +3,8 @@ package com.example.inventory.control.mapper;
 import com.example.inventory.control.api.acceptance.model.AcceptResourcesBody;
 import com.example.inventory.control.api.acceptance.model.ResourceCountBody;
 import com.example.inventory.control.api.acceptance.model.AcceptBodyResponse;
+import com.example.inventory.control.domain.models.Benefactor;
+import com.example.inventory.control.domain.models.Warehouse;
 import com.example.inventory.control.entities.AcceptResourceCountEntity;
 import com.example.inventory.control.entities.AcceptanceEntity;
 import com.example.inventory.control.domain.models.Accept;
@@ -88,11 +90,14 @@ public abstract class AcceptMapper {
      * @return
      */
     public AcceptResourcesBody toResponse(Accept domainModel) {
+        Benefactor benefactor = domainModel.getBenefactor();
+        Warehouse warehouse = domainModel.getWarehouse();
+
         AcceptResourcesBody response = new AcceptResourcesBody();
         response.setId(domainModel.id().orElseThrow());
         response.setCreatedTime(domainModel.getCreatedTime());
-        response.setBenefactor(benefactorMapper.toBodyResponse(domainModel.getBenefactor()));
-        response.setWarehouse(warehouseMapper.toBodyResponse(domainModel.getWarehouse()));
+        response.setBenefactorFio(benefactor.getFio());
+        response.setWarehouseName(warehouse.getName());
 
         List<ResourceCountBody> resourceCountsResponse = domainModel.getResources().stream()
                 .map(resourceCountMapper::toResponse)

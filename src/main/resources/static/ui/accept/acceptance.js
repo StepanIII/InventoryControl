@@ -9,14 +9,10 @@ getData(ACCEPT_URL).then(response => {
     let tBody = document.querySelector('#acceptance_table tbody')
     response.acceptance.forEach(accept => {
         let tr = createTr([accept.id, accept.createdTime, accept.warehouseName, accept.benefactorFio])
-        // tr.addEventListener('click', handleEditAcceptanceTr)
+        tr.onclick = () => {
+            localStorage.setItem('accept_id', accept.id)
+            window.location.replace(UI_ACCEPT_SHOW_URL)
+        }
         tBody.appendChild(tr)
     })
 })
-
-function handleEditAcceptanceTr(e) {
-    let selectedEditAcceptance = e.currentTarget
-    let tdId = selectedEditAcceptance.childNodes[0]
-    localStorage.setItem('accept_id', tdId.textContent)
-    window.location.replace(UI_ACCEPT_EDIT_URL)
-}

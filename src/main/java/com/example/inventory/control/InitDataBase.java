@@ -47,6 +47,7 @@ public class InitDataBase {
         ResourceEntity resource3 = createResource("Ботинки", ResourceType.CLOTHING, Units.PAIR);
         ResourceEntity resource4 = createResource("Апельсины", ResourceType.FOOD, Units.KILOGRAM);
 
+        createBenefactorEntity("-", "-", "-");
         BenefactorEntity benefactor1 = createBenefactorEntity("Иванов", "Иван", "Иванович");
         BenefactorEntity benefactor2 = createBenefactorEntity("Петров", "Петр", "Петрович");
         BenefactorEntity benefactor3 = createBenefactorEntity("Бильбо", "Беггинс", null);

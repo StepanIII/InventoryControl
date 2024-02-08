@@ -21,7 +21,7 @@ function handleResourcesBtn() {
 }
 
 function handleAcceptanceBtn() {
-    window.location.replace(UI_ACCEPTANCE_ALL_URL)
+    window.location.replace(UI_ACCEPT_ALL_URL)
 }
 
 function handleWriteOffBtn() {

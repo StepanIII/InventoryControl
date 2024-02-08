@@ -53,6 +53,8 @@ public class AcceptControllerGetByIdTest extends AbstractTest {
                 AcceptResourcesResponse.class,
                 accept.getId());
 
+        String expectedFio = benefactor.getLastName() + " " + benefactor.getFirstName() + " " + benefactor.getMiddleName();
+
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
@@ -61,8 +63,8 @@ public class AcceptControllerGetByIdTest extends AbstractTest {
         assertThat(responseEntity.getBody().getAccept()).isNotNull()
                 .matches(a -> a.getId().equals(accept.getId()))
                 .matches(a -> a.getResources().size() == accept.getResourceCounts().size()) // Сверить ресурсы
-                .matches(a -> a.getBenefactor().getId().equals(benefactor.getId()))
-                .matches(a -> a.getWarehouse().getId().equals(warehouse.getId()));
+                .matches(a -> a.getBenefactorFio().equals(expectedFio))
+                .matches(a -> a.getWarehouseName().equals(warehouse.getName()));
     }
 
 

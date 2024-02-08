@@ -1,171 +1,125 @@
-let acceptId = localStorage.getItem('accept_id');
-if (acceptId !== null) {
-    getData(ACCEPT_URL + "/" + acceptId).then(response => {
-        let benefactor = response.benefactor
-        let warehouse = response.warehouse
-        let addedResources = response.resources
-
-        let selectedBenefactor = getElement('selected_benefactor')
-        selectedBenefactor.textContent = benefactor.fio
-        selectedBenefactor.hidden = false
-
-        let selectedBenefactorId = getElement('selected_benefactor_id')
-        selectedBenefactorId.textContent = benefactor.id
-
-        let selectedWarehouse = getElement('selected_warehouse')
-        selectedWarehouse.textContent = warehouse.name
-        selectedWarehouse.hidden = false
-
-        let selectedWarehouseId = getElement('selected_warehouse_id')
-        selectedWarehouseId.textContent = warehouse.id
-
-        let selectedResourceTableBody = document.querySelector('#selected_resource_table tbody')
-        addedResources.forEach(r => {
-            selectedResourceTableBody.appendChild(createTr([r.id, r.name, r.count, createDeleteAcceptResourceBtn()]))
-        })
-    })
-    localStorage.removeItem('accept_id')
-}
 
 function handleBenefactorSelect() {
     getData(BENEFACTORS_URL).then(response => {
         console.log(response)
 
+        let openListBenefactorBtn = getElement('open_list_benefactor_btn')
         let table = getElement('benefactor_table');
-        let tBody = createElement('tBody')
+        let tBody = document.querySelector('#benefactor_table tbody')
 
         response.benefactors.forEach(benefactor => {
             let tr = createTr([benefactor.id, benefactor.fio])
             tr.onclick = () => {
                 getElement('selected_benefactor').textContent = benefactor.fio
                 getElement('selected_benefactor_id').textContent = benefactor.id
-                tBody.remove()
+
+                clearTBody(tBody)
                 table.hidden = true
+                openListBenefactorBtn.disabled = false
             }
             tBody.appendChild(tr)
         })
 
-        table.appendChild(tBody)
         table.hidden = false
+        openListBenefactorBtn.disabled = true
     })
 }
-
-function createDeleteAcceptResourceBtn() {
-    let btn = createBtn('Удалить', '')
-    btn.onclick = (e) => {
-        let tr = e.currentTarget.parentNode.parentNode
-        tr.remove()
-    }
-    return btn
-}
-
-
 
 function handleWarehouseSelect() {
-    getData(WAREHOUSES_URL).then((response) => {
-        let tBody = document.querySelector('#warehouse_table_select tbody')
-        removeChildNodes(tBody)
-        let trHeader = createTr(['Код', 'Наименование'])
-        tBody.appendChild(trHeader)
+    getData(WAREHOUSES_URL).then(response => {
+        console.log(response)
 
-        let warehouses = response.warehouses
-        console.log(warehouses)
-        warehouses.forEach((warehouse) => {
+        let openListWarehouseBtn = getElement('open_list_warehouse_btn')
+        let table = getElement('warehouse_table');
+        let tBody = document.querySelector('#warehouse_table tbody')
+
+        response.warehouses.forEach(warehouse => {
             let tr = createTr([warehouse.id, warehouse.name])
-            tr.addEventListener('click', handleSelectWarehouseTr)
+            tr.onclick = () => {
+                getElement('selected_warehouse').textContent = warehouse.name
+                getElement('selected_warehouse_id').textContent = warehouse.id
+                clearTBody(tBody)
+                table.hidden = true
+                openListWarehouseBtn.disabled = false
+            }
             tBody.appendChild(tr)
         })
-    })
-    getElement('warehouse_block').hidden = false
-}
 
-function handleSelectWarehouseTr(e) {
-    let tr = e.currentTarget
-    let id = tr.childNodes[0].textContent
-    let name = tr.childNodes[1].textContent
-    let pName = getElement('selected_warehouse')
-    getElement('selected_warehouse_id').textContent = id
-    pName.textContent = name
-    pName.hidden = false
-    getElement('warehouse_block').hidden = true
+        table.hidden = false
+        openListWarehouseBtn.disabled = true
+    })
 }
 
 function handleResourceSelect() {
-    getData(RESOURCE_URL).then((response) => {
-        let tBody = document.querySelector('#resources_table_select tbody')
-        removeChildNodes(tBody)
-        let trHeader = createTr(['Код', 'Наименование', 'Количество'])
-        tBody.appendChild(trHeader)
+    getData(RESOURCE_URL).then(response => {
+        console.log(response)
 
-        let resources = response.resources
-        resources.forEach((resource) => {
-            let tr = createTr([resource.id, resource.name, createElement('input')])
+        let tBody = document.querySelector('#resources_table tbody')
+        response.resources.forEach(resource => {
+            let tr = createTr([resource.id, resource.name, createInput('number', 0)])
             tBody.appendChild(tr)
         })
+
+        getElement('select_resources_block').hidden = false
+        getElement('open_list_resources_btn').disabled = true
     })
-    getElement('select_resources_block').hidden = false
 }
 
 function handleSelectResourceBtn() {
-    let resourcesTableSelectBody = document.querySelector('#resources_table_select tbody')
-    let selectedResourceTableBody = document.querySelector('#selected_resource_table tbody')
+    let resourcesTBody = document.querySelector('#resources_table tbody')
+    let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
+    clearTBody(selectedResourcesTBody)
 
-    let selectTrs = resourcesTableSelectBody.childNodes
+    let trs = resourcesTBody.childNodes
+    trs.forEach(tr => {
+        let tds = tr.childNodes
 
-    for (let i = 1; i < selectTrs.length; i++) {
-        let selectTr = selectTrs[i]
-        let selectTds = selectTr.childNodes
+        let code = tds[0].textContent
+        let name = tds[1].textContent
+        let count = tds[2].firstChild.value
 
-        let selectCount = selectTds[2].firstChild.value
-        let selectCode = selectTds[0].textContent
-        let selectName = selectTds[1].textContent
-
-        if (selectCount !== null && selectCount > 0) {
-            let selectedTr = null
-            let selectedTds = selectedResourceTableBody.childNodes
-            for (let i = 1; i < selectedTds.length; i++) {
-                let tr = selectedTds[i]
-                let tds = tr.childNodes
-                let tdCodeValue = tds[0].textContent
-                if (tdCodeValue === selectCode) {
-                    selectedTr = tr
-                    break
-                }
+        if (count !== null && count > 0) {
+            let btn = createBtn('Удалить', null)
+            btn.onclick = (e) => {
+                let tr = e.currentTarget.parentNode.parentNode
+                tr.remove()
             }
-
-            if (selectedTr !== null) {
-                selectedTr.childNodes[2].textContent = (Number(selectedTr.childNodes[2].textContent) + Number(selectCount)).toString()
-            } else {
-                selectedResourceTableBody.appendChild(createTr([selectCode, selectName, selectCount, createDeleteAcceptResourceBtn()]))
-            }
+            let tr = createTr([code, name, count, btn])
+            selectedResourcesTBody.appendChild(tr)
         }
-    }
+    })
+
+    clearTBody(resourcesTBody)
     getElement('select_resources_block').hidden = true
+    getElement('open_list_resources_btn').disabled = false
 }
 
 function handleSaveAcceptanceBtn() {
     let benefactorId = Number(getElement('selected_benefactor_id').textContent)
     let warehouseId = Number(getElement('selected_warehouse_id').textContent)
+
     let selectedResourceTbody = document.querySelector('#selected_resource_table tbody')
-    let trs = selectedResourceTbody.childNodes
     let resourcesRequest = []
-    for (let i = 1; i < trs.length; i++) {
-        let resourceId = trs[i].childNodes[0].textContent
-        let count = trs[i].childNodes[2].textContent
+
+    let trs = selectedResourceTbody.childNodes
+    trs.forEach(tr => {
+        let resourceId = tr.childNodes[0].textContent
+        let count = tr.childNodes[2].textContent
         let resourceReq = {
             resourceId: resourceId,
             count: count
         }
         resourcesRequest.push(resourceReq)
-    }
-    let acceptRequest = {
+    })
+
+    let request = {
         benefactorId: benefactorId,
         warehouseId: warehouseId,
         resources: resourcesRequest
     }
-    if (acceptId !== null) {
-        putData(ACCEPT_URL + "/" + acceptId, acceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
-    } else {
-        postData(ACCEPT_URL, acceptRequest).then(window.location.replace(UI_ACCEPTANCE_ALL_URL))
-    }
+
+    postData(ACCEPT_URL, request).then(response => {
+        console.log(response)
+        window.location.replace(UI_ACCEPT_ALL_URL)
+    })
 }

@@ -23,6 +23,11 @@ public class UiController {
         return "acceptance-edit.html";
     }
 
+    @GetMapping("/accept/show")
+    public String acceptShow() {
+        return "accept-show.html";
+    }
+
     @GetMapping("/remain/all")
     public String remaining() {
         return "remaining.html";

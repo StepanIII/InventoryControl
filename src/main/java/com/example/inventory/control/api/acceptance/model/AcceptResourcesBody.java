@@ -1,7 +1,6 @@
 package com.example.inventory.control.api.acceptance.model;
 
-import com.example.inventory.control.api.benefactor.model.BenefactorBody;
-import com.example.inventory.control.api.warehouse.model.WarehouseBody;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,17 +18,18 @@ public class AcceptResourcesBody {
     /**
      * Время создания.
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 
     /**
-     * Место хранения.
+     * Имя места хранения.
      */
-    private WarehouseBody warehouse;
+    private String warehouseName;
 
     /**
-     * Благодетель.
+     * Благодетель ФИО.
      */
-    private BenefactorBody benefactor;
+    private String benefactorFio;
 
     /**
      * Добавленные ресурсы.
@@ -52,20 +52,20 @@ public class AcceptResourcesBody {
         this.createdTime = createdTime;
     }
 
-    public WarehouseBody getWarehouse() {
-        return warehouse;
+    public String getWarehouseName() {
+        return warehouseName;
     }
 
-    public void setWarehouse(WarehouseBody warehouse) {
-        this.warehouse = warehouse;
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
     }
 
-    public BenefactorBody getBenefactor() {
-        return benefactor;
+    public String getBenefactorFio() {
+        return benefactorFio;
     }
 
-    public void setBenefactor(BenefactorBody benefactor) {
-        this.benefactor = benefactor;
+    public void setBenefactorFio(String benefactorFio) {
+        this.benefactorFio = benefactorFio;
     }
 
     public List<ResourceCountBody> getResources() {

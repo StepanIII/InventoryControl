@@ -8,6 +8,13 @@ const createElement = (name) => {
     return document.createElement(name)
 }
 
+const createInput = (type, min) => {
+    let input = document.createElement('input')
+    input.type = type
+    input.min = min
+    return input
+}
+
 const createElementWithId = (name, id) => {
     let element = createElement(name)
     element.id = id
@@ -61,6 +68,12 @@ const clearTable = (tBody) => {
         if (tr.id !== 'table_header') {
             tr.remove()
         }
+    }
+}
+
+const clearTBody = (tBody) => {
+    while (tBody.hasChildNodes()) {
+        tBody.firstChild.remove()
     }
 }
 

@@ -6,38 +6,48 @@
 </head>
 <body>
 
-<p>Благодетель:</p><p id="selected_benefactor"></p><p id="selected_benefactor_id" hidden></p>
-<button onclick="handleBenefactorSelect()">Выбрать из справочника</button>
-<!--<div id="benefactor_block" hidden>-->
-    <table id="benefactor_table" hidden>
-        <tr><td>Код</td><td>ФИО</td></tr>
-    </table>
-<!--</div>-->
+<!--Выбор благодетеля-->
+<label for="selected_benefactor">Благодетель:</label>
+<span id="selected_benefactor"></span>
+<span id="selected_benefactor_id" hidden></span>
 <br>
+<button id="open_list_benefactor_btn" onclick="handleBenefactorSelect()">Выбрать из справочника</button>
+<table id="benefactor_table" hidden>
+    <thead><tr><td>Код</td><td>ФИО</td></tr></thead>
+    <tbody></tbody>
+</table>
+<br><br>
 
+<!--Выбор места хранения-->
+<label for="selected_warehouse">Место хранения:</label>
+<span id="selected_warehouse"></span>
+<span id="selected_warehouse_id" hidden></span>
 <br>
-<p>Место хранения:</p><p id="selected_warehouse" hidden></p><p id="selected_warehouse_id" hidden></p>
-<button onclick="handleWarehouseSelect()">Выбрать из справочника</button>
-<div id="warehouse_block" hidden>
-    <table id="warehouse_table_select">
-        <tbody><tr><td>Код</td><td>Наименование</td></tr></tbody>
-    </table>
-</div>
-<br>
+<button id="open_list_warehouse_btn" onclick="handleWarehouseSelect()">Выбрать из справочника</button>
+<table id="warehouse_table" hidden>
+    <thead><tr><td>Код</td><td>Наименование</td></tr></thead>
+    <tbody></tbody>
+</table>
+<br><br>
 
-<br>
-<button onclick="handleResourceSelect()">Выбрать ресурсы из справочника</button>
+<!--Выбор ресурсов-->
+<button id="open_list_resources_btn" onclick="handleResourceSelect()">Выбрать ресурсы из справочника</button>
 <div id="select_resources_block" hidden>
-    <table id="resources_table_select">
-        <tbody><tr><td>Код</td><td>Наименование</td><td>Количество</td></tr></tbody>
+    <table id="resources_table">
+        <thead><tr><td>Код</td><td>Наименование</td><td>Количество</td></tr></thead>
+        <tbody></tbody>
     </table>
-    <button id="select_resource_btn" onclick="handleSelectResourceBtn()">Выбрать</button>
+    <button onclick="handleSelectResourceBtn()">Выбрать</button>
 </div>
-<br>
+
+<!--Выбранные ресурсы-->
+<br><br>
 <table id="selected_resource_table">
-    <tbody><tr><td>Код</td><td>Наименование</td><td>Количество</td><td>Операция</td></tr></tbody>
+    <thead><tr><td>Код</td><td>Наименование</td><td>Количество</td><td>Операция</td></tr></thead>
+    <tbody></tbody>
 </table>
 <br>
+
 <button id="save_acceptance_btn" onclick="handleSaveAcceptanceBtn()">Сохранить</button>
 
 <script src="/utils.js"></script>
