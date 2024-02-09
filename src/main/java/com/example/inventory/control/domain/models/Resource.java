@@ -1,7 +1,7 @@
 package com.example.inventory.control.domain.models;
 
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
+import com.example.inventory.control.enums.Unit;
 import com.example.inventory.control.utils.CheckParamUtil;
 
 import java.util.Optional;
@@ -29,9 +29,9 @@ public final class Resource {
     /**
      * Еденица измерения.
      */
-    private final Units unit;
+    private final Unit unit;
 
-    private Resource(Long id, String name, ResourceType resourceType, Units unit) {
+    private Resource(Long id, String name, ResourceType resourceType, Unit unit) {
         CheckParamUtil.isNotBlank("name", name);
         CheckParamUtil.isNotNull("resourceType", resourceType);
         CheckParamUtil.isNotNull("unit", unit);
@@ -50,7 +50,7 @@ public final class Resource {
 
         private ResourceType resourceType;
 
-        private Units units;
+        private Unit unit;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -67,18 +67,18 @@ public final class Resource {
             return this;
         }
 
-        public Builder setUnits(Units units) {
-            this.units = units;
+        public Builder setUnits(Unit unit) {
+            this.unit = unit;
             return this;
         }
 
         public Resource build() {
-            return new Resource(id, name, resourceType, units);
+            return new Resource(id, name, resourceType, unit);
         }
     }
 
-    public static Resource create(String name, ResourceType resourceType, Units units) {
-        return new Resource(null, name, resourceType, units);
+    public static Resource create(String name, ResourceType resourceType, Unit unit) {
+        return new Resource(null, name, resourceType, unit);
     }
 
     public Resource updateName(String name) {
@@ -89,8 +89,8 @@ public final class Resource {
         return new Resource(id, name, type, unit);
     }
 
-    public Resource updateUnits(Units units) {
-        return new Resource(id, name, type, units);
+    public Resource updateUnits(Unit unit) {
+        return new Resource(id, name, type, unit);
     }
 
     public Optional<Long> id() {
@@ -105,7 +105,7 @@ public final class Resource {
         return type;
     }
 
-    public Units getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 

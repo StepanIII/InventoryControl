@@ -1,15 +1,15 @@
 package com.example.inventory.control.facades;
 
-import com.example.inventory.control.api.remaining.RemainingResponse;
+import com.example.inventory.control.api.remain.RemainingResponseBody;
 
 /**
- * Фасад для работы с остатками.
+ * Фасад для работы с остатками ресурсов.
  */
 public interface RemainingFacade {
 
     /**
-     * Получить все остатки.
+     * Получить все остатки ресурсов.
      */
-    RemainingResponse getAllRemaining();
+    RemainingResponseBody getAllRemaining();
 
 }

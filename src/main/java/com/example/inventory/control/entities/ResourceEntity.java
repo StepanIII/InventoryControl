@@ -1,7 +1,7 @@
 package com.example.inventory.control.entities;
 
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
+import com.example.inventory.control.enums.Unit;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,8 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import java.util.Objects;
 // Добавить размер
 /**
  * Сущность таблицы "RESOURCES" (Ресурсы).
@@ -46,12 +44,12 @@ public class ResourceEntity {
      */
     @Column(name = "UNIT", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Units unit;
+    private Unit unit;
 
     public ResourceEntity() {
     }
 
-    public ResourceEntity(Long id, String name, ResourceType resourceType, Units unit) {
+    public ResourceEntity(Long id, String name, ResourceType resourceType, Unit unit) {
         this.id = id;
         this.name = name;
         this.type = resourceType;
@@ -78,11 +76,11 @@ public class ResourceEntity {
         this.type = type;
     }
 
-    public Units getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 
-    public void setUnit(Units unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 }

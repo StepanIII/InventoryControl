@@ -2,13 +2,9 @@ package com.example.inventory.control.controllers.resources;
 
 import com.example.inventory.control.AbstractTest;
 import com.example.inventory.control.api.StatusResponse;
-import com.example.inventory.control.api.resources.ResourceTypesResponse;
-import com.example.inventory.control.api.resources.ResourcesResponse;
-import com.example.inventory.control.api.resources.model.ResourceDto;
-import com.example.inventory.control.entities.ResourceEntity;
+import com.example.inventory.control.api.resources.ResourceTypesResponseBody;
 import com.example.inventory.control.enums.Endpoint;
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
@@ -21,9 +17,9 @@ public class ResourceControllerGetTypesTest extends AbstractTest {
 
     @Test
     public void shouldReturnResourceTypes() {
-        ResponseEntity<ResourceTypesResponse> responseEntity = restTemplate.getForEntity(
+        ResponseEntity<ResourceTypesResponseBody> responseEntity = restTemplate.getForEntity(
                 Endpoint.RESOURCE + "/types",
-                ResourceTypesResponse.class);
+                ResourceTypesResponseBody.class);
 
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());

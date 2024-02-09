@@ -1,7 +1,7 @@
 package com.example.inventory.control.api.resources.model;
 
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
+import com.example.inventory.control.enums.Unit;
 
 // Переделать DTO на Response или создать две модели DTO и Response
 /**
@@ -27,7 +27,7 @@ public class ResourceDto {
     /**
      * Еденица измерения.
      */
-    private Units unit;
+    private Unit unit;
 
     public Long getId() {
         return id;
@@ -53,11 +53,11 @@ public class ResourceDto {
         this.type = type;
     }
 
-    public Units getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 
-    public void setUnit(Units unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 }

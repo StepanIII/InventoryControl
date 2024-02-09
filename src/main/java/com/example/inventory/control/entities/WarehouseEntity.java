@@ -37,8 +37,8 @@ public class WarehouseEntity {
     /**
      * Хранимые ресурсы.
      */
-    @OneToMany(mappedBy = "warehouse",fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
-    private Set<RemainingEntity> resourceCounts = new HashSet<>(); // переделать на set для сохранения уникальности
+    @OneToMany(mappedBy = "warehouse",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RemainingEntity> resourceCounts = new HashSet<>();
 
 
     public Long getId() {

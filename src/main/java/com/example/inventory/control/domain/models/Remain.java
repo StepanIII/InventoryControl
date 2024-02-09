@@ -1,5 +1,7 @@
 package com.example.inventory.control.domain.models;
 
+import com.example.inventory.control.enums.Unit;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -14,18 +16,21 @@ public class Remain {
 
     private final Integer count;
 
+    private final Unit unit;
+
     private final String warehouseName;
 
-    public Remain(Long id, Long resourceId, String resourceName, Integer count, String warehouseName) {
+    public Remain(Long id, Long resourceId, String resourceName, Integer count, Unit unit, String warehouseName) {
         this.id = id;
         this.resourceId = resourceId;
         this.resourceName = resourceName;
         this.count = count;
+        this.unit = unit;
         this.warehouseName = warehouseName;
     }
 
     public static Remain create(Long resourceId, Integer count, String warehouseName) {
-        return new Remain(null, resourceId, null, count, warehouseName);
+        return new Remain(null, resourceId, null, count, null, warehouseName);
     }
 
     public Optional<Long> id() {
@@ -44,12 +49,16 @@ public class Remain {
         return count;
     }
 
+    public Unit getUnit() {
+        return unit;
+    }
+
     public String getWarehouseName() {
         return warehouseName;
     }
 
     public Remain updateCount(int count) {
-        return new Remain(id, resourceId, resourceName, count, warehouseName);
+        return new Remain(id, resourceId, resourceName, count, unit, warehouseName);
     }
 
     @Override

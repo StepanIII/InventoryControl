@@ -56,7 +56,7 @@ function handleResourceSelect() {
 
         let tBody = document.querySelector('#resources_table tbody')
         response.resources.forEach(resource => {
-            let tr = createTr([resource.id, resource.name, createInput('number', 0)])
+            let tr = createTr([resource.id, resource.name, createInput('number', 0, null)])
             tBody.appendChild(tr)
         })
 
@@ -95,8 +95,8 @@ function handleSelectResourceBtn() {
 }
 
 function handleSaveAcceptanceBtn() {
-    let benefactorId = Number(getElement('selected_benefactor_id').textContent)
-    let warehouseId = Number(getElement('selected_warehouse_id').textContent)
+    let benefactorId = getElement('selected_benefactor_id').textContent
+    let warehouseId = getElement('selected_warehouse_id').textContent
 
     let selectedResourceTbody = document.querySelector('#selected_resource_table tbody')
     let resourcesRequest = []
@@ -120,6 +120,11 @@ function handleSaveAcceptanceBtn() {
 
     postData(ACCEPT_URL, request).then(response => {
         console.log(response)
-        window.location.replace(UI_ACCEPT_ALL_URL)
+
+        if (response.status !== SUCCESS) {
+            getElement('error_desc').textContent = response.errorDescription
+        } else {
+            window.location.replace(UI_ACCEPT_ALL_URL)
+        }
     })
 }

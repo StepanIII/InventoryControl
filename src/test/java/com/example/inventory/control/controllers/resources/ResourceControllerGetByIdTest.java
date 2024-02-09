@@ -2,16 +2,13 @@ package com.example.inventory.control.controllers.resources;
 
 import com.example.inventory.control.AbstractTest;
 import com.example.inventory.control.api.StatusResponse;
-import com.example.inventory.control.api.resources.ResourceRequest;
-import com.example.inventory.control.api.resources.ResourceResponse;
+import com.example.inventory.control.api.resources.ResourceResponseBody;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.enums.Endpoint;
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
+import com.example.inventory.control.enums.Unit;
 import com.example.inventory.control.utils.TestUtils;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,9 +19,9 @@ public class ResourceControllerGetByIdTest extends AbstractTest {
     public void shouldReturnResourceNoFound() {
         Long id = TestUtils.generatedRandomId();
 
-        ResponseEntity<ResourceResponse> response = restTemplate.getForEntity(
+        ResponseEntity<ResourceResponseBody> response = restTemplate.getForEntity(
                 Endpoint.RESOURCE + "/{id}",
-                ResourceResponse.class,
+                ResourceResponseBody.class,
                 id);
 
         assertThat(response).isNotNull()
@@ -36,11 +33,11 @@ public class ResourceControllerGetByIdTest extends AbstractTest {
 
     @Test
     public void shouldGetResourceById() {
-        ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Units.KILOGRAM);
+        ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
 
-        ResponseEntity<ResourceResponse> response = restTemplate.getForEntity(
+        ResponseEntity<ResourceResponseBody> response = restTemplate.getForEntity(
                 Endpoint.RESOURCE + "/{id}",
-                ResourceResponse.class,
+                ResourceResponseBody.class,
                 resource.getId());
 
         assertThat(response).isNotNull()

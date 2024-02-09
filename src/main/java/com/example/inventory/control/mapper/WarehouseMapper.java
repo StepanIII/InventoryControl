@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public abstract class WarehouseMapper {
 
     @Autowired
-    private RemainingMapper remainingMapper;
+    private RemainMapper remainMapper;
 
     /**
      * Преобразовать в сущность.
@@ -31,7 +31,7 @@ public abstract class WarehouseMapper {
         entity.setName(domainModel.getName());
 
         Set<RemainingEntity> remainingEntities = domainModel.getRemains().stream()
-                .map(remainingMapper::toEntity)
+                .map(remainMapper::toEntity)
                 .collect(Collectors.toSet());
 
         entity.getResourceCounts().clear();
@@ -46,7 +46,7 @@ public abstract class WarehouseMapper {
      * @return доменная модель
      */
     public Warehouse toDomain(WarehouseEntity entity) {
-        return new Warehouse(entity.getId(), entity.getName(), entity.getResourceCounts().stream().map(remainingMapper::toDomain).collect(Collectors.toSet()));
+        return new Warehouse(entity.getId(), entity.getName(), entity.getResourceCounts().stream().map(remainMapper::toDomain).collect(Collectors.toSet()));
     }
 
     /**

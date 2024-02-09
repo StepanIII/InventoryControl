@@ -1,16 +1,16 @@
 package com.example.inventory.control.facades.impl;
 
 import com.example.inventory.control.api.resources.ResourceRequest;
-import com.example.inventory.control.api.BaseResponse;
+import com.example.inventory.control.api.BaseResponseBody;
 import com.example.inventory.control.api.StatusResponse;
-import com.example.inventory.control.api.resources.ResourceTypesResponse;
-import com.example.inventory.control.api.resources.ResourceUnitsResponse;
+import com.example.inventory.control.api.resources.ResourceTypesResponseBody;
+import com.example.inventory.control.api.resources.ResourceUnitsResponseBody;
 import com.example.inventory.control.api.resources.model.ResourceDto;
-import com.example.inventory.control.api.resources.ResourceResponse;
-import com.example.inventory.control.api.resources.ResourcesResponse;
+import com.example.inventory.control.api.resources.ResourceResponseBody;
+import com.example.inventory.control.api.resources.ResourcesResponseBody;
 import com.example.inventory.control.domain.models.Resource;
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
+import com.example.inventory.control.enums.Unit;
 import com.example.inventory.control.facades.ResourceFacade;
 import com.example.inventory.control.mapper.ResourceMapper;
 import com.example.inventory.control.services.ResourceService;
@@ -32,11 +32,11 @@ public final class ResourceFacadeImpl implements ResourceFacade {
     }
 
     @Override
-    public ResourcesResponse getAllResources() {
+    public ResourcesResponseBody getAllResources() {
         List<ResourceDto> resources = resourceService.getListAllResources().stream()
                 .map(resourceMapper::toDto)
                 .toList();
-        ResourcesResponse response = new ResourcesResponse();
+        ResourcesResponseBody response = new ResourcesResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
         response.setDescription(String.format("Ресурсы получены успешно. Количество %d.", resources.size()));
         response.setResources(resources);
@@ -44,16 +44,16 @@ public final class ResourceFacadeImpl implements ResourceFacade {
     }
 
     @Override
-    public ResourceResponse getResourceById(Long id) {
+    public ResourceResponseBody getResourceById(Long id) {
         Optional<Resource> resourceCandidate = resourceService.findById(id);
         if (resourceCandidate.isEmpty()) {
-            ResourceResponse response = new ResourceResponse();
+            ResourceResponseBody response = new ResourceResponseBody();
             response.setStatus(StatusResponse.RESOURCE_NOT_FOUND);
             response.setDescription(String.format("Ресурс не найден 'id: %d'.", id));
             return response;
         }
         Resource resource = resourceCandidate.get();
-        ResourceResponse response = new ResourceResponse();
+        ResourceResponseBody response = new ResourceResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
         response.setDescription(String.format("Получение ресурса выполнено успешно 'id: %d'.", id));
         response.setResource(resourceMapper.toDto(resource));
@@ -61,10 +61,10 @@ public final class ResourceFacadeImpl implements ResourceFacade {
     }
 
     @Override
-    public ResourceResponse addResource(ResourceRequest request) {
+    public ResourceResponseBody addResource(ResourceRequest request) {
         Resource resource = Resource.create(request.getName(), request.getType(), request.getUnit());
         Resource savedResource = resourceService.save(resource);
-        ResourceResponse response = new ResourceResponse();
+        ResourceResponseBody response = new ResourceResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
         response.setDescription(String.format("Добавление ресурса выполнено успешно 'id: %d'.", savedResource.id().orElseThrow()));
         response.setResource(resourceMapper.toDto(savedResource));
@@ -72,10 +72,10 @@ public final class ResourceFacadeImpl implements ResourceFacade {
     }
 
     @Override
-    public ResourceResponse updateResource(Long id, ResourceRequest request) {
+    public ResourceResponseBody updateResource(Long id, ResourceRequest request) {
         Optional<Resource> resourceCandidate = resourceService.findById(id);
         if (resourceCandidate.isEmpty()) {
-            ResourceResponse response = new ResourceResponse();
+            ResourceResponseBody response = new ResourceResponseBody();
             response.setStatus(StatusResponse.RESOURCE_NOT_FOUND);
             response.setDescription(String.format("Ресурс не найден 'id: %d'.", id));
             return response;
@@ -86,7 +86,7 @@ public final class ResourceFacadeImpl implements ResourceFacade {
                 .updateType(request.getType())
                 .updateUnits(request.getUnit());
         Resource updatedResource = resourceService.save(resource);
-        ResourceResponse response = new ResourceResponse();
+        ResourceResponseBody response = new ResourceResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
         response.setDescription(String.format("Обновление ресурса выполнено успешно 'id: %d'.", id));
         response.setResource(resourceMapper.toDto(updatedResource));
@@ -94,23 +94,23 @@ public final class ResourceFacadeImpl implements ResourceFacade {
     }
 
     @Override
-    public BaseResponse deleteResource(Long id) {
+    public BaseResponseBody deleteResource(Long id) {
         if (!resourceService.existsById(id)) {
-            BaseResponse response = new BaseResponse();
+            BaseResponseBody response = new BaseResponseBody();
             response.setStatus(StatusResponse.RESOURCE_NOT_FOUND);
             response.setDescription(String.format("Ресурс не найден 'id: %d'.", id));
             return response;
         }
         resourceService.deleteById(id);
-        BaseResponse response = new BaseResponse();
+        BaseResponseBody response = new BaseResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
         response.setDescription(String.format("Удаление ресурса выполенено успешно 'id: %d'.", id));
         return response;
     }
 
     @Override
-    public ResourceTypesResponse getAllResourceTypes() {
-        ResourceTypesResponse response = new ResourceTypesResponse();
+    public ResourceTypesResponseBody getAllResourceTypes() {
+        ResourceTypesResponseBody response = new ResourceTypesResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
         response.setDescription("Запрос на получение всех типов ресурсов выполнен успешно.");
         List<String> resourceTypes = Arrays.stream(ResourceType.values()).map(ResourceType::getValue).toList();
@@ -119,11 +119,11 @@ public final class ResourceFacadeImpl implements ResourceFacade {
     }
 
     @Override
-    public ResourceUnitsResponse getAllResourceUnits() {
-        ResourceUnitsResponse response = new ResourceUnitsResponse();
+    public ResourceUnitsResponseBody getAllResourceUnits() {
+        ResourceUnitsResponseBody response = new ResourceUnitsResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
         response.setDescription("Запрос на получение всех единиц измерения ресурсов выполнен успешно.");
-        List<String> resourceUnits = Arrays.stream(Units.values()).map(Units::getValue).toList();
+        List<String> resourceUnits = Arrays.stream(Unit.values()).map(Unit::getValue).toList();
         response.setResourceUnits(resourceUnits);
         return response;
     }

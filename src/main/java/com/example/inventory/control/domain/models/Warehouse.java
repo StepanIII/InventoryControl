@@ -1,5 +1,6 @@
 package com.example.inventory.control.domain.models;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -36,27 +37,36 @@ public final class Warehouse {
         return remains;
     }
 
-    public Warehouse addResources(List<AcceptResourceCount> newResources) {
-        for (AcceptResourceCount newResource : newResources) {
-            Optional<Remain> updatedRemainCandidate = remains.stream()
-                    .filter(r -> r.getResourceId().equals(newResource.getResourceId()))
-                    .findAny();
-            if (updatedRemainCandidate.isPresent()) {
-                Remain updatedRemain = updatedRemainCandidate.get();
-                updatedRemain.updateCount(updatedRemain.getCount() + newResource.getCount());
+    public Warehouse addRemaining(List<ResourceCount> resourceCounts) {
+        Set<Remain> newRemaining = new HashSet<>();
+        for (ResourceCount resourceCount : resourceCounts) {
+            Optional<Remain> remainCandidate = getRemainByResourceId(resourceCount.getResourceId());
+            if (remainCandidate.isPresent()) {
+                Remain updatedRemain = remainCandidate.get();
+                updatedRemain = updatedRemain.updateCount(updatedRemain.getCount() + resourceCount.getCount());
+                newRemaining.add(updatedRemain);
             } else {
-                Remain newRemain = Remain.create(newResource.getResourceId(), newResource.getCount(), name);
-                remains.add(newRemain);
+                Remain newRemain = Remain.create(resourceCount.getResourceId(), resourceCount.getCount(), name);
+                newRemaining.add(newRemain);
             }
         }
-        return this;
+        newRemaining.addAll(remains);
+        return new Warehouse(id, name, newRemaining);
     }
 
     public boolean hasAllResources(List<Long> checkedResourceIds) {
+        for (Long resourceId : checkedResourceIds) {
+            if (getRemainByResourceId(resourceId).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Optional<Remain> getRemainByResourceId(long resourceId) {
         return remains.stream()
-                .map(Remain::getResourceId)
-                .toList()
-                .containsAll(checkedResourceIds);
+                .filter(r -> r.getResourceId().equals(resourceId))
+                .findAny();
     }
 
     public boolean hasCountResources(long resourceId, int countResources) {
@@ -66,14 +76,18 @@ public final class Warehouse {
         return remain.getCount() >= countResources;
     }
 
-    public Warehouse writeOffResources(long resourceId, int countResources) {
-        Remain remain = remains.stream()
-                .filter(r -> r.getResourceId().equals(resourceId))
-                .findAny().orElseThrow();
-        remains.remove(remain);
-        remain = remain.updateCount(remain.getCount() - countResources);
-        remains.add(remain);
-        return this;
+    public Warehouse writeOffRemaining(List<ResourceCount> resourceCounts) {
+        Set<Remain> newRemaining = new HashSet<>();
+        for (ResourceCount resourceCount : resourceCounts) {
+            Optional<Remain> remainCandidate = getRemainByResourceId(resourceCount.getResourceId());
+            if (remainCandidate.isPresent()) {
+                Remain updatedRemain = remainCandidate.get();
+                updatedRemain = updatedRemain.updateCount(updatedRemain.getCount() - resourceCount.getCount());
+                newRemaining.add(updatedRemain);
+            }
+        }
+        newRemaining.addAll(remains);
+        return new Warehouse(id, name, newRemaining);
     }
 
 }

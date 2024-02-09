@@ -1,7 +1,7 @@
 package com.example.inventory.control.api.resources;
 
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
+import com.example.inventory.control.enums.Unit;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,7 +28,7 @@ public class ResourceRequest {
      * Еденица измерения.
      */
     @NotNull
-    private Units unit;
+    private Unit unit;
 
     public String getName() {
         return name;
@@ -46,11 +46,11 @@ public class ResourceRequest {
         this.type = type;
     }
 
-    public Units getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 
-    public void setUnit(Units unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 }

@@ -3,11 +3,11 @@ package com.example.inventory.control.controllers.resources;
 import com.example.inventory.control.AbstractTest;
 import com.example.inventory.control.api.StatusResponse;
 import com.example.inventory.control.api.resources.ResourceRequest;
-import com.example.inventory.control.api.resources.ResourceResponse;
+import com.example.inventory.control.api.resources.ResourceResponseBody;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.enums.Endpoint;
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
+import com.example.inventory.control.enums.Unit;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
@@ -22,12 +22,12 @@ public class ResourceControllerAddTest extends AbstractTest {
         ResourceRequest request = new ResourceRequest();
         request.setName("Яблоки");
         request.setType(ResourceType.FOOD);
-        request.setUnit(Units.KILOGRAM);
+        request.setUnit(Unit.KILOGRAM);
 
-        ResponseEntity<ResourceResponse> response = restTemplate.postForEntity(
+        ResponseEntity<ResourceResponseBody> response = restTemplate.postForEntity(
                 Endpoint.RESOURCE,
                 request,
-                ResourceResponse.class);
+                ResourceResponseBody.class);
 
         assertThat(response).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Выдача</title>
+</head>
+<body>
+<div id="header">
+    <div id="subheader_first">
+        <button type="button" id="resource_management_btn" onclick="handleResourceManagementBtn()">Управление ресурсами</button>
+    </div>
+    <br>
+    <div id="subheader_second"></div>
+</div>
+
+<div id="content">
+    <br>
+    <button type="button" id="add_issue_btn" onclick="handleAddIssueBtn()">Добавить</button>
+    <br>
+    <table id="issue_table">
+        <tr><td>№</td><td>Время создания</td><td>Откуда</td><td>Благополучатель</td></tr>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+<div id="footer">
+
+</div>
+
+<script src="/utils.js"></script>
+<script src="/url.js"></script>
+<script src="/rest-methods.js"></script>
+<script src="/index.js"></script>
+<script src="/ui/issue/issue.js"></script>
+
+</body>
+</html>

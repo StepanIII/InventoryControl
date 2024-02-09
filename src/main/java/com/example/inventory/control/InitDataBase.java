@@ -1,20 +1,19 @@
 package com.example.inventory.control;
 
-import com.example.inventory.control.entities.AcceptResourceCountEntity;
-import com.example.inventory.control.entities.AcceptanceEntity;
-import com.example.inventory.control.entities.BenefactorEntity;
+import com.example.inventory.control.entities.ResourceCountEntity;
+import com.example.inventory.control.entities.ResourceOperationEntity;
+import com.example.inventory.control.entities.ClientEntity;
 import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
-import com.example.inventory.control.entities.WriteOffEntity;
-import com.example.inventory.control.entities.WriteOffResourceCountEntity;
+import com.example.inventory.control.enums.ClientType;
+import com.example.inventory.control.enums.ResourceOperationType;
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
-import com.example.inventory.control.repositories.AcceptanceRepository;
-import com.example.inventory.control.repositories.BenefactorRepository;
+import com.example.inventory.control.enums.Unit;
+import com.example.inventory.control.repositories.ResourceOperationRepository;
+import com.example.inventory.control.repositories.ClientRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
-import com.example.inventory.control.repositories.WriteOffRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,75 +27,85 @@ public class InitDataBase {
     private ResourceRepository resourceRepository;
 
     @Autowired
-    private AcceptanceRepository acceptanceRepository;
+    private ResourceOperationRepository resourceOperationRepository;
 
     @Autowired
     private WarehouseRepository warehouseRepository;
 
     @Autowired
-    private BenefactorRepository benefactorRepository;
-
-    @Autowired
-    private WriteOffRepository writeOffRepository;
+    private ClientRepository clientRepository;
 
     @PostConstruct
     public void addData() {
 
-        ResourceEntity resource1 = createResource("Яблоки", ResourceType.FOOD, Units.KILOGRAM);
-        ResourceEntity resource2 = createResource("Пеленки", ResourceType.HYGIENE_PRODUCT, Units.THINGS);
-        ResourceEntity resource3 = createResource("Ботинки", ResourceType.CLOTHING, Units.PAIR);
-        ResourceEntity resource4 = createResource("Апельсины", ResourceType.FOOD, Units.KILOGRAM);
+        ResourceEntity resource1 = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
+        ResourceEntity resource2 = createResource("Пеленки", ResourceType.HYGIENE_PRODUCT, Unit.THINGS);
+        ResourceEntity resource3 = createResource("Ботинки", ResourceType.CLOTHING, Unit.PAIR);
+        ResourceEntity resource4 = createResource("Апельсины", ResourceType.FOOD, Unit.KILOGRAM);
 
-        createBenefactorEntity("-", "-", "-");
-        BenefactorEntity benefactor1 = createBenefactorEntity("Иванов", "Иван", "Иванович");
-        BenefactorEntity benefactor2 = createBenefactorEntity("Петров", "Петр", "Петрович");
-        BenefactorEntity benefactor3 = createBenefactorEntity("Бильбо", "Беггинс", null);
-        BenefactorEntity benefactor4 = createBenefactorEntity("Леголас", "Гринлиф", null);
+        createClientEntity(ClientType.ANONYMOUS,"АНОНИМ", "", "");
+        ClientEntity benefactor1 = createClientEntity(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor2 = createClientEntity(ClientType.BENEFACTOR,"Петров", "Петр", "Петрович");
+        ClientEntity benefactor3 = createClientEntity(ClientType.BENEFACTOR,"Бильбо", "Беггинс", null);
+        ClientEntity benefactor4 = createClientEntity(ClientType.BENEFACTOR,"Леголас", "Гринлиф", null);
+
+        ClientEntity beneficiary1 = createClientEntity(ClientType.BENEFICIARY,"Петров", "Петр", "Петрович");
+        ClientEntity beneficiary2 = createClientEntity(ClientType.BENEFICIARY,"Сидоров", "Иван", "Петрович");
+        ClientEntity beneficiary3 = createClientEntity(ClientType.BENEFICIARY,"Дубов", "Леонид", "Константинович");
 
         WarehouseEntity warehouse1 = createWarehouseEntity("Склад1");
         WarehouseEntity warehouse2 = createWarehouseEntity("Склад2");
         WarehouseEntity warehouse3 = createWarehouseEntity("Склад3");
 
-        List<AcceptResourceCountEntity> acceptResourceCount1 = List.of(createResourceCount(resource1, 5));
-        createAcceptanceEntity(warehouse1, benefactor1, acceptResourceCount1);
+        createRemainEntity(warehouse1, resource1, 100);
+
+        List<ResourceCountEntity> acceptResourceCount1 = List.of(createResourceCount(resource1, 5));
+        createResourceOperationEntity(ResourceOperationType.ACCEPT, warehouse1, benefactor1, acceptResourceCount1);
         addWarehouseResourceCounts(warehouse1, acceptResourceCount1);
 
-        List<AcceptResourceCountEntity> acceptResourceCount2 = List.of(createResourceCount(resource1, 6), createResourceCount(resource2, 3));
-        createAcceptanceEntity(warehouse1, benefactor2, acceptResourceCount2);
+        List<ResourceCountEntity> acceptResourceCount2 = List.of(createResourceCount(resource1, 6), createResourceCount(resource2, 3));
+        createResourceOperationEntity(ResourceOperationType.ACCEPT, warehouse1, benefactor2, acceptResourceCount2);
         addWarehouseResourceCounts(warehouse1, acceptResourceCount2);
 
-        List<AcceptResourceCountEntity> acceptResourceCount3 = List.of(createResourceCount(resource1, 2), createResourceCount(resource2, 5), createResourceCount(resource3, 5));
-        createAcceptanceEntity(warehouse2, benefactor2, acceptResourceCount3);
+        List<ResourceCountEntity> acceptResourceCount3 = List.of(createResourceCount(resource1, 2), createResourceCount(resource2, 5), createResourceCount(resource3, 5));
+        createResourceOperationEntity(ResourceOperationType.ACCEPT, warehouse2, benefactor2, acceptResourceCount3);
         addWarehouseResourceCounts(warehouse2, acceptResourceCount3);
 
-        List<WriteOffResourceCountEntity> writeOffResourceCount1 = List.of(createWriteOffResourceCount(resource1, 2), createWriteOffResourceCount(resource2, 1));
-        createWriteOffEntity(warehouse1, writeOffResourceCount1);
-        removeWarehouseResourceCounts(warehouse1, writeOffResourceCount1);
+        createResourceOperationEntity(
+                ResourceOperationType.ISSUE,
+                warehouse2,
+                beneficiary1,
+                List.of(createResourceCount(resource1, 2), createResourceCount(resource2, 2)));
 
-        List<WriteOffResourceCountEntity> writeOffResourceCount2 = List.of(createWriteOffResourceCount(resource1, 1), createWriteOffResourceCount(resource3, 1));
-        createWriteOffEntity(warehouse2, writeOffResourceCount2);
-        removeWarehouseResourceCounts(warehouse2, writeOffResourceCount2);
+        createResourceOperationEntity(
+                ResourceOperationType.ISSUE,
+                warehouse1,
+                beneficiary2,
+                List.of(createResourceCount(resource3, 1), createResourceCount(resource1, 3)));
+
     }
 
 
-    private ResourceEntity createResource(String name, ResourceType type, Units units) {
+    private ResourceEntity createResource(String name, ResourceType type, Unit unit) {
         ResourceEntity resourceEntity = new ResourceEntity();
         resourceEntity.setName(name);
         resourceEntity.setType(type);
-        resourceEntity.setUnit(units);
+        resourceEntity.setUnit(unit);
         return resourceRepository.save(resourceEntity);
     }
 
-    private AcceptanceEntity createAcceptanceEntity(WarehouseEntity warehouse, BenefactorEntity benefactor, List<AcceptResourceCountEntity> resourceCounts) {
-        AcceptanceEntity acceptanceEntity = new AcceptanceEntity();
-        acceptanceEntity.setWarehouse(warehouse);
-        acceptanceEntity.setBenefactor(benefactor);
-        acceptanceEntity = acceptanceRepository.save(acceptanceEntity);
-        for (AcceptResourceCountEntity acceptResourceCount : resourceCounts) {
-            acceptResourceCount.setAcceptance(acceptanceEntity);
+    private ResourceOperationEntity createResourceOperationEntity(ResourceOperationType type, WarehouseEntity warehouse,
+                                                                  ClientEntity benefactor, List<ResourceCountEntity> resourceCounts) {
+        ResourceOperationEntity resourceOperationEntity = new ResourceOperationEntity();
+        resourceOperationEntity.setType(type);
+        resourceOperationEntity.setWarehouse(warehouse);
+        resourceOperationEntity.setClient(benefactor);
+        resourceOperationEntity = resourceOperationRepository.save(resourceOperationEntity);
+        for (ResourceCountEntity acceptResourceCount : resourceCounts) {
+            acceptResourceCount.setOperation(resourceOperationEntity);
         }
-        acceptanceEntity.getResourceCounts().addAll(resourceCounts);
-        return acceptanceRepository.save(acceptanceEntity);
+        resourceOperationEntity.getResourceCounts().addAll(resourceCounts);
+        return resourceOperationRepository.save(resourceOperationEntity);
     }
 
     private WarehouseEntity createWarehouseEntity(String name) {
@@ -105,8 +114,8 @@ public class InitDataBase {
         return warehouseRepository.save(warehouseEntity);
     }
 
-    public void addWarehouseResourceCounts(WarehouseEntity warehouse, List<AcceptResourceCountEntity> resourceCounts) {
-        for (AcceptResourceCountEntity acceptResourceCount : resourceCounts) {
+    public void addWarehouseResourceCounts(WarehouseEntity warehouse, List<ResourceCountEntity> resourceCounts) {
+        for (ResourceCountEntity acceptResourceCount : resourceCounts) {
             boolean updated = false;
             for (RemainingEntity warehouseResourceCount : warehouse.getResourceCounts()) {
                 if (warehouseResourceCount.getResource().getId().equals(acceptResourceCount.getResource().getId())) {
@@ -125,56 +134,30 @@ public class InitDataBase {
         warehouseRepository.save(warehouse);
     }
 
-    public void removeWarehouseResourceCounts(WarehouseEntity warehouse, List<WriteOffResourceCountEntity> resourceCounts) {
-        for (WriteOffResourceCountEntity writeOffResourceCount : resourceCounts) {
-            boolean removed = false;
-            for (RemainingEntity warehouseResourceCount : warehouse.getResourceCounts()) {
-                if (warehouseResourceCount.getResource().getId().equals(writeOffResourceCount.getResource().getId())) {
-                    if (warehouseResourceCount.getCount() < warehouseResourceCount.getCount()) {
-                        System.out.println("Такого количества ресурсов нет на складе");
-                    }
-                    warehouseResourceCount.setCount(warehouseResourceCount.getCount() - writeOffResourceCount.getCount());
-                    removed = true;
-                }
-            }
-            if (!removed) {
-                System.out.println("Таких ресурсов нет на складе");
-            }
-        }
+    private ClientEntity createClientEntity(ClientType type, String lastName, String firstName, String middleName) {
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setType(type);
+        clientEntity.setLastName(lastName);
+        clientEntity.setFirstName(firstName);
+        clientEntity.setMiddleName(middleName);
+        return clientRepository.save(clientEntity);
+    }
+
+    private ResourceCountEntity createResourceCount(ResourceEntity resource, int count) {
+        ResourceCountEntity resourceCountEntity = new ResourceCountEntity();
+        resourceCountEntity.setResource(resource);
+        resourceCountEntity.setCount(count);
+        return resourceCountEntity;
+    }
+
+    private RemainingEntity createRemainEntity(WarehouseEntity warehouse, ResourceEntity resource, int count) {
+        RemainingEntity remain = new RemainingEntity();
+        remain.setResource(resource);
+        remain.setCount(count);
+        remain.setWarehouse(warehouse);
+        warehouse.getResourceCounts().add(remain);
         warehouseRepository.save(warehouse);
-    }
-
-    private BenefactorEntity createBenefactorEntity(String lastName, String firstName, String middleName) {
-        BenefactorEntity benefactorEntity = new BenefactorEntity();
-        benefactorEntity.setLastName(lastName);
-        benefactorEntity.setFirstName(firstName);
-        benefactorEntity.setMiddleName(middleName);
-        return benefactorRepository.save(benefactorEntity);
-    }
-
-    private AcceptResourceCountEntity createResourceCount(ResourceEntity resource, int count) {
-        AcceptResourceCountEntity acceptResourceCountEntity = new AcceptResourceCountEntity();
-        acceptResourceCountEntity.setResource(resource);
-        acceptResourceCountEntity.setCount(count);
-        return acceptResourceCountEntity;
-    }
-
-    private WriteOffEntity createWriteOffEntity(WarehouseEntity warehouse, List<WriteOffResourceCountEntity> resourceCounts) {
-        WriteOffEntity writeOffEntity = new WriteOffEntity();
-        writeOffEntity.setWarehouse(warehouse);
-        writeOffEntity = writeOffRepository.save(writeOffEntity);
-        for (WriteOffResourceCountEntity writeOffResourceCount : resourceCounts) {
-            writeOffResourceCount.setWriteOff(writeOffEntity);
-        }
-        writeOffEntity.getResourceCounts().addAll(resourceCounts);
-        return writeOffRepository.save(writeOffEntity);
-    }
-
-    private WriteOffResourceCountEntity createWriteOffResourceCount(ResourceEntity resource, int count) {
-        WriteOffResourceCountEntity writeOffResourceCountEntity = new WriteOffResourceCountEntity();
-        writeOffResourceCountEntity.setResource(resource);
-        writeOffResourceCountEntity.setCount(count);
-        return writeOffResourceCountEntity;
+        return remain;
     }
 
 }

@@ -18,9 +18,19 @@ public class UiController {
         return "acceptance.html";
     }
 
+    @GetMapping("/issue/all")
+    public String issue() {
+        return "issue.html";
+    }
+
     @GetMapping("/accept/edit")
     public String acceptanceEdit() {
         return "acceptance-edit.html";
+    }
+
+    @GetMapping("/issue/edit")
+    public String issueEdit() {
+        return "issue-edit.html";
     }
 
     @GetMapping("/accept/show")

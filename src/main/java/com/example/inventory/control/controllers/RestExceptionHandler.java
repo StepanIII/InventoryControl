@@ -38,6 +38,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatusCode status,
                                                                   WebRequest request) {
+        // Переделать получение ошибок
         Matcher matcher = PATTERN_ARG_NOT_VALID.matcher(ex.getMessage());
         StringBuilder responseDescriptionBuilder = new StringBuilder();
         int i = 0;

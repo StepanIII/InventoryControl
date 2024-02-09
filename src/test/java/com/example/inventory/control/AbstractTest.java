@@ -1,21 +1,20 @@
 package com.example.inventory.control;
 
-import com.example.inventory.control.entities.AcceptResourceCountEntity;
-import com.example.inventory.control.entities.AcceptanceEntity;
-import com.example.inventory.control.entities.BenefactorEntity;
+import com.example.inventory.control.entities.ResourceCountEntity;
+import com.example.inventory.control.entities.ResourceOperationEntity;
+import com.example.inventory.control.entities.ClientEntity;
 import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
-import com.example.inventory.control.entities.WriteOffEntity;
-import com.example.inventory.control.entities.WriteOffResourceCountEntity;
+import com.example.inventory.control.enums.ClientType;
+import com.example.inventory.control.enums.ResourceOperationType;
 import com.example.inventory.control.enums.ResourceType;
-import com.example.inventory.control.enums.Units;
-import com.example.inventory.control.repositories.AcceptanceRepository;
-import com.example.inventory.control.repositories.BenefactorRepository;
+import com.example.inventory.control.enums.Unit;
+import com.example.inventory.control.repositories.ResourceOperationRepository;
+import com.example.inventory.control.repositories.ClientRepository;
 import com.example.inventory.control.repositories.RemainingRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
-import com.example.inventory.control.repositories.WriteOffRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +22,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
-import java.util.Set;
 
 @Component
 @Profile(value = "test")
@@ -38,16 +34,13 @@ public abstract class AbstractTest {
     protected TestRestTemplate restTemplate;
 
     @Autowired
-    protected AcceptanceRepository acceptanceRepository;
+    protected ResourceOperationRepository resourceOperationRepository;
 
     @Autowired
     protected WarehouseRepository warehouseRepository;
 
     @Autowired
-    protected WriteOffRepository writeOffRepository;
-
-    @Autowired
-    protected BenefactorRepository benefactorRepository;
+    protected ClientRepository clientRepository;
 
     @Autowired
     protected ResourceRepository resourceRepository;
@@ -58,23 +51,24 @@ public abstract class AbstractTest {
     @BeforeEach
     @AfterEach
     public void clear() {
-        acceptanceRepository.deleteAll();
-        writeOffRepository.deleteAll();
+        resourceOperationRepository.deleteAll();
         warehouseRepository.deleteAll();
-        benefactorRepository.deleteAll();
+        clientRepository.deleteAll();
         resourceRepository.deleteAll();
     }
 
-    protected AcceptanceEntity createAcceptance(WarehouseEntity warehouse, BenefactorEntity benefactor, List<AcceptResourceCountEntity> resources) {
-        AcceptanceEntity acceptanceEntity = new AcceptanceEntity();
-        acceptanceEntity.setWarehouse(warehouse);
-        acceptanceEntity.setBenefactor(benefactor);
-        acceptanceEntity = acceptanceRepository.save(acceptanceEntity);
-        for (AcceptResourceCountEntity acceptResourceCount : resources) {
-            acceptResourceCount.setAcceptance(acceptanceEntity);
+    protected ResourceOperationEntity createResourceOperation(ResourceOperationType type, WarehouseEntity warehouse,
+                                                              ClientEntity benefactor, List<ResourceCountEntity> resources) {
+        ResourceOperationEntity resourceOperationEntity = new ResourceOperationEntity();
+        resourceOperationEntity.setType(type);
+        resourceOperationEntity.setWarehouse(warehouse);
+        resourceOperationEntity.setClient(benefactor);
+        resourceOperationEntity = resourceOperationRepository.save(resourceOperationEntity);
+        for (ResourceCountEntity acceptResourceCount : resources) {
+            acceptResourceCount.setOperation(resourceOperationEntity);
         }
-        acceptanceEntity.getResourceCounts().addAll(resources);
-        return acceptanceRepository.save(acceptanceEntity);
+        resourceOperationEntity.getResourceCounts().addAll(resources);
+        return resourceOperationRepository.save(resourceOperationEntity);
     }
 
     protected WarehouseEntity createWarehouse(String name) {
@@ -83,31 +77,32 @@ public abstract class AbstractTest {
         return warehouseRepository.save(warehouseEntity);
     }
 
-    protected BenefactorEntity createBenefactor(String lastName, String firstName, String middleName) {
-        BenefactorEntity benefactorEntity = new BenefactorEntity();
-        benefactorEntity.setLastName(lastName);
-        benefactorEntity.setFirstName(firstName);
-        benefactorEntity.setMiddleName(middleName);
-        return benefactorRepository.save(benefactorEntity);
+    protected ClientEntity createClient(ClientType type, String lastName, String firstName, String middleName) {
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setType(type);
+        clientEntity.setLastName(lastName);
+        clientEntity.setFirstName(firstName);
+        clientEntity.setMiddleName(middleName);
+        return clientRepository.save(clientEntity);
     }
 
-    protected ResourceEntity createResource(String name, ResourceType type, Units units) {
+    protected ResourceEntity createResource(String name, ResourceType type, Unit unit) {
         ResourceEntity resourceEntity = new ResourceEntity();
         resourceEntity.setName(name);
         resourceEntity.setType(type);
-        resourceEntity.setUnit(units);
+        resourceEntity.setUnit(unit);
         return resourceRepository.save(resourceEntity);
     }
 
-    protected AcceptResourceCountEntity createResourceCount(ResourceEntity resource, int count) {
-        AcceptResourceCountEntity resourceCount = new AcceptResourceCountEntity();
+    protected ResourceCountEntity createResourceCount(ResourceEntity resource, int count) {
+        ResourceCountEntity resourceCount = new ResourceCountEntity();
         resourceCount.setResource(resource);
         resourceCount.setCount(count);
         return resourceCount;
     }
 
-    public void addWarehouseResourceCounts(WarehouseEntity warehouse, List<AcceptResourceCountEntity> resourceCounts) {
-        for (AcceptResourceCountEntity acceptResourceCount : resourceCounts) {
+    public void addWarehouseResourceCounts(WarehouseEntity warehouse, List<ResourceCountEntity> resourceCounts) {
+        for (ResourceCountEntity acceptResourceCount : resourceCounts) {
             boolean updated = false;
             for (RemainingEntity warehouseResourceCount : warehouse.getResourceCounts()) {
                 if (warehouseResourceCount.getResource().getId().equals(acceptResourceCount.getResource().getId())) {
@@ -126,21 +121,14 @@ public abstract class AbstractTest {
         warehouseRepository.save(warehouse);
     }
 
-    protected WriteOffEntity createWriteOff(WarehouseEntity warehouse, List<WriteOffResourceCountEntity> resourceCounts) {
-        WriteOffEntity writeOffEntity = new WriteOffEntity();
-        writeOffEntity.setWarehouse(warehouse);
-        writeOffEntity = writeOffRepository.save(writeOffEntity);
-        for (WriteOffResourceCountEntity writeOffResourceCount : resourceCounts) {
-            writeOffResourceCount.setWriteOff(writeOffEntity);
-        }
-        writeOffEntity.getResourceCounts().addAll(resourceCounts);
-        return writeOffRepository.save(writeOffEntity);
+    protected RemainingEntity createRemain(WarehouseEntity warehouse, ResourceEntity resource, int count) {
+        RemainingEntity remain = new RemainingEntity();
+        remain.setResource(resource);
+        remain.setCount(count);
+        remain.setWarehouse(warehouse);
+        warehouse.getResourceCounts().add(remain);
+        warehouseRepository.save(warehouse);
+        return remain;
     }
 
-    protected WriteOffResourceCountEntity createWriteOffResourceCount(ResourceEntity resource, int count) {
-        WriteOffResourceCountEntity writeOffResourceCountEntity = new WriteOffResourceCountEntity();
-        writeOffResourceCountEntity.setResource(resource);
-        writeOffResourceCountEntity.setCount(count);
-        return writeOffResourceCountEntity;
-    }
 }

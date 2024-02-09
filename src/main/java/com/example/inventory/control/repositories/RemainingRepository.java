@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface RemainingRepository extends JpaRepository<RemainingEntity, Long> {
 
-    List<RemainingEntity> findAllByWarehouseId(Long warehouseId);
 }

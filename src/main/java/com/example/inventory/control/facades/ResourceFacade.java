@@ -1,11 +1,11 @@
 package com.example.inventory.control.facades;
 
 import com.example.inventory.control.api.resources.ResourceRequest;
-import com.example.inventory.control.api.BaseResponse;
-import com.example.inventory.control.api.resources.ResourceResponse;
-import com.example.inventory.control.api.resources.ResourceTypesResponse;
-import com.example.inventory.control.api.resources.ResourceUnitsResponse;
-import com.example.inventory.control.api.resources.ResourcesResponse;
+import com.example.inventory.control.api.BaseResponseBody;
+import com.example.inventory.control.api.resources.ResourceResponseBody;
+import com.example.inventory.control.api.resources.ResourceTypesResponseBody;
+import com.example.inventory.control.api.resources.ResourceUnitsResponseBody;
+import com.example.inventory.control.api.resources.ResourcesResponseBody;
 
 /**
  * Фасад для работы с ресурсами.
@@ -17,7 +17,7 @@ public interface ResourceFacade {
      *
      * @return ответ со статусом и ресурсами.
      */
-    ResourcesResponse getAllResources();
+    ResourcesResponseBody getAllResources();
 
     /**
      * Получить ресурс по идентификатору.
@@ -25,7 +25,7 @@ public interface ResourceFacade {
      * @param id идентификатор ресурса.
      * @return ответ со статусом и ресурсами.
      */
-    ResourceResponse getResourceById(Long id);
+    ResourceResponseBody getResourceById(Long id);
 
     /**
      * Добавить ресурс.
@@ -33,7 +33,7 @@ public interface ResourceFacade {
      * @param request запрос с данными нового ресурса.
      * @return ответ со статусом и добавленным ресурсом.
      */
-    ResourceResponse addResource(ResourceRequest request);
+    ResourceResponseBody addResource(ResourceRequest request);
 
     /**
      * Изменить ресурс.
@@ -42,7 +42,7 @@ public interface ResourceFacade {
      * @param request запрос с обновленными данными ресурса.
      * @return ответ со статусом и обновленным ресурсом.
      */
-    ResourceResponse updateResource(Long id, ResourceRequest request);
+    ResourceResponseBody updateResource(Long id, ResourceRequest request);
 
     /**
      * Удалить ресурс.
@@ -50,20 +50,20 @@ public interface ResourceFacade {
      * @param id идентификатор удаляемого ресурса.
      * @return ответ со статусом.
      */
-    BaseResponse deleteResource(Long id);
+    BaseResponseBody deleteResource(Long id);
 
     /**
      * Получить типы ресурсов.
      *
      * @return ответ со статусом и типами ресурсов.
      */
-    ResourceTypesResponse getAllResourceTypes();
+    ResourceTypesResponseBody getAllResourceTypes();
 
     /**
      * Получить единицы измерения ресурсов.
      *
      * @return ответ со статусом и единицами измерения ресурсов.
      */
-    ResourceUnitsResponse getAllResourceUnits();
+    ResourceUnitsResponseBody getAllResourceUnits();
 
 }

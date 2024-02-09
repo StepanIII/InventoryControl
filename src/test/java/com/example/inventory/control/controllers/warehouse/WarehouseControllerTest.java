@@ -2,7 +2,7 @@ package com.example.inventory.control.controllers.warehouse;
 
 import com.example.inventory.control.AbstractTest;
 import com.example.inventory.control.api.StatusResponse;
-import com.example.inventory.control.api.warehouse.WarehousesResponse;
+import com.example.inventory.control.api.warehouse.WarehousesResponseBody;
 import com.example.inventory.control.api.warehouse.model.WarehouseBody;
 import com.example.inventory.control.enums.Endpoint;
 import org.junit.jupiter.api.Test;
@@ -20,9 +20,9 @@ public class WarehouseControllerTest extends AbstractTest {
         createWarehouse("Склад 2");
         createWarehouse("Склад 3");
 
-        ResponseEntity<WarehousesResponse> responseEntity = restTemplate.getForEntity(
+        ResponseEntity<WarehousesResponseBody> responseEntity = restTemplate.getForEntity(
                 Endpoint.WAREHOUSE,
-                WarehousesResponse.class);
+                WarehousesResponseBody.class);
 
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());

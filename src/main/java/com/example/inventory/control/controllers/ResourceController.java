@@ -1,16 +1,14 @@
 package com.example.inventory.control.controllers;
 
 import com.example.inventory.control.api.resources.ResourceRequest;
-import com.example.inventory.control.api.BaseResponse;
+import com.example.inventory.control.api.BaseResponseBody;
 import com.example.inventory.control.api.StatusResponse;
-import com.example.inventory.control.api.resources.ResourceResponse;
-import com.example.inventory.control.api.resources.ResourceTypesResponse;
-import com.example.inventory.control.api.resources.ResourceUnitsResponse;
-import com.example.inventory.control.api.resources.ResourcesResponse;
-import com.example.inventory.control.enums.ResourceType;
+import com.example.inventory.control.api.resources.ResourceResponseBody;
+import com.example.inventory.control.api.resources.ResourceTypesResponseBody;
+import com.example.inventory.control.api.resources.ResourceUnitsResponseBody;
+import com.example.inventory.control.api.resources.ResourcesResponseBody;
 import com.example.inventory.control.facades.ResourceFacade;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 @Validated
 @RestController
@@ -41,17 +36,17 @@ public class ResourceController {
     }
 
     @GetMapping
-    public ResponseEntity<ResourcesResponse> getAllResources() {
+    public ResponseEntity<ResourcesResponseBody> getAllResources() {
         LOGGER.info("Запрос на получение всех ресурсов.");
-        ResourcesResponse response = resourceFacade.getAllResources();
+        ResourcesResponseBody response = resourceFacade.getAllResources();
         LOGGER.info(String.format("Запрос на получение всех ресурсов выполнен успешно. Количество: %d.", response.getResources().size()));
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResourceResponse> getResourceById(@PathVariable Long id) {
+    public ResponseEntity<ResourceResponseBody> getResourceById(@PathVariable Long id) {
         LOGGER.info(String.format("Запрос на получение ресурса по 'id: %d'.", id));
-        ResourceResponse response = resourceFacade.getResourceById(id);
+        ResourceResponseBody response = resourceFacade.getResourceById(id);
         if (response.getStatus() == StatusResponse.SUCCESS) {
             LOGGER.info(String.format("Запрос на получение ресурса по 'id: %d' выполнен успешно.", id));
         } else {
@@ -62,9 +57,9 @@ public class ResourceController {
     }
 
     @PostMapping
-    public ResponseEntity<ResourceResponse> addResource(@Valid @RequestBody ResourceRequest request) {
+    public ResponseEntity<ResourceResponseBody> addResource(@Valid @RequestBody ResourceRequest request) {
         LOGGER.info(String.format("Запрос на добавление ресурса 'name: %s'.", request.getName()));
-        ResourceResponse response = resourceFacade.addResource(request);
+        ResourceResponseBody response = resourceFacade.addResource(request);
         if (response.getStatus() == StatusResponse.SUCCESS) {
             LOGGER.info(String.format("Запрос на добавление ресурса 'name: %s, id: %d' выполнен успешно.",
                     response.getResource().getName(), response.getResource().getId()));
@@ -76,10 +71,10 @@ public class ResourceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResourceResponse> updateResource(@PathVariable Long id,
-                                                           @Valid @RequestBody ResourceRequest request) {
+    public ResponseEntity<ResourceResponseBody> updateResource(@PathVariable Long id,
+                                                               @Valid @RequestBody ResourceRequest request) {
         LOGGER.info(String.format("Запрос на обновление ресурса 'id: %d'.", id));
-        ResourceResponse response = resourceFacade.updateResource(id, request);
+        ResourceResponseBody response = resourceFacade.updateResource(id, request);
         if (response.getStatus() == StatusResponse.SUCCESS) {
             LOGGER.info(String.format("Запрос на обновление ресурса 'id: %d' выполнен успешно.", id));
         } else {
@@ -90,9 +85,9 @@ public class ResourceController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BaseResponse> deleteResource(@PathVariable Long id) {
+    public ResponseEntity<BaseResponseBody> deleteResource(@PathVariable Long id) {
         LOGGER.info(String.format("Запрос на удаление ресурса 'id: %d'.", id));
-        BaseResponse response = resourceFacade.deleteResource(id);
+        BaseResponseBody response = resourceFacade.deleteResource(id);
         if (response.getStatus() == StatusResponse.SUCCESS) {
             LOGGER.info(String.format("Запрос на удаление ресурса выполнен успешно 'id: %d'.", id));
         } else {
@@ -103,17 +98,17 @@ public class ResourceController {
     }
 
     @GetMapping("/types")
-    public ResponseEntity<ResourceTypesResponse> getResourceTypes() {
+    public ResponseEntity<ResourceTypesResponseBody> getResourceTypes() {
         LOGGER.info("Запрос на получение всех типов ресурсов.");
-        ResourceTypesResponse response = resourceFacade.getAllResourceTypes();
+        ResourceTypesResponseBody response = resourceFacade.getAllResourceTypes();
         LOGGER.info("Запрос на получение всех типов ресурсов выполнен успешно.");
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/units")
-    public ResponseEntity<ResourceUnitsResponse> getResourceUnits() {
+    public ResponseEntity<ResourceUnitsResponseBody> getResourceUnits() {
         LOGGER.info("Запрос на получение всех единиц измерения ресурсов.");
-        ResourceUnitsResponse response = resourceFacade.getAllResourceUnits();
+        ResourceUnitsResponseBody response = resourceFacade.getAllResourceUnits();
         LOGGER.info("Запрос на получение всех единиц измерения ресурсов выполнен успешно.");
         return ResponseEntity.ok(response);
     }

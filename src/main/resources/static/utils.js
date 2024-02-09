@@ -8,10 +8,13 @@ const createElement = (name) => {
     return document.createElement(name)
 }
 
-const createInput = (type, min) => {
+const createInput = (type, min, max) => {
     let input = document.createElement('input')
     input.type = type
     input.min = min
+    if (max !== null) {
+        input.max = max
+    }
     return input
 }
 

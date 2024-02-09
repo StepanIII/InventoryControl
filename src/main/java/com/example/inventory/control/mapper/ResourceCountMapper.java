@@ -1,9 +1,9 @@
 package com.example.inventory.control.mapper;
 
-import com.example.inventory.control.api.acceptance.model.ResourceCountBody;
-import com.example.inventory.control.entities.AcceptResourceCountEntity;
-import com.example.inventory.control.domain.models.AcceptResourceCount;
-import com.example.inventory.control.entities.AcceptanceEntity;
+import com.example.inventory.control.api.resource.operation.ResourceCountResponseBodyModel;
+import com.example.inventory.control.entities.ResourceCountEntity;
+import com.example.inventory.control.domain.models.ResourceCount;
+import com.example.inventory.control.entities.ResourceOperationEntity;
 import com.example.inventory.control.repositories.ResourceRepository;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +14,21 @@ public abstract class ResourceCountMapper {
     @Autowired
     private ResourceRepository resourceRepository;
 
-    public AcceptResourceCountEntity toEntity(AcceptResourceCount domain, AcceptanceEntity acceptanceEntity) {
-        return new AcceptResourceCountEntity(
+    public ResourceCountEntity toEntity(ResourceCount domain, ResourceOperationEntity resourceOperationEntity) {
+        return new ResourceCountEntity(
                 domain.id().orElse(null),
                 resourceRepository.findById(domain.getResourceId()).orElseThrow(),
                 domain.getCount(),
-                acceptanceEntity);
+                resourceOperationEntity);
     }
 
-    public AcceptResourceCount toDomain(AcceptResourceCountEntity entity) {
-        return new AcceptResourceCount(entity.getId(), entity.getResource().getId(), entity.getResource().getName(), entity.getCount());
+    public ResourceCount toDomain(ResourceCountEntity entity) {
+        return new ResourceCount(entity.getId(), entity.getResource().getId(), entity.getResource().getName(), entity.getCount());
     }
 
-    public ResourceCountBody toResponse(AcceptResourceCount domainModel) {
-        ResourceCountBody response = new ResourceCountBody();
-        response.setResourceId(domainModel.getResourceId());
+    public ResourceCountResponseBodyModel toResponse(ResourceCount domainModel) {
+        ResourceCountResponseBodyModel response = new ResourceCountResponseBodyModel();
+        response.setId(domainModel.getResourceId());
         response.setName(domainModel.getName());
         response.setCount(domainModel.getCount());
         return response;
