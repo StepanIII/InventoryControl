@@ -83,4 +83,9 @@ public class UiController {
         return "write-off-edit.html";
     }
 
+    @GetMapping("/write-off/show")
+    public String writeOffShow() {
+        return "write-off-show.html";
+    }
+
 }

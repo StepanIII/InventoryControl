@@ -15,17 +15,6 @@ function handleWarehouseSelect() {
                 clearTBody(tBody)
                 table.hidden = true
                 openListWarehouseBtn.disabled = false
-
-                getData(WAREHOUSES_URL + '/' + warehouse.id + "/remains").then(response => {
-                    console.log(response)
-                    let tBody = document.querySelector('#resources_table tbody')
-                    clearTBody(tBody)
-                    response.remains.forEach(remain => {
-                        let inputCount = createInput('number', 0, remain.count)
-                        let tr = createTr([remain.resourceId, remain.name, inputCount, remain.count])
-                        tBody.appendChild(tr)
-                    })
-                })
             }
             tBody.appendChild(tr)
         })
@@ -36,10 +25,19 @@ function handleWarehouseSelect() {
 }
 
 function handleResourceSelect() {
-    getElement('select_resources_block').hidden = false
-    getElement('open_list_resources_btn').disabled = true
-}
+    getData(RESOURCE_URL).then(response => {
+        console.log(response)
 
+        let tBody = document.querySelector('#resources_table tbody')
+        response.resources.forEach(resource => {
+            let tr = createTr([resource.id, resource.name, createInput('number', 0, null)])
+            tBody.appendChild(tr)
+        })
+
+        getElement('select_resources_block').hidden = false
+        getElement('open_list_resources_btn').disabled = true
+    })
+}
 
 function handleSelectResourceBtn() {
     let resourcesTBody = document.querySelector('#resources_table tbody')
@@ -70,7 +68,7 @@ function handleSelectResourceBtn() {
     getElement('open_list_resources_btn').disabled = false
 }
 
-function handleSaveWriteOffBtn() {
+function handleSaveCapitalizationBtn() {
     let warehouseId = getElement('selected_warehouse_id').textContent
     let description = getElement('description_input').value
 
@@ -94,13 +92,13 @@ function handleSaveWriteOffBtn() {
         resources: resourcesRequest
     }
 
-    postData(WRITE_OFF_URL, request).then(response => {
+    postData(CAPITALIZATION_URL, request).then(response => {
         console.log(response)
 
         if (response.status !== SUCCESS) {
             getElement('error_desc').textContent = response.description
         } else {
-            window.location.replace(UI_WRITE_OFF_ALL_URL)
+            window.location.replace(UI_CAPITALIZATION_ALL_URL)
         }
     })
 }

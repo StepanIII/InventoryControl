@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Списания</title>
+    <title>Оприходования</title>
 </head>
 <body>
 <div id="header">
@@ -15,10 +15,10 @@
 
 <div id="content">
     <br>
-    <button type="button" id="add_write_off_btn" onclick="handleAddWriteOffBtn()">Добавить</button>
+    <button type="button" id="add_capitalization_btn" onclick="handleAddCapitalizationBtn()">Добавить</button>
     <br>
-    <table id="write_off_table">
-        <tr><td>№</td><td>Время создания</td><td>Склад</td></tr>
+    <table id="capitalization_table">
+        <tr><td>№</td><td>Время создания</td><td>Место хранения</td></tr>
         <tbody></tbody>
     </table>
 </div>
@@ -32,7 +32,7 @@
 <script src="/url.js"></script>
 <script src="/rest-methods.js"></script>
 <script src="/index.js"></script>
-<script src="/ui/write-off/write-off.js"></script>
+<script src="/ui/capitalization/capitalization.js"></script>
 
 </body>
 </html>
