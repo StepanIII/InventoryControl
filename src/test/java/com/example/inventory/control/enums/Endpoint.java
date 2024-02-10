@@ -5,6 +5,8 @@ public final class Endpoint {
     public static final String RESOURCE = "/resource";
     public static final String RESOURCE_OPERATION_ACCEPT = "/resource-operation/accept";
     public static final String RESOURCE_OPERATION_ISSUE = "/resource-operation/issue";
+    public static final String RESOURCE_OPERATION_CAPITALIZATION = "/resource-operation/capitalization";
+    public static final String RESOURCE_OPERATION_WRITE_OFF = "/resource-operation/write-off";
 
     public static final String BENEFACTOR = "/client/benefactor";
     public static final String BENEFICIARY = "/client/beneficiary";

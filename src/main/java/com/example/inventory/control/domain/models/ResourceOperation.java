@@ -30,6 +30,11 @@ public final class ResourceOperation {
     private final ResourceOperationType type;
 
     /**
+     * Причина.
+     */
+    private final String description;
+
+    /**
      * Место хранения.
      */
     private final Warehouse warehouse;
@@ -44,8 +49,8 @@ public final class ResourceOperation {
      */
     private final List<ResourceCount> resources;
 
-    public ResourceOperation(Long id, LocalDateTime createdTime, ResourceOperationType type, Warehouse warehouse,
-                             Client client, List<ResourceCount> resources) {
+    public ResourceOperation(Long id, LocalDateTime createdTime, ResourceOperationType type, String description,
+                             Warehouse warehouse, Client client, List<ResourceCount> resources) {
         CheckParamUtil.isNotNull("warehouse", warehouse);
         CheckParamUtil.isNotNull("type", type);
         CheckParamUtil.isNotNull("resources", resources);
@@ -61,10 +66,14 @@ public final class ResourceOperation {
                 throw new TypeException("Тип клиента не соответствует операции.");
             }
         }
+//        if (type == ResourceOperationType.CAPITALIZATION) {
+//            CheckParamUtil.isNotBlank("description", description);
+//        }
 
         this.id = id;
         this.createdTime = createdTime;
         this.type = type;
+        this.description = description;
         this.warehouse = warehouse;
         this.client = client;
         this.resources = resources;
@@ -72,7 +81,12 @@ public final class ResourceOperation {
 
     public static ResourceOperation create(ResourceOperationType type, Warehouse warehouse, Client client,
                                            List<ResourceCount> resources) {
-        return new ResourceOperation(null, null, type, warehouse, client, resources);
+        return new ResourceOperation(null, null, type, null, warehouse, client, resources);
+    }
+
+    public static ResourceOperation create(ResourceOperationType type, String description, Warehouse warehouse,
+                                           List<ResourceCount> resources) {
+        return new ResourceOperation(null, null, type, description, warehouse, null, resources);
     }
 
     public Optional<Long> id() {
@@ -87,12 +101,16 @@ public final class ResourceOperation {
         return type;
     }
 
+    public Optional<String> description() {
+        return Optional.ofNullable(description);
+    }
+
     public Warehouse getWarehouse() {
         return warehouse;
     }
 
-    public Client getClient() {
-        return client;
+    public Optional<Client> client() {
+        return Optional.ofNullable(client);
     }
 
     public List<ResourceCount> getResources() {

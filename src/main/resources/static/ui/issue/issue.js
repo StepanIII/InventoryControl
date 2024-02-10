@@ -11,7 +11,7 @@ getData(ISSUE_URL).then(response => {
         let tr = createTr([issue.id, issue.createdTime, issue.warehouseName, issue.beneficiaryFio])
         tr.onclick = () => {
             localStorage.setItem('issue_id', issue.id)
-            // window.location.replace(UI_ACCEPT_SHOW_URL)
+            window.location.replace(UI_ISSUE_SHOW_URL)
         }
         tBody.appendChild(tr)
     })

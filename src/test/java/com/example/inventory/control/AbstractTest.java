@@ -71,6 +71,34 @@ public abstract class AbstractTest {
         return resourceOperationRepository.save(resourceOperationEntity);
     }
 
+    protected ResourceOperationEntity createCapitalization(String description, WarehouseEntity warehouse,
+                                                           List<ResourceCountEntity> resources) {
+        ResourceOperationEntity resourceOperationEntity = new ResourceOperationEntity();
+        resourceOperationEntity.setType(ResourceOperationType.CAPITALIZATION);
+        resourceOperationEntity.setDescription(description);
+        resourceOperationEntity.setWarehouse(warehouse);
+        resourceOperationEntity = resourceOperationRepository.save(resourceOperationEntity);
+        for (ResourceCountEntity acceptResourceCount : resources) {
+            acceptResourceCount.setOperation(resourceOperationEntity);
+        }
+        resourceOperationEntity.getResourceCounts().addAll(resources);
+        return resourceOperationRepository.save(resourceOperationEntity);
+    }
+
+    protected ResourceOperationEntity createWriteOff(String description, WarehouseEntity warehouse,
+                                                     List<ResourceCountEntity> resources) {
+        ResourceOperationEntity resourceOperationEntity = new ResourceOperationEntity();
+        resourceOperationEntity.setType(ResourceOperationType.WRITE_OFF);
+        resourceOperationEntity.setDescription(description);
+        resourceOperationEntity.setWarehouse(warehouse);
+        resourceOperationEntity = resourceOperationRepository.save(resourceOperationEntity);
+        for (ResourceCountEntity acceptResourceCount : resources) {
+            acceptResourceCount.setOperation(resourceOperationEntity);
+        }
+        resourceOperationEntity.getResourceCounts().addAll(resources);
+        return resourceOperationRepository.save(resourceOperationEntity);
+    }
+
     protected WarehouseEntity createWarehouse(String name) {
         WarehouseEntity warehouseEntity = new WarehouseEntity();
         warehouseEntity.setName(name);

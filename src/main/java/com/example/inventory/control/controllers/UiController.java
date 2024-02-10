@@ -18,14 +18,19 @@ public class UiController {
         return "acceptance.html";
     }
 
-    @GetMapping("/issue/all")
-    public String issue() {
-        return "issue.html";
-    }
-
     @GetMapping("/accept/edit")
     public String acceptanceEdit() {
         return "acceptance-edit.html";
+    }
+
+    @GetMapping("/accept/show")
+    public String acceptShow() {
+        return "accept-show.html";
+    }
+
+    @GetMapping("/issue/all")
+    public String issue() {
+        return "issue.html";
     }
 
     @GetMapping("/issue/edit")
@@ -33,9 +38,24 @@ public class UiController {
         return "issue-edit.html";
     }
 
-    @GetMapping("/accept/show")
-    public String acceptShow() {
-        return "accept-show.html";
+    @GetMapping("/issue/show")
+    public String issueShow() {
+        return "issue-show.html";
+    }
+
+    @GetMapping("/capitalization/all")
+    public String capitalization() {
+        return "capitalization.html";
+    }
+
+    @GetMapping("/capitalization/edit")
+    public String capitalizationEdit() {
+        return "capitalization-edit.html";
+    }
+
+    @GetMapping("/capitalization/show")
+    public String capitalizationShow() {
+        return "capitalization-show.html";
     }
 
     @GetMapping("/remain/all")

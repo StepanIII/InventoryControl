@@ -122,7 +122,7 @@ function handleSaveAcceptanceBtn() {
         console.log(response)
 
         if (response.status !== SUCCESS) {
-            getElement('error_desc').textContent = response.errorDescription
+            getElement('error_desc').textContent = response.description
         } else {
             window.location.replace(UI_ACCEPT_ALL_URL)
         }

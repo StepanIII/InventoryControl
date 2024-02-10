@@ -44,7 +44,7 @@ function handleSaveResourceBtn() {
         postData(RESOURCE_URL, request).then(response => {
             console.log(response)
             if (response.status !== SUCCESS) {
-                getElement('error_desc').textContent = response.errorDescription;
+                getElement('error_desc').textContent = response.description;
             } else {
                 window.location.replace(UI_RESOURCES_ALL_URL)
             }
@@ -53,7 +53,7 @@ function handleSaveResourceBtn() {
         putData(RESOURCE_URL + "/" + resourceId, request).then(response => {
             console.log(response)
             if (response.status !== SUCCESS) {
-                getElement('error_desc').textContent = response.errorDescription;
+                getElement('error_desc').textContent = response.description;
             } else {
                 window.location.replace(UI_RESOURCES_ALL_URL)
             }

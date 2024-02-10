@@ -38,7 +38,7 @@ public class RestExceptionHandlerTest extends AbstractTest {
         assertThat(response).isNotNull()
                 .matches(r -> r.getStatusCode().is4xxClientError());
         assertThat(response.getBody()).isNotNull()
-                .matches(b -> b.getErrorCode() == StatusResponse.METHOD_ARGUMENT_NOT_VALID);
+                .matches(b -> b.getStatus() == StatusResponse.METHOD_ARGUMENT_NOT_VALID);
 //                .matches(b -> b.getErrorDescription().equals("Количество символов наименования должно быть в диапозоне от 1 до 255; Наименование не должно быть пустым;"));
     }
 
@@ -64,8 +64,8 @@ public class RestExceptionHandlerTest extends AbstractTest {
         assertThat(response).isNotNull()
                 .matches(r -> r.getStatusCode().is5xxServerError());
         assertThat(response.getBody()).isNotNull()
-                .matches(b -> b.getErrorCode() == StatusResponse.NOT_DELETE_PARENT)
-                .matches(b -> b.getErrorDescription().equals("Невозможно удалить запись, так как она используется в другом месте."));
+                .matches(b -> b.getStatus() == StatusResponse.NOT_DELETE_PARENT)
+                .matches(b -> b.getDescription().equals("Невозможно удалить запись, так как она используется в другом месте."));
     }
 
 }

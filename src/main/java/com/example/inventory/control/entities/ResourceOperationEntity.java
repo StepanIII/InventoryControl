@@ -49,6 +49,12 @@ public class ResourceOperationEntity {
     private ResourceOperationType type;
 
     /**
+     * Причина.
+     */
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    /**
      * Место хранения.
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,9 +77,11 @@ public class ResourceOperationEntity {
     public ResourceOperationEntity() {
     }
 
-    public ResourceOperationEntity(Long id, ResourceOperationType type, WarehouseEntity warehouse, ClientEntity client) {
+    public ResourceOperationEntity(Long id, ResourceOperationType type, String description, WarehouseEntity warehouse,
+                                   ClientEntity client) {
         this.id = id;
         this.type = type;
+        this.description = description;
         this.warehouse = warehouse;
         this.client = client;
     }
@@ -98,6 +106,14 @@ public class ResourceOperationEntity {
 
     public void setType(ResourceOperationType type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public WarehouseEntity getWarehouse() {

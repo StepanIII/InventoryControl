@@ -7,7 +7,7 @@ public enum ResourceOperationType {
 
     ACCEPT,
     ISSUE,
-    POSTING,
+    CAPITALIZATION,
     WRITE_OFF
 
 }

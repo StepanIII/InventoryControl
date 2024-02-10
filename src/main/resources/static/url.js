@@ -15,6 +15,11 @@ const UI_ACCEPT_SHOW_URL = 'http://localhost:8080/ui/accept/show'
 
 const UI_ISSUE_ALL_URL = 'http://localhost:8080/ui/issue/all'
 const UI_ISSUE_EDIT_URL = 'http://localhost:8080/ui/issue/edit'
+const UI_ISSUE_SHOW_URL = 'http://localhost:8080/ui/issue/show'
+
+const UI_CAPITALIZATION_ALL_URL = 'http://localhost:8080/ui/capitalization/all'
+const UI_CAPITALIZATION_EDIT_URL = 'http://localhost:8080/ui/capitalization/edit'
+const UI_CAPITALIZATION_SHOW_URL = 'http://localhost:8080/ui/capitalization/show'
 
 const UI_REMAINING_ALL_URL = 'http://localhost:8080/ui/remain/all'
 const UI_RESOURCES_ALL_URL = 'http://localhost:8080/ui/resource/all'
