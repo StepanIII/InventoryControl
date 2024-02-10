@@ -1,0 +1,34 @@
+
+.underline-border {
+    background-color: transparent;
+    border: none;
+    color: #0051c9;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+    /*padding: 10px 20px;*/
+    position: relative;
+    transition: border-bottom 0.3s;
+    display: inline-block;
+    line-height: 30px;
+    width: 10%;
+}
+
+.underline-border::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: transparent;
+    transition: background-color 0.3s;
+}
+
+.underline-border:hover::after {
+    background-color: #0051c9;
+}
+
+.wrapper {
+    display: inline-block;
+}
