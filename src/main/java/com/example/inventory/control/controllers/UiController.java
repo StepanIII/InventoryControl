@@ -88,4 +88,19 @@ public class UiController {
         return "write-off-show.html";
     }
 
+    @GetMapping("/inventory/all")
+    public String inventory() {
+        return "inventory.html";
+    }
+
+    @GetMapping("/inventory/edit")
+    public String inventoryEdit() {
+        return "inventory-edit.html";
+    }
+
+    @GetMapping("/inventory/show")
+    public String inventoryShow() {
+        return "inventory-show.html";
+    }
+
 }

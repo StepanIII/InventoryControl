@@ -1,8 +1,11 @@
 package com.example.inventory.control.mapper;
 
 import com.example.inventory.control.api.resource.operation.ResourceCountResponseBodyModel;
+import com.example.inventory.control.domain.models.InventoryResource;
+import com.example.inventory.control.entities.InventoryResourceEntity;
 import com.example.inventory.control.entities.ResourceCountEntity;
 import com.example.inventory.control.domain.models.ResourceCount;
+import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.entities.ResourceOperationEntity;
 import com.example.inventory.control.repositories.ResourceRepository;
 import org.mapstruct.Mapper;

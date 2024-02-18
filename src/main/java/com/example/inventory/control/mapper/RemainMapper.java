@@ -2,6 +2,7 @@ package com.example.inventory.control.mapper;
 
 import com.example.inventory.control.api.remain.model.RemainWithWarehouseResponseBodyModel;
 import com.example.inventory.control.api.warehouse.model.RemainResponseBodyModel;
+import com.example.inventory.control.domain.models.Resource;
 import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.domain.models.Remain;
 import com.example.inventory.control.repositories.ResourceRepository;
@@ -76,6 +77,23 @@ public abstract class RemainMapper {
         responseBodyModel.setResourceId(domainModel.getResourceId());
         responseBodyModel.setName(domainModel.getResourceName());
         responseBodyModel.setCount(domainModel.getCount());
+        responseBodyModel.setUnit(domainModel.getUnit().getValue());
+        return responseBodyModel;
+    }
+
+
+    /**
+     *
+     * @param resource
+     * @param count
+     * @return
+     */
+    public RemainResponseBodyModel toRemainResponseBodyModel(Resource resource, int count) {
+        RemainResponseBodyModel responseBodyModel = new RemainResponseBodyModel();
+        responseBodyModel.setResourceId(resource.id().orElseThrow());
+        responseBodyModel.setName(resource.getName());
+        responseBodyModel.setCount(count);
+        responseBodyModel.setUnit(resource.getUnit().getValue());
         return responseBodyModel;
     }
 

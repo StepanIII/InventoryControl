@@ -20,6 +20,11 @@ public class RemainResponseBodyModel {
      */
     private Integer count;
 
+    /**
+     * Единица измерения.
+     */
+    private String unit;
+
     public Long getResourceId() {
         return resourceId;
     }
@@ -42,5 +47,13 @@ public class RemainResponseBodyModel {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

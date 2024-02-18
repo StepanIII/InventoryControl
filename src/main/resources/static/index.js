@@ -40,3 +40,7 @@ function handleWriteOffBtn() {
 function handleRemainingBtn() {
     window.location.replace(UI_REMAINING_ALL_URL)
 }
+
+function handleInventoryBtn() {
+    window.location.replace(UI_INVENTORY_ALL_URL)
+}

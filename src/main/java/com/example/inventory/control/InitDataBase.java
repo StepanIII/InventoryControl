@@ -1,6 +1,8 @@
 package com.example.inventory.control;
 
 import com.example.inventory.control.entities.ClientEntity;
+import com.example.inventory.control.entities.InventoryEntity;
+import com.example.inventory.control.entities.InventoryResourceEntity;
 import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.entities.ResourceCountEntity;
 import com.example.inventory.control.entities.ResourceEntity;
@@ -11,6 +13,7 @@ import com.example.inventory.control.enums.ResourceOperationType;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Unit;
 import com.example.inventory.control.repositories.ClientRepository;
+import com.example.inventory.control.repositories.InventoryRepository;
 import com.example.inventory.control.repositories.ResourceOperationRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
@@ -35,13 +38,16 @@ public class InitDataBase {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private InventoryRepository inventoryRepository;
+
     @PostConstruct
     public void addData() {
 
-        ResourceEntity resource1 = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
-        ResourceEntity resource2 = createResource("Пеленки", ResourceType.HYGIENE_PRODUCT, Unit.THINGS);
-        ResourceEntity resource3 = createResource("Ботинки", ResourceType.CLOTHING, Unit.PAIR);
-        ResourceEntity resource4 = createResource("Апельсины", ResourceType.FOOD, Unit.KILOGRAM);
+        ResourceEntity resource1 = createResourceEntity("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
+        ResourceEntity resource2 = createResourceEntity("Пеленки", ResourceType.HYGIENE_PRODUCT, Unit.THINGS);
+        ResourceEntity resource3 = createResourceEntity("Ботинки", ResourceType.CLOTHING, Unit.PAIR);
+        ResourceEntity resource4 = createResourceEntity("Апельсины", ResourceType.FOOD, Unit.KILOGRAM);
 
         createClientEntity(ClientType.ANONYMOUS, "АНОНИМ", "", "");
         ClientEntity benefactor1 = createClientEntity(ClientType.BENEFACTOR, "Иванов", "Иван", "Иванович");
@@ -103,10 +109,18 @@ public class InitDataBase {
                 warehouse1,
                 List.of(createResourceCount(resource1, 21), createResourceCount(resource2, 10), createResourceCount(resource3, 9)));
 
+        ResourceEntity firstResource = createResourceEntity("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
+        InventoryResourceEntity firstInventoryResource = createInventoryResourceEntity(firstResource, 100, 101);
+        InventoryEntity inventoryFirst = createInventoryEntity(warehouse1, List.of(firstInventoryResource));
+
+        ResourceEntity secondResource = createResourceEntity("Груши", ResourceType.FOOD, Unit.KILOGRAM);
+        InventoryResourceEntity secondInventoryResource = createInventoryResourceEntity(secondResource, 100, 101);
+        InventoryEntity inventorySecond = createInventoryEntity(warehouse2, List.of(secondInventoryResource));
+
     }
 
 
-    private ResourceEntity createResource(String name, ResourceType type, Unit unit) {
+    private ResourceEntity createResourceEntity(String name, ResourceType type, Unit unit) {
         ResourceEntity resourceEntity = new ResourceEntity();
         resourceEntity.setName(name);
         resourceEntity.setType(type);
@@ -208,6 +222,30 @@ public class InitDataBase {
         warehouse.getResourceCounts().add(remain);
         warehouseRepository.save(warehouse);
         return remain;
+    }
+
+    protected InventoryEntity createInventoryEntity(WarehouseEntity warehouse, List<InventoryResourceEntity> resources) {
+        InventoryEntity inventoryEntity = new InventoryEntity();
+        inventoryEntity.setWarehouse(warehouse);
+        inventoryEntity.setResources(resources);
+
+
+        for (InventoryResourceEntity resource : resources) {
+            resource.setInventory(inventoryEntity);
+        }
+
+        inventoryEntity.setResources(resources);
+
+        return inventoryRepository.save(inventoryEntity);
+    }
+
+    protected InventoryResourceEntity createInventoryResourceEntity(ResourceEntity resource, int actualCount, int estimatedCount) {
+        InventoryResourceEntity inventoryResourceEntity = new InventoryResourceEntity();
+        inventoryResourceEntity.setResource(resource);
+        inventoryResourceEntity.setActualCount(actualCount);
+        inventoryResourceEntity.setEstimatedCount(estimatedCount);
+        inventoryResourceEntity.setDifference(actualCount - estimatedCount);
+        return inventoryResourceEntity;
     }
 
 }
