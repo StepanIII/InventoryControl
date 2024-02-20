@@ -1,5 +1,3 @@
-fillSubheaderSecond()
-
 function handleAddCapitalizationBtn() {
     window.location.replace(UI_CAPITALIZATION_EDIT_URL)
 }

@@ -1,5 +1,3 @@
-fillSubheaderSecond()
-
 getData(REMAINING_URL).then(response => {
     console.log(response)
 

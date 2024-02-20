@@ -1,5 +1,3 @@
-fillSubheaderSecond()
-
 function handleAddResourceBtn() {
     window.location.replace(UI_RESOURCE_EDIT_URL)
 }

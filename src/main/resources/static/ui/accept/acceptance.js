@@ -1,5 +1,3 @@
-fillSubheaderSecond()
-
 function handleAddAcceptanceBtn() {
     window.location.replace(UI_ACCEPT_EDIT_URL)
 }

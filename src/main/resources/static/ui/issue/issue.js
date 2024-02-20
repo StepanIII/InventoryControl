@@ -1,5 +1,3 @@
-fillSubheaderSecond()
-
 function handleAddIssueBtn() {
     window.location.replace(UI_ISSUE_EDIT_URL)
 }

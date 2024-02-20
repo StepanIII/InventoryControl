@@ -1,5 +1,3 @@
-fillSubheaderSecond()
-
 function handleAddInventoryBtn() {
     window.location.replace(UI_INVENTORY_EDIT_URL)
 }

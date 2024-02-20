@@ -1,5 +1,7 @@
 // document.querySelector('#resources_table tbody')
 
+const parser = new DOMParser();
+
 const getElement = (id) => {
     return document.getElementById(id)
 }
@@ -15,6 +17,12 @@ const createInput = (type, min, max) => {
     if (max !== null) {
         input.max = max
     }
+    return input
+}
+
+const createCheckBox = () => {
+    let input = document.createElement('input')
+    input.type = 'checkbox'
     return input
 }
 

@@ -1,5 +1,3 @@
-fillSubheaderSecond()
-
 function handleAddWriteOffBtn() {
     window.location.replace(UI_WRITE_OFF_EDIT_URL)
 }
