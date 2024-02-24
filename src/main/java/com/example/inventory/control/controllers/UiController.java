@@ -88,6 +88,21 @@ public class UiController {
         return "write-off-show.html";
     }
 
+    @GetMapping("/move/all")
+    public String move() {
+        return "move.html";
+    }
+
+    @GetMapping("/move/edit")
+    public String moveEdit() {
+        return "move-edit.html";
+    }
+
+    @GetMapping("/move/show")
+    public String moveShow() {
+        return "move-show.html";
+    }
+
     @GetMapping("/inventory/all")
     public String inventory() {
         return "inventory.html";

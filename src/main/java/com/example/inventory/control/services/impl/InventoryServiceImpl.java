@@ -36,4 +36,12 @@ public class InventoryServiceImpl implements InventoryService {
         Optional<InventoryEntity> entity = inventoryRepository.findById(id);
         return entity.map(inventoryMapper::toDomain);
     }
+
+    @Override
+    @Transactional
+    public Inventory save(Inventory inventory) {
+        InventoryEntity entity = inventoryMapper.toEntity(inventory);
+        entity = inventoryRepository.save(entity);
+        return inventoryMapper.toDomain(entity);
+    }
 }

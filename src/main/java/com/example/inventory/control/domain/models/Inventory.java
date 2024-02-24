@@ -46,6 +46,12 @@ public final class Inventory {
         return new Inventory(null, null, warehouse, resources);
     }
 
+    // На данный момент все ресурсы заменяются на новые
+    // В будущем сделать, чтобы ресурсы не заменялись на новые, а обновлялись новыми значениями
+    public Inventory updateResources(List<InventoryResource> updatedResources) {
+        return new Inventory(id, createdTime, warehouse, updatedResources);
+    }
+
     public Optional<Long> id() {
         return Optional.ofNullable(id);
     }

@@ -27,6 +27,10 @@ const UI_CAPITALIZATION_ALL_URL = 'http://localhost:8080/ui/capitalization/all'
 const UI_CAPITALIZATION_EDIT_URL = 'http://localhost:8080/ui/capitalization/edit'
 const UI_CAPITALIZATION_SHOW_URL = 'http://localhost:8080/ui/capitalization/show'
 
+const UI_MOVE_ALL_URL = 'http://localhost:8080/ui/move/all'
+const UI_MOVE_EDIT_URL = 'http://localhost:8080/ui/move/edit'
+const UI_MOVE_SHOW_URL = 'http://localhost:8080/ui/move/show'
+
 const UI_INVENTORY_ALL_URL = 'http://localhost:8080/ui/inventory/all'
 const UI_INVENTORY_EDIT_URL = 'http://localhost:8080/ui/inventory/edit'
 // const UI_INVENTORY_SHOW_URL = 'http://localhost:8080/ui/inventory/show'

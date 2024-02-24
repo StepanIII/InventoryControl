@@ -30,6 +30,11 @@ public class InventoryResourceResponseBodyModel {
      */
     private Integer difference;
 
+    /**
+     * Единица измерения.
+     */
+    private String unit;
+
     public Long getId() {
         return id;
     }
@@ -68,5 +73,13 @@ public class InventoryResourceResponseBodyModel {
 
     public void setDifference(Integer difference) {
         this.difference = difference;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

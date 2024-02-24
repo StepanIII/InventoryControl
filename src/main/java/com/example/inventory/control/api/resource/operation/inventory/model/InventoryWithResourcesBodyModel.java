@@ -1,6 +1,5 @@
 package com.example.inventory.control.api.resource.operation.inventory.model;
 
-import com.example.inventory.control.api.resource.operation.ResourceCountResponseBodyModel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
@@ -27,6 +26,10 @@ public class InventoryWithResourcesBodyModel {
      */
     private String warehouseName;
 
+    /**
+     * Идентификтор места хранения.
+     */
+    private Long warehouseId;
 
     /**
      * Добавленные ресурсы.
@@ -55,6 +58,14 @@ public class InventoryWithResourcesBodyModel {
 
     public void setWarehouseName(String warehouseName) {
         this.warehouseName = warehouseName;
+    }
+
+    public Long getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(Long warehouseId) {
+        this.warehouseId = warehouseId;
     }
 
     public List<InventoryResourceResponseBodyModel> getResources() {

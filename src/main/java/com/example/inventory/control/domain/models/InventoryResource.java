@@ -15,9 +15,19 @@ public final class InventoryResource {
     private final Long id;
 
     /**
-     * Ресурс.
+     * Идентификатор ресурса.
      */
-    private final Resource resource;
+    private final Long resourceId;
+
+    /**
+     * Имя ресурса.
+     */
+    private final String name;
+
+    /**
+     * Единица измерения.
+     */
+    private final String unit;
 
     /**
      * Фактическое количесвто.
@@ -34,29 +44,39 @@ public final class InventoryResource {
      */
     private final Integer difference;
 
-    public InventoryResource(Long id, Resource resource, Integer actualCount, Integer estimatedCount, Integer difference) {
-        CheckParamUtil.isNotNull("resource", resource);
+    public InventoryResource(Long id, Long resourceId, String name, String unit, Integer actualCount, Integer estimatedCount, Integer difference) {
+        CheckParamUtil.isNotNull("resourceId", resourceId);
         CheckParamUtil.isNotNull("actualCount", actualCount);
         CheckParamUtil.isNotNull("estimatedCount", estimatedCount);
         CheckParamUtil.isNotNull("difference", difference);
 
         this.id = id;
-        this.resource = resource;
+        this.resourceId = resourceId;
+        this.name = name;
+        this.unit = unit;
         this.actualCount = actualCount;
         this.estimatedCount = estimatedCount;
         this.difference = difference;
     }
 
-    public static InventoryResource create(Resource resource, Integer actualCount, Integer estimatedCount) {
-        return new InventoryResource(null, resource, actualCount, estimatedCount, actualCount - estimatedCount);
+    public static InventoryResource create(Long resourceId, Integer actualCount, Integer estimatedCount) {
+        return new InventoryResource(null, resourceId, null, null, actualCount, estimatedCount, actualCount - estimatedCount);
     }
 
     public Optional<Long> id() {
         return Optional.ofNullable(id);
     }
 
-    public Resource getResource() {
-        return resource;
+    public Long getResourceId() {
+        return resourceId;
+    }
+
+    public Optional<String> name() {
+        return Optional.ofNullable(name);
+    }
+
+    public Optional<String> unit() {
+        return Optional.ofNullable(unit);
     }
 
     public Integer getActualCount() {
@@ -70,4 +90,6 @@ public final class InventoryResource {
     public Integer getDifference() {
         return difference;
     }
+
+
 }

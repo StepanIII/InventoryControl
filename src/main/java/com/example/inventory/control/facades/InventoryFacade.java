@@ -1,7 +1,8 @@
 package com.example.inventory.control.facades;
 
-import com.example.inventory.control.api.resource.operation.acceptance.AllAcceptResponseBody;
+import com.example.inventory.control.api.BaseResponseBody;
 import com.example.inventory.control.api.resource.operation.inventory.AllInventoryResponseBody;
+import com.example.inventory.control.api.resource.operation.inventory.InventoryRequestBody;
 import com.example.inventory.control.api.resource.operation.inventory.InventoryResponseBody;
 
 /**
@@ -24,4 +25,24 @@ public interface InventoryFacade {
      * @return ответ со статусом и найденной инвентаризацией.
      */
     InventoryResponseBody getInventoryById(Long id);
+
+    /**
+     * Добавить инвентаризацию.
+     *
+     * @param request запрос с данными инвентаризации.
+     *
+     * @return ответ со статусом.
+     */
+    BaseResponseBody addInventory(InventoryRequestBody request);
+
+    /**
+     * Изменить инвентаризацию.
+     *
+     *
+     * @param id      идуентификатор обновляемой инвентаризации.
+     * @param request запрос с обнрвленными данными инвентаризации.
+     *
+     * @return ответ со статусом.
+     */
+    BaseResponseBody editInventory(Long id, InventoryRequestBody request);
 }

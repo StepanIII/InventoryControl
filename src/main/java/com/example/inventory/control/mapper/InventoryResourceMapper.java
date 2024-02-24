@@ -2,10 +2,8 @@ package com.example.inventory.control.mapper;
 
 import com.example.inventory.control.api.resource.operation.inventory.model.InventoryResourceResponseBodyModel;
 import com.example.inventory.control.domain.models.InventoryResource;
-import com.example.inventory.control.domain.models.ResourceCount;
 import com.example.inventory.control.entities.InventoryEntity;
 import com.example.inventory.control.entities.InventoryResourceEntity;
-import com.example.inventory.control.entities.ResourceCountEntity;
 import com.example.inventory.control.entities.ResourceEntity;
 import com.example.inventory.control.repositories.ResourceRepository;
 import org.mapstruct.Mapper;
@@ -21,8 +19,7 @@ public abstract class InventoryResourceMapper {
     private ResourceMapper resourceMapper;
 
     public InventoryResourceEntity toEntity(InventoryResource domain, InventoryEntity inventoryEntity) {
-        Long resourceId = domain.getResource().id().orElseThrow();
-        ResourceEntity resourceEntity = resourceRepository.findById(resourceId).orElseThrow();
+        ResourceEntity resourceEntity = resourceRepository.findById(domain.getResourceId()).orElseThrow();
         return new InventoryResourceEntity(
                 domain.id().orElse(null),
                 resourceEntity,
@@ -36,7 +33,9 @@ public abstract class InventoryResourceMapper {
     public InventoryResource toDomain(InventoryResourceEntity entity) {
         return new InventoryResource(
                 entity.getId(),
-                resourceMapper.toDomainModel(entity.getResource()),
+                entity.getResource().getId(),
+                entity.getResource().getName(),
+                entity.getResource().getUnit().getValue(),
                 entity.getActualCount(),
                 entity.getEstimatedCount(),
                 entity.getDifference());
@@ -45,10 +44,11 @@ public abstract class InventoryResourceMapper {
     public InventoryResourceResponseBodyModel toInventoryResourceResponseBodyModel(InventoryResource resource) {
         InventoryResourceResponseBodyModel responseBodyModel = new InventoryResourceResponseBodyModel();
         responseBodyModel.setId(resource.id().orElseThrow());
-        responseBodyModel.setName(resource.getResource().getName());
+        responseBodyModel.setName(resource.name().orElseThrow());
         responseBodyModel.setActualCount(resource.getActualCount());
         responseBodyModel.setEstimatedCount(resource.getEstimatedCount());
         responseBodyModel.setDifference(resource.getDifference());
+        responseBodyModel.setUnit(resource.unit().orElseThrow());
         return responseBodyModel;
     }
 }

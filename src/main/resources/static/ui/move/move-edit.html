@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить перемещение</title>
+</head>
+<body>
+
+<p id="error_desc"></p>
+
+<!--Со склада-->
+<label for="from_warehouse">Со склада:</label>
+<span id="from_warehouse"></span>
+<span id="from_warehouse_id" hidden></span>
+<br>
+<button id="open_list_from_warehouse_btn" onclick="handleFromWarehouseSelect()">Выбрать из справочника</button>
+<table id="from_warehouse_table" hidden>
+    <thead><tr><td>Код</td><td>Наименование</td></tr></thead>
+    <tbody></tbody>
+</table>
+<br><br>
+
+<!--На склад-->
+<label for="to_warehouse">На склад:</label>
+<span id="to_warehouse"></span>
+<span id="to_warehouse_id" hidden></span>
+<br>
+<button id="open_list_to_warehouse_btn" onclick="handleToWarehouseSelect()">Выбрать из справочника</button>
+<table id="to_warehouse_table" hidden>
+    <thead><tr><td>Код</td><td>Наименование</td></tr></thead>
+    <tbody></tbody>
+</table>
+<br><br>
+
+<!--Выбор ресурсов-->
+<button id="open_list_resources_btn" onclick="handleResourceSelect()" disabled>Выбрать ресурсы из справочника</button>
+<div id="select_resources_block" hidden>
+    <table id="resources_table">
+        <thead><tr><td>Код</td><td>Наименование</td><td>Остаток</td><td>Единица измерения</td></tr></thead>
+        <tbody></tbody>
+    </table>
+    <button onclick="handleSelectResourceBtn()">Выбрать</button>
+</div>
+
+<!--Выбранные ресурсы-->
+<br><br>
+<table id="selected_resource_table">
+    <thead><tr><td>Код</td><td>Наименование</td><td>Количество</td><td>Остаток со склада</td><td>Остаток на склад</td><td>Единица измерения</td><td>Операция</td></tr></thead>
+    <tbody></tbody>
+</table>
+<br>
+
+<button id="save_acceptance_btn" onclick="handleSaveAcceptanceBtn()">Сохранить</button>
+
+<script src="/utils.js"></script>
+<script src="/url.js"></script>
+<script src="/rest-methods.js"></script>
+<script src="/ui/move/move-edit.js"></script>
+
+</body>
+</html>

@@ -9,6 +9,7 @@ import com.example.inventory.control.api.resource.operation.capitalization.model
 import com.example.inventory.control.api.resource.operation.issue.AllIssueResponseBody;
 import com.example.inventory.control.api.resource.operation.issue.IssueRequestBody;
 import com.example.inventory.control.api.resource.operation.issue.IssueResponseBody;
+import com.example.inventory.control.api.resource.operation.move.AllMoveResponseBody;
 import com.example.inventory.control.api.resource.operation.write.off.AllWriteOffResponseBody;
 import com.example.inventory.control.api.resource.operation.write.off.WriteOffRequestBody;
 import com.example.inventory.control.api.resource.operation.write.off.WriteOffResponseBody;

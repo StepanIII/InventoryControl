@@ -25,4 +25,13 @@ public interface InventoryService {
      * @return найденная инвентаризация.
      */
     Optional<Inventory> findInventoryById(Long id);
+
+    /**
+     * Сохранить инвентаризацию.
+     *
+     * @param inventory сохраняемая инвентаризация.
+     *
+     * @return сохраненная инвентаризация.
+     */
+    Inventory save(Inventory inventory);
 }

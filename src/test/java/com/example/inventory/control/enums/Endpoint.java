@@ -8,6 +8,7 @@ public final class Endpoint {
     public static final String RESOURCE_OPERATION_CAPITALIZATION = "/resource-operation/capitalization";
     public static final String RESOURCE_OPERATION_WRITE_OFF = "/resource-operation/write-off";
     public static final String INVENTORY = "/inventory";
+    public static final String MOVE = "/move";
 
     public static final String BENEFACTOR = "/client/benefactor";
     public static final String BENEFICIARY = "/client/beneficiary";

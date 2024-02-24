@@ -6,6 +6,7 @@ import com.example.inventory.control.api.resource.operation.acceptance.AcceptReq
 import com.example.inventory.control.api.resource.operation.acceptance.AcceptResponseBody;
 import com.example.inventory.control.api.resource.operation.acceptance.AllAcceptResponseBody;
 import com.example.inventory.control.api.resource.operation.inventory.AllInventoryResponseBody;
+import com.example.inventory.control.api.resource.operation.inventory.InventoryRequestBody;
 import com.example.inventory.control.api.resource.operation.inventory.InventoryResponseBody;
 import com.example.inventory.control.facades.InventoryFacade;
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,18 +61,31 @@ public class InventoryController {
         return ResponseEntity.ok(responseBody);
     }
 
-//    @PostMapping("/accept")
-//    public ResponseEntity<BaseResponseBody> addAccept(@Valid @RequestBody AcceptRequestBody request) {
-//        LOGGER.info("Запрос на добавление приемки ресурсов.");
-//        BaseResponseBody responseBody = resourceOperationFacade.addAccept(request);
-//        if (responseBody.getStatus() == StatusResponse.SUCCESS) {
-//            LOGGER.info("Запрос на добавление приемки ресурсов выполнен успешно.");
-//        } else {
-//            LOGGER.info(String.format("Запрос на добавление приемки ресурсов не выполнен. Причина: %s",
-//                    responseBody.getDescription()));
-//        }
-//        return ResponseEntity.ok(responseBody);
-//    }
+    @PostMapping
+    public ResponseEntity<BaseResponseBody> addInventory(@Valid @RequestBody InventoryRequestBody request) {
+        LOGGER.info("Запрос на добавление инвенатризации ресурсов.");
+        BaseResponseBody responseBody = inventoryFacade.addInventory(request);
+        if (responseBody.getStatus() == StatusResponse.SUCCESS) {
+            LOGGER.info("Запрос на добавление инвентаризации ресурсов выполнен успешно.");
+        } else {
+            LOGGER.info(String.format("Запрос на добавление инвентаризации ресурсов не выполнен. Причина: %s",
+                    responseBody.getDescription()));
+        }
+        return ResponseEntity.ok(responseBody);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BaseResponseBody> editInventory(@PathVariable Long id, @Valid @RequestBody InventoryRequestBody request) {
+        LOGGER.info("Запрос на изменение инвенатризации ресурсов.");
+        BaseResponseBody responseBody = inventoryFacade.editInventory(id, request);
+        if (responseBody.getStatus() == StatusResponse.SUCCESS) {
+            LOGGER.info("Запрос на изменение инвентаризации ресурсов выполнен успешно.");
+        } else {
+            LOGGER.info(String.format("Запрос на изменение инвентаризации ресурсов не выполнен. Причина: %s",
+                    responseBody.getDescription()));
+        }
+        return ResponseEntity.ok(responseBody);
+    }
 
 //    Изменение
 }

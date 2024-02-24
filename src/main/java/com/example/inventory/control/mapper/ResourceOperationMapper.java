@@ -7,6 +7,7 @@ import com.example.inventory.control.api.resource.operation.capitalization.model
 import com.example.inventory.control.api.resource.operation.capitalization.model.CapitalizationWithCaseResponseBodyModel;
 import com.example.inventory.control.api.resource.operation.issue.model.IssueResponseBodyModel;
 import com.example.inventory.control.api.resource.operation.issue.model.IssueWithResourcesBodyModel;
+import com.example.inventory.control.api.resource.operation.move.model.MoveResponseBodyModel;
 import com.example.inventory.control.api.resource.operation.write.off.model.WriteOffResponseBodyModel;
 import com.example.inventory.control.api.resource.operation.write.off.model.WriteOffWithCaseResponseBodyModel;
 import com.example.inventory.control.domain.models.Client;

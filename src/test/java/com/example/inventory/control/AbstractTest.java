@@ -4,6 +4,8 @@ import com.example.inventory.control.domain.models.Inventory;
 import com.example.inventory.control.domain.models.InventoryResource;
 import com.example.inventory.control.entities.InventoryEntity;
 import com.example.inventory.control.entities.InventoryResourceEntity;
+import com.example.inventory.control.entities.MoveEntity;
+import com.example.inventory.control.entities.MoveResourceEntity;
 import com.example.inventory.control.entities.ResourceCountEntity;
 import com.example.inventory.control.entities.ResourceOperationEntity;
 import com.example.inventory.control.entities.ClientEntity;
@@ -15,6 +17,8 @@ import com.example.inventory.control.enums.ResourceOperationType;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Unit;
 import com.example.inventory.control.repositories.InventoryRepository;
+import com.example.inventory.control.repositories.InventoryResourceRepository;
+import com.example.inventory.control.repositories.MoveRepository;
 import com.example.inventory.control.repositories.ResourceOperationRepository;
 import com.example.inventory.control.repositories.ClientRepository;
 import com.example.inventory.control.repositories.RemainingRepository;
@@ -54,11 +58,18 @@ public abstract class AbstractTest {
     protected RemainingRepository remainingRepository;
 
     @Autowired
-    private InventoryRepository inventoryRepository;
+    protected InventoryRepository inventoryRepository;
+
+    @Autowired
+    protected InventoryResourceRepository inventoryResourceRepository;
+
+    @Autowired
+    protected MoveRepository moveRepository;
 
     @BeforeEach
     @AfterEach
     public void clear() {
+        moveRepository.deleteAll();
         resourceOperationRepository.deleteAll();
         inventoryRepository.deleteAll();
         warehouseRepository.deleteAll();
@@ -173,7 +184,6 @@ public abstract class AbstractTest {
         inventoryEntity.setWarehouse(warehouse);
         inventoryEntity.setResources(resources);
 
-
         for (InventoryResourceEntity resource : resources) {
             resource.setInventory(inventoryEntity);
         }
@@ -190,6 +200,26 @@ public abstract class AbstractTest {
         inventoryResourceEntity.setEstimatedCount(estimatedCount);
         inventoryResourceEntity.setDifference(actualCount - estimatedCount);
         return inventoryResourceEntity;
+    }
+
+    protected MoveEntity createMove(WarehouseEntity fromWarehouse, WarehouseEntity toWarehouse, List<MoveResourceEntity> resources) {
+        MoveEntity moveEntity = new MoveEntity();
+        moveEntity.setFromWarehouse(fromWarehouse);
+        moveEntity.setToWarehouse(toWarehouse);
+
+        for (MoveResourceEntity resource : resources) {
+            resource.setMove(moveEntity);
+        }
+
+        moveEntity.getResources().addAll(resources);
+        return moveRepository.save(moveEntity);
+    }
+
+    protected MoveResourceEntity createMoveResource(ResourceEntity resource, int count) {
+        MoveResourceEntity moveResourceEntity = new MoveResourceEntity();
+        moveResourceEntity.setResource(resource);
+        moveResourceEntity.setCount(count);
+        return moveResourceEntity;
     }
 
 }

@@ -8,6 +8,7 @@ public enum ResourceOperationType {
     ACCEPT,
     ISSUE,
     CAPITALIZATION,
-    WRITE_OFF
+    WRITE_OFF,
+    MOVE
 
 }

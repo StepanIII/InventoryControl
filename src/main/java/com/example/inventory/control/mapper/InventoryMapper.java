@@ -97,6 +97,7 @@ public abstract class InventoryMapper {
         resourcesBodyModel.setId(inventory.id().orElseThrow());
         resourcesBodyModel.setCreatedTime(inventory.getCreatedTime());
         resourcesBodyModel.setWarehouseName(inventory.getWarehouse().getName());
+        resourcesBodyModel.setWarehouseId(inventory.getWarehouse().id().orElseThrow());
         resourcesBodyModel.setResources(resourcesResponseBodyModel);
         return resourcesBodyModel;
     }
