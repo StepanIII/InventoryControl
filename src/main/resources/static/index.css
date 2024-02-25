@@ -1,3 +1,19 @@
+.click-menu-btn {
+    background-color: transparent;
+    border: none;
+    color: #0051c9;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 9px 0;
+    position: relative;
+    transition: border-bottom 0.3s;
+    line-height: 30px;
+    display: inline;
+
+    border-bottom: 2px solid #0051c9;
+    /*padding-bottom: 1px;*/
+}
 
 .underline-border {
     background-color: transparent;
@@ -9,10 +25,8 @@
     padding: 10px 0;
     position: relative;
     transition: border-bottom 0.3s;
-    /*display: inline-block;*/
     line-height: 30px;
     display: inline;
-    /*width: 10%;*/
 }
 
 .underline-border::after {
@@ -30,10 +44,94 @@
     background-color: #0051c9;
 }
 
+.underline-border:focus::after {
+    background-color: #0051c9;
+}
+
 .wrapper {
     display: inline-block;
+}
+
+.menu {
+    border-bottom: 1px solid #C0C0C0;
 }
 
 .menu-row-with {
     width: 100px;
 }
+
+/*.btn {*/
+/*    display: inline-block;*/
+/*    box-sizing: border-box;*/
+/*    padding: 0 13px;*/
+/*    margin: 0 15px 15px 0;*/
+/*    outline: none;*/
+/*    border: 1px solid #a4afba;*/
+/*    border-radius: 3px;*/
+/*    height: 32px;*/
+/*    line-height: 32px;*/
+/*    font-size: 14px;*/
+/*    font-weight: 500;*/
+/*    text-decoration: none;*/
+/*    color: #838a92;*/
+/*    background-color: #fff;*/
+/*    cursor: pointer;*/
+/*    user-select: none;*/
+/*    appearance: none;*/
+/*    touch-action: manipulation;*/
+/*}*/
+/*.btn:focus-visible {*/
+/*    box-shadow: 0 0 0 3px lightskyblue;*/
+/*}*/
+/*.btn:hover {*/
+/*    border-color: #65a3be;*/
+/*    color: #4e879c;*/
+/*}*/
+/*.btn:active {*/
+/*    border-color: #78a2b7 !important;*/
+/*    color: #3a728b !important;*/
+/*}*/
+/*.btn:disabled {*/
+/*    background-color: #eee;*/
+/*    color: #444;*/
+/*    pointer-events: none;*/
+/*}*/
+
+.btn-2 {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0 13px;
+    margin: 0 15px 15px 0;
+    outline: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #fff;
+    background-color: #65a3be;
+    cursor: pointer;
+    user-select: none;
+    appearance: none;
+    touch-action: manipulation;
+}
+.btn-2:focus-visible {
+    box-shadow: 0 0 0 3px lightskyblue;
+}
+.btn-2:hover {
+    border-color: transparent;
+    background-color: #4986a1;
+    color: #fff;
+}
+.btn-2:active {
+    border-color: #6f9cbc !important;
+    background-color: #367089 !important;
+}
+.btn-2:disabled {
+    background-color: #558cb7;
+    color: #fff;
+    pointer-events: none;
+}
+
