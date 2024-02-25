@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MoveServiceImpl implements MoveService {
@@ -26,5 +27,20 @@ public class MoveServiceImpl implements MoveService {
     public List<Move> getAllMove() {
         List<MoveEntity> moveEntities = moveRepository.findAll();
         return moveMapper.toDomainModel(moveEntities);
+    }
+
+    @Override
+    @Transactional
+    public Move save(Move move) {
+        MoveEntity moveEntity = moveMapper.toEntity(move);
+        moveEntity = moveRepository.save(moveEntity);
+        return moveMapper.toDomainModel(moveEntity);
+    }
+
+    @Override
+    @Transactional
+    public Optional<Move> findById(Long id) {
+        Optional<MoveEntity> moveEntityCandidate = moveRepository.findById(id);
+        return moveEntityCandidate.map(moveMapper::toDomainModel);
     }
 }

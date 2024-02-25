@@ -148,8 +148,8 @@ function fillSelectedResourceTable(code, name, count, fromRemainCount, toRemainC
 }
 
 function handleSaveAcceptanceBtn() {
-    let benefactorId = getElement('selected_benefactor_id').textContent
-    let warehouseId = getElement('selected_warehouse_id').textContent
+    let fromWarehouseId = getElement('from_warehouse_id').textContent
+    let toWarehouseId = getElement('to_warehouse_id').textContent
 
     let selectedResourceTbody = document.querySelector('#selected_resource_table tbody')
     let resourcesRequest = []
@@ -158,6 +158,7 @@ function handleSaveAcceptanceBtn() {
     trs.forEach(tr => {
         let resourceId = tr.childNodes[0].textContent
         let count = tr.childNodes[2].textContent
+
         let resourceReq = {
             resourceId: resourceId,
             count: count
@@ -166,18 +167,18 @@ function handleSaveAcceptanceBtn() {
     })
 
     let request = {
-        benefactorId: benefactorId,
-        warehouseId: warehouseId,
+        fromWarehouseId: fromWarehouseId,
+        toWarehouseId: toWarehouseId,
         resources: resourcesRequest
     }
 
-    postData(ACCEPT_URL, request).then(response => {
+    postData(MOVE_URL, request).then(response => {
         console.log(response)
 
         if (response.status !== SUCCESS) {
             getElement('error_desc').textContent = response.description
         } else {
-            window.location.replace(UI_ACCEPT_ALL_URL)
+            window.location.replace(UI_MOVE_ALL_URL)
         }
     })
 }

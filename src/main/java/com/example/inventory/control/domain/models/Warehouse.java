@@ -54,6 +54,24 @@ public final class Warehouse {
         return new Warehouse(id, name, newRemaining);
     }
 
+    // Пересмотреть доменную модель MoveResource и сдеалть списание одним методом
+    public Warehouse addRemainingMove(List<MoveResource> resourceCounts) {
+        Set<Remain> newRemaining = new HashSet<>();
+        for (MoveResource resourceCount : resourceCounts) {
+            Optional<Remain> remainCandidate = getRemainByResourceId(resourceCount.getResourceId());
+            if (remainCandidate.isPresent()) {
+                Remain updatedRemain = remainCandidate.get();
+                updatedRemain = updatedRemain.updateCount(updatedRemain.getCount() + resourceCount.getCount());
+                newRemaining.add(updatedRemain);
+            } else {
+                Remain newRemain = Remain.create(resourceCount.getResourceId(), resourceCount.getCount(), name);
+                newRemaining.add(newRemain);
+            }
+        }
+        newRemaining.addAll(remains);
+        return new Warehouse(id, name, newRemaining);
+    }
+
     public boolean hasAllResources(List<Long> checkedResourceIds) {
         for (Long resourceId : checkedResourceIds) {
             if (getRemainByResourceId(resourceId).isEmpty()) {
@@ -79,6 +97,21 @@ public final class Warehouse {
     public Warehouse writeOffRemaining(List<ResourceCount> resourceCounts) {
         Set<Remain> newRemaining = new HashSet<>();
         for (ResourceCount resourceCount : resourceCounts) {
+            Optional<Remain> remainCandidate = getRemainByResourceId(resourceCount.getResourceId());
+            if (remainCandidate.isPresent()) {
+                Remain updatedRemain = remainCandidate.get();
+                updatedRemain = updatedRemain.updateCount(updatedRemain.getCount() - resourceCount.getCount());
+                newRemaining.add(updatedRemain);
+            }
+        }
+        newRemaining.addAll(remains);
+        return new Warehouse(id, name, newRemaining);
+    }
+
+    // Пересмотреть доменную модель MoveResource и сдеалть списание одним методом
+    public Warehouse moveRemaining(List<MoveResource> resourceCounts) {
+        Set<Remain> newRemaining = new HashSet<>();
+        for (MoveResource resourceCount : resourceCounts) {
             Optional<Remain> remainCandidate = getRemainByResourceId(resourceCount.getResourceId());
             if (remainCandidate.isPresent()) {
                 Remain updatedRemain = remainCandidate.get();

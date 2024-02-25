@@ -52,7 +52,7 @@ public final class Move {
         return new Move(null, null, fromWarehouse, toWarehouse, resources);
     }
 
-    public Optional<Long> Id() {
+    public Optional<Long> id() {
         return Optional.ofNullable(id);
     }
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Перемещение</title>
+</head>
+<body>
+
+<p id="error_desc"></p>
+
+<label for="code">Код:</label>
+<span id="code"></span>
+<br>
+
+<label for="time">Время:</label>
+<span id="time"></span>
+<br>
+
+<!--Со склада-->
+<label for="from_warehouse">Со склада:</label>
+<span id="from_warehouse"></span>
+<br>
+
+<!--На склад-->
+<label for="to_warehouse">На склад:</label>
+<span id="to_warehouse"></span>
+<br>
+
+<!--Выбранные ресурсы-->
+<br><br>
+<table id="resource_table">
+    <thead><tr><td>Код</td><td>Наименование</td><td>Количество</td><td>Остаток со склада</td><td>Остаток на склад</td><td>Единица измерения</td></tr></thead>
+    <tbody></tbody>
+</table>
+<br>
+
+
+<script src="/utils.js"></script>
+<script src="/url.js"></script>
+<script src="/rest-methods.js"></script>
+<script src="/ui/move/move-show.js"></script>
+
+</body>
+</html>

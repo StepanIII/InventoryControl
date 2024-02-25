@@ -3,6 +3,8 @@ package com.example.inventory.control;
 import com.example.inventory.control.entities.ClientEntity;
 import com.example.inventory.control.entities.InventoryEntity;
 import com.example.inventory.control.entities.InventoryResourceEntity;
+import com.example.inventory.control.entities.MoveEntity;
+import com.example.inventory.control.entities.MoveResourceEntity;
 import com.example.inventory.control.entities.RemainingEntity;
 import com.example.inventory.control.entities.ResourceCountEntity;
 import com.example.inventory.control.entities.ResourceEntity;
@@ -14,6 +16,7 @@ import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Unit;
 import com.example.inventory.control.repositories.ClientRepository;
 import com.example.inventory.control.repositories.InventoryRepository;
+import com.example.inventory.control.repositories.MoveRepository;
 import com.example.inventory.control.repositories.ResourceOperationRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
@@ -40,6 +43,9 @@ public class InitDataBase {
 
     @Autowired
     private InventoryRepository inventoryRepository;
+
+    @Autowired
+    private MoveRepository moveRepository;
 
     @PostConstruct
     public void addData() {
@@ -116,6 +122,19 @@ public class InitDataBase {
         ResourceEntity secondResource = createResourceEntity("Груши", ResourceType.FOOD, Unit.KILOGRAM);
         InventoryResourceEntity secondInventoryResource = createInventoryResourceEntity(secondResource, 100, 101);
         InventoryEntity inventorySecond = createInventoryEntity(warehouse2, List.of(secondInventoryResource));
+
+        MoveEntity move1 = createMoveEntity(
+                warehouse1,
+                warehouse2,
+                List.of(createMoveResourceEntity(firstResource, 4)));
+        MoveEntity move2 = createMoveEntity(
+                warehouse1,
+                warehouse2,
+                List.of(createMoveResourceEntity(firstResource, 4), createMoveResourceEntity(secondResource, 5)));
+        MoveEntity move3 = createMoveEntity(
+                warehouse1,
+                warehouse2,
+                List.of(createMoveResourceEntity(firstResource, 10), createMoveResourceEntity(secondResource, 5), createMoveResourceEntity(resource4, 6)));
 
     }
 
@@ -246,6 +265,26 @@ public class InitDataBase {
         inventoryResourceEntity.setEstimatedCount(estimatedCount);
         inventoryResourceEntity.setDifference(actualCount - estimatedCount);
         return inventoryResourceEntity;
+    }
+
+    protected MoveEntity createMoveEntity(WarehouseEntity fromWarehouse, WarehouseEntity toWarehouse, List<MoveResourceEntity> resources) {
+        MoveEntity moveEntity = new MoveEntity();
+        moveEntity.setFromWarehouse(fromWarehouse);
+        moveEntity.setToWarehouse(toWarehouse);
+
+        for (MoveResourceEntity resource : resources) {
+            resource.setMove(moveEntity);
+        }
+
+        moveEntity.getResources().addAll(resources);
+        return moveRepository.save(moveEntity);
+    }
+
+    protected MoveResourceEntity createMoveResourceEntity(ResourceEntity resource, int count) {
+        MoveResourceEntity moveResourceEntity = new MoveResourceEntity();
+        moveResourceEntity.setResource(resource);
+        moveResourceEntity.setCount(count);
+        return moveResourceEntity;
     }
 
 }

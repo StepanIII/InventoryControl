@@ -23,13 +23,12 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MoveControllerGetAllAcceptTest extends AbstractTest {
+public class MoveControllerGetAllTest extends AbstractTest {
 
     @Test
     public void shouldReturnAllMove() {
         WarehouseEntity fromWarehouse = createWarehouse("Склад_1");
         WarehouseEntity toWarehouse = createWarehouse("Склад_2");
-
 
         ResourceEntity firstResource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
         ResourceEntity secondResource = createResource("Груши", ResourceType.FOOD, Unit.KILOGRAM);
@@ -62,6 +61,5 @@ public class MoveControllerGetAllAcceptTest extends AbstractTest {
         List<MoveResponseBodyModel> moves = responseEntity.getBody().getMoves();
         assertThat(moves).hasSize(3);
     }
-
 
 }

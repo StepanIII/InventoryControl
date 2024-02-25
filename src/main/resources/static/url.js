@@ -3,6 +3,7 @@ const ISSUE_URL = 'http://localhost:8080/resource-operation/issue'
 const CAPITALIZATION_URL = 'http://localhost:8080/resource-operation/capitalization'
 const WRITE_OFF_URL = 'http://localhost:8080/resource-operation/write-off'
 const INVENTORY_URL = 'http://localhost:8080/inventory'
+const MOVE_URL = 'http://localhost:8080/move'
 
 const BENEFACTORS_URL = 'http://localhost:8080/client/benefactor'
 const BENEFICIARIES_URL = 'http://localhost:8080/client/beneficiary'

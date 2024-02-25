@@ -1,6 +1,7 @@
 package com.example.inventory.control.mapper;
 
 import com.example.inventory.control.api.resource.operation.move.model.MoveResponseBodyModel;
+import com.example.inventory.control.api.resource.operation.move.model.MoveWithResourcesResponseBodyModel;
 import com.example.inventory.control.domain.models.Move;
 import com.example.inventory.control.entities.MoveEntity;
 import org.mapstruct.Mapper;
@@ -22,7 +23,7 @@ public class MoveMapper {
 
     public MoveEntity toEntity(Move domainModel) {
         MoveEntity moveEntity = new MoveEntity(
-                domainModel.Id().orElse(null),
+                domainModel.id().orElse(null),
                 warehouseMapper.toEntity(domainModel.getFromWarehouse()),
                 warehouseMapper.toEntity(domainModel.getToWarehouse()));
         moveEntity.getResources().clear();
@@ -46,10 +47,20 @@ public class MoveMapper {
 
     public MoveResponseBodyModel toMoveResponseBodyModel(Move domainModel) {
         MoveResponseBodyModel responseBodyModel = new MoveResponseBodyModel();
-        responseBodyModel.setId(domainModel.Id().orElseThrow());
+        responseBodyModel.setId(domainModel.id().orElseThrow());
         responseBodyModel.setCreatedTime(domainModel.getCreatedTime());
         responseBodyModel.setFromWarehouseName(domainModel.getFromWarehouse().getName());
         responseBodyModel.setToWarehouseName(domainModel.getToWarehouse().getName());
+        return responseBodyModel;
+    }
+
+    public MoveWithResourcesResponseBodyModel toMoveWithResourcesResponseBodyModel(Move domainModel) {
+        MoveWithResourcesResponseBodyModel responseBodyModel = new MoveWithResourcesResponseBodyModel();
+        responseBodyModel.setId(domainModel.id().orElseThrow());
+        responseBodyModel.setCreatedTime(domainModel.getCreatedTime());
+        responseBodyModel.setFromWarehouseName(domainModel.getFromWarehouse().getName());
+        responseBodyModel.setToWarehouseName(domainModel.getToWarehouse().getName());
+        responseBodyModel.setResources(moveResourceMapper.toMoveResourceResponseBodyModel(domainModel.getResources(), domainModel.getFromWarehouse(), domainModel.getToWarehouse()));
         return responseBodyModel;
     }
 
