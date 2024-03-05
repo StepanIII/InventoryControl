@@ -2,8 +2,7 @@
 
 function handleAddResourceBtn() {
     getElement('editModalLabel').textContent = 'Добавить ресурс'
-    let modal = new bootstrap.Modal(getElement('edit_modal'))
-    modal.show()
+    showModal('edit_modal')
 }
 
 getData(RESOURCE_URL).then(response => {
@@ -35,8 +34,7 @@ function createDeleteResourceSymbol(resourceId) {
             getElement("del_resource_type").value = resource.type
             getElement("del_resource_unit").value = resource.unit
 
-            let modal = new bootstrap.Modal(getElement('delete_modal'))
-            modal.show()
+            showModal('delete_modal')
         })
     }
     return deleteSymbol
@@ -69,8 +67,8 @@ function trHandler(tr, resourceId) {
 
                 getElement('editModalLabel').textContent = 'Изменить ресурс'
                 getElement('edit_modal_code_row').hidden = false
-                let modal = new bootstrap.Modal(getElement('edit_modal'))
-                modal.show()
+
+                showModal('edit_modal')
             })
         }
     }
@@ -140,6 +138,5 @@ function handleSaveResourceBtn() {
 
 function showModalError(errorDescription) {
     getElement('error_desc').textContent = errorDescription
-    let modal = new bootstrap.Modal(getElement('error_modal'))
-    modal.show()
+    showModal('error_modal')
 }

@@ -26,6 +26,12 @@ const createCheckBox = () => {
     return input
 }
 
+const createRadio = () => {
+    let input = document.createElement('input')
+    input.type = 'radio'
+    return input
+}
+
 const createElementWithId = (name, id) => {
     let element = createElement(name)
     element.id = id
@@ -96,4 +102,15 @@ const removeChildNodes = (element) => {
 
 const stringIsBlank = (value) => {
     return value === null || value.length === 0
+}
+
+const showModal = (id) => {
+    let modal = new bootstrap.Modal(getElement(id))
+    modal.show()
+}
+
+const closeModal = (id) => {
+    let modal = new bootstrap.Modal(getElement(id))
+    modal._hideModal()
+    modal.hide()
 }

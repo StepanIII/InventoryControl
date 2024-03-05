@@ -13,13 +13,13 @@ public class AcceptRequestBody {
     /**
      * Идентификатор благодетеля.
      */
-    @NotNull(message = "Благодетель отсутствует")
+    @NotNull(message = "Благодетель не выбран")
     private Long benefactorId;
 
     /**
      * Идентификатор места хранения.
      */
-    @NotNull(message = "Склад отсутствует")
+    @NotNull(message = "Склад не выбран")
     private Long warehouseId;
 
     /**

@@ -135,3 +135,19 @@
     pointer-events: none;
 }
 
+.edit-label-param {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.edit-input-param {
+    height: 30px;
+}
+
+.edit-select-param {
+    font-weight: bold;
+    color: dodgerblue;
+    cursor: pointer;
+    width: 25px
+}
+

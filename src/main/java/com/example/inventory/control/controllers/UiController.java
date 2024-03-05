@@ -23,11 +23,6 @@ public class UiController {
         return "acceptance-edit.html";
     }
 
-    @GetMapping("/accept/show")
-    public String acceptShow() {
-        return "accept-show.html";
-    }
-
     @GetMapping("/issue/all")
     public String issue() {
         return "issue.html";
@@ -66,11 +61,6 @@ public class UiController {
     @GetMapping("/resource/all")
     public String resources() {
         return "resources.html";
-    }
-
-    @GetMapping("/resource/edit")
-    public String resourceEdit() {
-        return "resource-edit.html";
     }
 
     @GetMapping("/write-off/all")

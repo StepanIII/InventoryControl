@@ -1,99 +1,4 @@
 
-function handleBenefactorSelect() {
-    getData(BENEFACTORS_URL).then(response => {
-        console.log(response)
-
-        let openListBenefactorBtn = getElement('open_list_benefactor_btn')
-        let table = getElement('benefactor_table');
-        let tBody = document.querySelector('#benefactor_table tbody')
-
-        response.benefactors.forEach(benefactor => {
-            let tr = createTr([benefactor.id, benefactor.fio])
-            tr.onclick = () => {
-                getElement('selected_benefactor').textContent = benefactor.fio
-                getElement('selected_benefactor_id').textContent = benefactor.id
-
-                clearTBody(tBody)
-                table.hidden = true
-                openListBenefactorBtn.disabled = false
-            }
-            tBody.appendChild(tr)
-        })
-
-        table.hidden = false
-        openListBenefactorBtn.disabled = true
-    })
-}
-
-function handleWarehouseSelect() {
-    getData(WAREHOUSES_URL).then(response => {
-        console.log(response)
-
-        let openListWarehouseBtn = getElement('open_list_warehouse_btn')
-        let table = getElement('warehouse_table');
-        let tBody = document.querySelector('#warehouse_table tbody')
-
-        response.warehouses.forEach(warehouse => {
-            let tr = createTr([warehouse.id, warehouse.name])
-            tr.onclick = () => {
-                getElement('selected_warehouse').textContent = warehouse.name
-                getElement('selected_warehouse_id').textContent = warehouse.id
-                clearTBody(tBody)
-                table.hidden = true
-                openListWarehouseBtn.disabled = false
-            }
-            tBody.appendChild(tr)
-        })
-
-        table.hidden = false
-        openListWarehouseBtn.disabled = true
-    })
-}
-
-function handleResourceSelect() {
-    getData(RESOURCE_URL).then(response => {
-        console.log(response)
-
-        let tBody = document.querySelector('#resources_table tbody')
-        response.resources.forEach(resource => {
-            let tr = createTr([resource.id, resource.name, createInput('number', 0, null)])
-            tBody.appendChild(tr)
-        })
-
-        getElement('select_resources_block').hidden = false
-        getElement('open_list_resources_btn').disabled = true
-    })
-}
-
-function handleSelectResourceBtn() {
-    let resourcesTBody = document.querySelector('#resources_table tbody')
-    let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
-    clearTBody(selectedResourcesTBody)
-
-    let trs = resourcesTBody.childNodes
-    trs.forEach(tr => {
-        let tds = tr.childNodes
-
-        let code = tds[0].textContent
-        let name = tds[1].textContent
-        let count = tds[2].firstChild.value
-
-        if (count !== null && count > 0) {
-            let btn = createBtn('Удалить', null)
-            btn.onclick = (e) => {
-                let tr = e.currentTarget.parentNode.parentNode
-                tr.remove()
-            }
-            let tr = createTr([code, name, count, btn])
-            selectedResourcesTBody.appendChild(tr)
-        }
-    })
-
-    clearTBody(resourcesTBody)
-    getElement('select_resources_block').hidden = true
-    getElement('open_list_resources_btn').disabled = false
-}
-
 function handleSaveAcceptanceBtn() {
     let benefactorId = getElement('selected_benefactor_id').textContent
     let warehouseId = getElement('selected_warehouse_id').textContent
@@ -122,9 +27,164 @@ function handleSaveAcceptanceBtn() {
         console.log(response)
 
         if (response.status !== SUCCESS) {
-            getElement('error_desc').textContent = response.description
+            showModalError(response.description)
         } else {
             window.location.replace(UI_ACCEPT_ALL_URL)
         }
     })
+}
+
+function closeEditAcceptHandler() {
+    window.location.replace(UI_ACCEPT_ALL_URL)
+}
+
+
+function showBenefactorHandler() {
+    let tBody = document.querySelector('#benefactor_table tbody')
+    clearTBody(tBody)
+
+    getData(BENEFACTORS_URL).then(response => {
+        console.log(response)
+        return response.benefactors
+    }).then(benefactors => {
+        benefactors.forEach(benefactor => {
+            let checkBox = createCheckBox()
+            checkBox.className += ' form-check-input';
+            checkBox.onclick = () => {
+                let trs = tBody.childNodes
+                trs.forEach(tr => {
+                    let otherCheckbox = tr.childNodes[2].firstChild
+                    otherCheckbox.checked = false
+                })
+                checkBox.checked = true
+                getElement('selected_benefactor_id').textContent = benefactor.id
+            }
+
+            let tr = createTr([benefactor.id, benefactor.fio, checkBox])
+            tBody.appendChild(tr)
+        })
+
+    })
+
+    showModal('benefactors_modal')
+}
+
+function selectBenefactorHandler() {
+    let trs = document.querySelector('#benefactor_table tbody').childNodes
+    trs.forEach(tr => {
+        let checkbox = tr.childNodes[2].firstChild
+        if (checkbox.checked) {
+            getElement('selected_benefactor').value = tr.childNodes[1].textContent
+            return
+        }
+    })
+}
+
+function showWarehouseHandler() {
+    let tBody = document.querySelector('#warehouse_table tbody')
+    clearTBody(tBody)
+
+    getData(WAREHOUSES_URL).then(response => {
+        console.log(response)
+        return response.warehouses
+    }).then(warehouses => {
+        warehouses.forEach(warehouse => {
+            let checkBox = createCheckBox()
+            checkBox.className += ' form-check-input';
+            checkBox.onclick = () => {
+                let trs = tBody.childNodes
+                trs.forEach(tr => {
+                    let otherCheckbox = tr.childNodes[2].firstChild
+                    otherCheckbox.checked = false
+                })
+                checkBox.checked = true
+                getElement('selected_warehouse_id').textContent = warehouse.id
+            }
+            let tr = createTr([warehouse.id, warehouse.name, checkBox])
+            tBody.appendChild(tr)
+        })
+    })
+
+    showModal('warehouse_modal')
+}
+
+function selectWarehouseHandler() {
+    let trs = document.querySelector('#warehouse_table tbody').childNodes
+    trs.forEach(tr => {
+        let checkbox = tr.childNodes[2].firstChild
+        if (checkbox.checked) {
+            getElement('selected_warehouse').value = tr.childNodes[1].textContent
+            return
+        }
+    })
+}
+function showResourceHandler() {
+    let tBody = document.querySelector('#resource_table tbody')
+    clearTBody(tBody)
+
+    getData(RESOURCE_URL).then(response => {
+        console.log(response)
+        return response.resources
+    }).then(resources => {
+        resources.forEach(resource => {
+            let input = createInput('number', 0, null)
+            input.className += ' form-control'
+            input.value = getCountResourcesByIdFromSelectedTable(resource.id)
+
+            let tr = createTr([resource.id, resource.name, input])
+            tBody.appendChild(tr)
+        })
+    })
+
+    showModal('resource_modal')
+}
+
+function getCountResourcesByIdFromSelectedTable(id) {
+    let count
+    let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
+    let trs = selectedResourcesTBody.childNodes
+    trs.forEach(tr => {
+        if (tr.childNodes[0].textContent === String(id)) {
+            count = tr.childNodes[2].textContent
+            return
+        }
+    })
+    return count
+}
+
+function handleSelectResourceBtn() {
+    let resourcesTBody = document.querySelector('#resource_table tbody')
+    let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
+    clearTBody(selectedResourcesTBody)
+
+    let trs = resourcesTBody.childNodes
+    trs.forEach(tr => {
+        let tds = tr.childNodes
+
+        let code = tds[0].textContent
+        let name = tds[1].textContent
+        let count = tds[2].firstChild.value
+
+        if (count !== null && count > 0) {
+            let tr = createTr([code, name, count, createDeleteResourceSymbol()])
+            selectedResourcesTBody.appendChild(tr)
+        }
+    })
+}
+
+function createDeleteResourceSymbol() {
+    let deleteSymbol = document.createElement('span')
+    deleteSymbol.textContent = '✖'
+    deleteSymbol.style.fontSize = '10px'
+    deleteSymbol.style.cursor = 'pointer'
+    deleteSymbol.title = 'Удалить'
+    deleteSymbol.onclick = () => {
+        deleteSymbol.parentNode.parentNode.remove()
+    }
+    return deleteSymbol
+}
+
+function showModalError(errorDescription) {
+    getElement('error_desc').textContent = errorDescription
+    showModal('error_modal')
 }
