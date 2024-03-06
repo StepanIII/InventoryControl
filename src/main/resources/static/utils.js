@@ -23,6 +23,8 @@ const createInput = (type, min, max) => {
 const createCheckBox = () => {
     let input = document.createElement('input')
     input.type = 'checkbox'
+    input.className += ' form-check-input';
+    input.style.cursor = 'pointer'
     return input
 }
 
@@ -49,6 +51,7 @@ const createTr = (columns) => {
     let tr = document.createElement('tr')
     for (let i = 0; i < columns.length; i++) {
         let td = document.createElement('td')
+        // td.className += ' text-center'
         let element = columns[i]
         if (element instanceof Node) {
             td.appendChild(columns[i])
@@ -113,4 +116,15 @@ const closeModal = (id) => {
     let modal = new bootstrap.Modal(getElement(id))
     modal._hideModal()
     modal.hide()
+}
+
+const mouseOnTrHandler = (tr) => {
+    tr.style.transition = 'background-color 0.3s'
+    tr.onmouseleave = () => {
+        tr.style.backgroundColor = ''
+    }
+    tr.onmouseover = () => {
+        tr.style.backgroundColor = '#ADD8E6'
+    }
+    tr.style.cursor = 'pointer'
 }

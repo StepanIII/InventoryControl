@@ -33,11 +33,6 @@ public class UiController {
         return "issue-edit.html";
     }
 
-    @GetMapping("/issue/show")
-    public String issueShow() {
-        return "issue-show.html";
-    }
-
     @GetMapping("/capitalization/all")
     public String capitalization() {
         return "capitalization.html";

@@ -5,7 +5,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/index.css">
     <meta charset="UTF-8">
-    <title>Выдача</title>
+    <title>Выдачи</title>
 </head>
 <body>
 
@@ -24,16 +24,22 @@
     </div>
 </div>
 
-<div id="menu" class="container-fluid bg-light h-25 text-center">
+<div id="menu" class="container-fluid bg-light h-25 text-center menu">
     <div class="row">
         <div class="col-1 menu-row-with">
             <button class="underline-border" onclick="handleResourcesBtn()">Ресурсы</button>
         </div>
         <div class="col-1 menu-row-with">
+            <button class="underline-border">Склады</button>
+        </div>
+        <div class="col-1 menu-row-with">
+            <button class="underline-border">Клиенты</button>
+        </div>
+        <div class="col-1 menu-row-with">
             <button class="underline-border" onclick="handleAcceptanceBtn()">Приемки</button>
         </div>
         <div class="col-1 menu-row-with">
-            <button class="underline-border" onclick="handleIssueBtn()">Выдачи</button>
+            <button class="click-menu-btn" onclick="handleIssueBtn()">Выдачи</button>
         </div>
         <div class="col-1 menu-row-with">
             <button class="underline-border" onclick="handleCapitalizationBtn()">Оприходования</button>
@@ -42,7 +48,7 @@
             <button class="underline-border" onclick="handleWriteOffBtn()">Списания</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 20px">
-            <button class="underline-border">Перемещения</button>
+            <button class="underline-border" onclick="handleMoveBtn()">Перемещения</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 50px">
             <button class="underline-border" onclick="handleInventoryBtn()">Инвентаризации</button>
@@ -54,20 +60,87 @@
 </div>
 
 <div id="content">
+
+    <h4 style="margin-left: 30px; margin-top: 20px">Выдачи</h4>
     <br>
-    <button type="button" id="add_issue_btn" onclick="handleAddIssueBtn()">Добавить</button>
+
+    <button type="button" class="btn btn-primary" style="margin-left: 30px; font-weight: bold"
+            onclick="handleAddIssueBtn()">Добавить
+    </button>
     <br>
-    <table id="issue_table">
-        <tr><td>№</td><td>Время создания</td><td>Откуда</td><td>Благополучатель</td></tr>
+
+    <table id="issue_table" class="table table-striped w-50 text-center" style="margin-left: 30px">
+        <thead style="font-weight: bold">
+        <tr>
+            <td>№</td>
+            <td>Время</td>
+            <td>Склад</td>
+            <td>Благополучатель</td>
+        </tr>
+        </thead>
         <tbody></tbody>
     </table>
+
+    <!-- Модальное окно просмотра записи-->
+    <div class="modal fade" id="show_modal" tabindex="-1" aria-labelledby="show_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="show_modal_label">Выдача</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row text-center fw-bold">
+                            <form id="show_form">
+                                <div class="col-md-6 mx-auto">
+                                    <label for="show_number_issue" class="form-label">№</label>
+                                    <input type="text" class="form-control" id="show_number_issue" disabled>
+                                </div>
+
+                                <div class="col-md-6 mx-auto">
+                                    <label for="show_time_issue" class="form-label">Время</label>
+                                    <input type="text" class="form-control" id="show_time_issue" disabled>
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="show_beneficiary_issue" class="form-label">Благополучатель</label>
+                                    <input type="text" class="form-control" id="show_beneficiary_issue" disabled>
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="show_warehouse_issue" class="form-label">Склад</label>
+                                    <input type="text" class="form-control" id="show_warehouse_issue" disabled>
+                                </div>
+                                <br>
+                                <div class="col-md-12 mx-auto">
+                                    <label for="issue_resource_table" class="form-label">Ресурсы</label>
+                                    <table id="issue_resource_table" class="table table-striped">
+                                        <thead style="font-weight: bold">
+                                        <tr>
+                                            <td>Код</td>
+                                            <td>Наименование</td>
+                                            <td>Количество</td>
+                                            <td>Единица измерения</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="font-weight: normal"></tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
-
-<div id="footer">
-
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 <script src="/utils.js"></script>
 <script src="/url.js"></script>
 <script src="/rest-methods.js"></script>

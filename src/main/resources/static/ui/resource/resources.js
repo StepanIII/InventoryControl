@@ -72,14 +72,7 @@ function trHandler(tr, resourceId) {
             })
         }
     }
-    tr.style.transition = 'background-color 0.3s'
-    tr.onmouseleave = () => {
-        tr.style.backgroundColor = ''
-    }
-    tr.onmouseover = () => {
-        tr.style.backgroundColor = '#ADD8E6'
-    }
-    tr.style.cursor = 'pointer'
+    mouseOnTrHandler(tr)
 }
 
 getData(RESOURCE_URL + "/types").then(response => {

@@ -7,10 +7,30 @@ getData(CAPITALIZATION_URL).then(response => {
     let tBody = document.querySelector('#capitalization_table tbody')
     response.capitalization.forEach(capitalization => {
         let tr = createTr([capitalization.id, capitalization.createdTime, capitalization.warehouseName])
-        tr.onclick = () => {
-            localStorage.setItem('capitalization_id', capitalization.id)
-            window.location.replace(UI_CAPITALIZATION_SHOW_URL)
-        }
+        trHandler(tr, capitalization.id)
+        mouseOnTrHandler(tr)
         tBody.appendChild(tr)
     })
 })
+
+function trHandler(tr, capitalizationId) {
+    tr.onclick = () => {
+        getData(CAPITALIZATION_URL + "/" + capitalizationId).then(response => {
+            console.log(response)
+            return response.capitalization
+        }).then(capitalization => {
+            getElement('show_number_capital').value = capitalization.id
+            getElement('show_time_capital').value = capitalization.createdTime
+            getElement('show_warehouse_capital').value = capitalization.warehouseName
+            getElement('show_description_capital').value = capitalization.description
+
+            let tBody = document.querySelector('#capital_resource_table tbody')
+            capitalization.resources.forEach(resource => {
+                let tr = createTr([resource.id, resource.name, resource.count, 'Единица измерения'])
+                tBody.appendChild(tr)
+            })
+        })
+
+        showModal('show_modal')
+    }
+}

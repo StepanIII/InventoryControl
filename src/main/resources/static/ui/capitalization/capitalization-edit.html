@@ -1,51 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/index.css">
     <meta charset="UTF-8">
-    <title>Добавить оприходование</title>
+    <title>Оприходования</title>
 </head>
 <body>
 
-<p id="error_desc"></p>
-
-<!--Выбор места хранения-->
-<label for="selected_warehouse">Место хранения:</label>
-<span id="selected_warehouse"></span>
-<span id="selected_warehouse_id" hidden></span>
-<br>
-<button id="open_list_warehouse_btn" onclick="handleWarehouseSelect()">Выбрать из справочника</button>
-<table id="warehouse_table" hidden>
-    <thead><tr><td>Код</td><td>Наименование</td></tr></thead>
-    <tbody></tbody>
-</table>
-<br><br>
-
-<!--Выбор ресурсов-->
-<button id="open_list_resources_btn" onclick="handleResourceSelect()">Выбрать ресурсы из справочника</button>
-<div id="select_resources_block" hidden>
-    <table id="resources_table">
-        <thead><tr><td>Код</td><td>Наименование</td><td>Количество</td></tr></thead>
-        <tbody></tbody>
-    </table>
-    <button onclick="handleSelectResourceBtn()">Выбрать</button>
+<div id="header" class="container-fluid bg-dark h-50 text-center">
+    <div class="row">
+        <div class="col-6">
+            <div class="col-2 float-start mt-3">
+                <span class=" text-light">Фамилия Имя</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="col-1 float-end m-3">
+                <a class="link-light" style="cursor: pointer">Logout</a>
+            </div>
+        </div>
+    </div>
 </div>
-<br><br>
 
-<!--Причина-->
-<label for="description_input">Причина:</label>
-<input type="text" id="description_input"/>
+<div id="menu" class="container-fluid bg-light h-25 text-center menu">
+    <div class="row">
+        <div class="col-1 menu-row-with">
+            <button class="underline-border" onclick="handleResourcesBtn()">Ресурсы</button>
+        </div>
+        <div class="col-1 menu-row-with">
+            <button class="underline-border">Склады</button>
+        </div>
+        <div class="col-1 menu-row-with">
+            <button class="underline-border">Клиенты</button>
+        </div>
+        <div class="col-1 menu-row-with">
+            <button class="underline-border" onclick="handleAcceptanceBtn()">Приемки</button>
+        </div>
+        <div class="col-1 menu-row-with">
+            <button class="underline-border" onclick="handleIssueBtn()">Выдачи</button>
+        </div>
+        <div class="col-1 menu-row-with">
+            <button class="click-menu-btn" onclick="handleCapitalizationBtn()">Оприходования</button>
+        </div>
+        <div class="col-1 menu-row-with" style="margin-left: 50px">
+            <button class="underline-border" onclick="handleWriteOffBtn()">Списания</button>
+        </div>
+        <div class="col-1 menu-row-with" style="margin-left: 20px">
+            <button class="underline-border" onclick="handleMoveBtn()">Перемещения</button>
+        </div>
+        <div class="col-1 menu-row-with" style="margin-left: 50px">
+            <button class="underline-border" onclick="handleInventoryBtn()">Инвентаризации</button>
+        </div>
+        <div class="col-1 menu-row-with" style="margin-left: 50px">
+            <button class="underline-border" onclick="handleRemainingBtn()">Остатки</button>
+        </div>
+    </div>
+</div>
 
-<!--Выбранные ресурсы-->
-<br><br>
-<table id="selected_resource_table">
-    <thead><tr><td>Код</td><td>Наименование</td><td>Количество</td><td>Операция</td></tr></thead>
-    <tbody></tbody>
-</table>
-<br>
+<div id="content" style="margin-left: 30px; margin-top: 30px">
 
-<button id="save_acceptance_btn" onclick="handleSaveCapitalizationBtn()">Сохранить</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1" style="width: 125px">
+                <button type="button"
+                        class="btn btn-primary"
+                        style="font-weight: bold"
+                        onclick="handleSaveCapitalizationBtn()">
+                    Сохранить
+                </button>
+            </div>
+            <div class="col-1" style="width: 125px; margin-left: 580px">
+                <button type="button" class="btn btn-primary"
+                        style="font-weight: bold"
+                        onclick="closeEditCapitalizationHandler()">
+                    Закрыть
+                </button>
+            </div>
+        </div>
+    </div>
+    <br><br>
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1" style="width: 120px">
+                <label for="description_input" class="edit-label-param">Причина:</label>
+            </div>
+            <div class="col-1" style="width: 250px">
+                <input type="text" class="form-control edit-input-param" id="description_input">
+            </div>
+            <div class="col-1" style="width: 105px">
+            </div>
+            <div class="col-1" style="width: 65px">
+                <label for="selected_warehouse" class="edit-label-param">Склад:</label>
+            </div>
+            <div class="col-1" style="width: 250px">
+                <input type="text" class="form-control edit-input-param" id="selected_warehouse" disabled>
+            </div>
+            <div class="col-1" style="padding: 0">
+                <h4 class="edit-select-param" title="Выбрать из справочника" onclick="showWarehouseHandler()">+</h4>
+                <span id="selected_warehouse_id" hidden></span>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+    <!--Выбранные ресурсы-->
+    <div>
+        <h4 style="margin-left: 10px">Ресурсы</h4>
+        <br>
+
+        <button type="button" class="btn btn-primary"
+                style="margin-left: 10px; font-weight: bold"
+                onclick="showResourceHandler()">Добавить
+        </button>
+        <br><br>
+
+        <table id="selected_resource_table" class="table table-striped" style="margin-left: 10px; width: 800px">
+            <thead style="font-weight: bold">
+            <tr>
+                <td>Код</td>
+                <td>Наименование</td>
+                <td>Количество</td>
+                <td>Единица измерения</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <br>
+
+    <!-- Модальное окно выбора склада-->
+    <div class="modal fade" id="warehouse_modal" tabindex="-1" aria-labelledby="warehouse_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="warehouse_modal_label">Выбор склада</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row text-center fw-bold">
+                            <form id="warehouse_modal_form">
+                                <div class="col-md-12 mx-auto">
+                                    <table id="warehouse_table" class="table table-striped">
+                                        <thead style="font-weight: bold">
+                                        <tr>
+                                            <td>Код</td>
+                                            <td>Наименование</td>
+                                            <td></td>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="font-weight: normal"></tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" style="font-weight: bold" onclick="selectWarehouseHandler()">Выбрать</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно выбора ресурсов-->
+    <div class="modal fade" id="resource_modal" tabindex="-1" aria-labelledby="resource_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resource_modal_label">Выбор ресурсов</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row text-center fw-bold">
+                            <form id="resource_modal_form">
+                                <div class="col-md-12 mx-auto">
+                                    <table id="resource_table" class="table table-striped">
+                                        <thead style="font-weight: bold">
+                                        <tr>
+                                            <td>Код</td>
+                                            <td>Наименование</td>
+                                            <td>Количество</td>
+                                            <td>Единица измерения</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="font-weight: normal"></tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <button type="button"
+                                            class="btn btn-primary"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close" style="font-weight: bold" onclick="handleSelectResourceBtn()">Выбрать</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно ошибки-->
+    <div class="modal fade" id="error_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ошибка</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <span id="error_desc"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 <script src="/utils.js"></script>
+<script src="/index.js"></script>
 <script src="/url.js"></script>
 <script src="/rest-methods.js"></script>
 <script src="/ui/capitalization/capitalization-edit.js"></script>

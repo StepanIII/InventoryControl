@@ -49,18 +49,17 @@ function showBenefactorHandler() {
     }).then(benefactors => {
         benefactors.forEach(benefactor => {
             let checkBox = createCheckBox()
-            checkBox.className += ' form-check-input';
             checkBox.onclick = () => {
                 let trs = tBody.childNodes
                 trs.forEach(tr => {
-                    let otherCheckbox = tr.childNodes[2].firstChild
+                    let otherCheckbox = tr.childNodes[3].firstChild
                     otherCheckbox.checked = false
                 })
                 checkBox.checked = true
                 getElement('selected_benefactor_id').textContent = benefactor.id
             }
 
-            let tr = createTr([benefactor.id, benefactor.fio, checkBox])
+            let tr = createTr([benefactor.id, benefactor.fio, '79200000000', checkBox])
             tBody.appendChild(tr)
         })
 
@@ -72,7 +71,7 @@ function showBenefactorHandler() {
 function selectBenefactorHandler() {
     let trs = document.querySelector('#benefactor_table tbody').childNodes
     trs.forEach(tr => {
-        let checkbox = tr.childNodes[2].firstChild
+        let checkbox = tr.childNodes[3].firstChild
         if (checkbox.checked) {
             getElement('selected_benefactor').value = tr.childNodes[1].textContent
             return
@@ -90,7 +89,6 @@ function showWarehouseHandler() {
     }).then(warehouses => {
         warehouses.forEach(warehouse => {
             let checkBox = createCheckBox()
-            checkBox.className += ' form-check-input';
             checkBox.onclick = () => {
                 let trs = tBody.childNodes
                 trs.forEach(tr => {
@@ -118,6 +116,7 @@ function selectWarehouseHandler() {
         }
     })
 }
+
 function showResourceHandler() {
     let tBody = document.querySelector('#resource_table tbody')
     clearTBody(tBody)
@@ -131,7 +130,7 @@ function showResourceHandler() {
             input.className += ' form-control'
             input.value = getCountResourcesByIdFromSelectedTable(resource.id)
 
-            let tr = createTr([resource.id, resource.name, input])
+            let tr = createTr([resource.id, resource.name, input, 'единица измерения'])
             tBody.appendChild(tr)
         })
     })
@@ -158,6 +157,7 @@ function handleSelectResourceBtn() {
     clearTBody(selectedResourcesTBody)
 
     let trs = resourcesTBody.childNodes
+    let showErrorCount = false
     trs.forEach(tr => {
         let tds = tr.childNodes
 
@@ -165,11 +165,19 @@ function handleSelectResourceBtn() {
         let name = tds[1].textContent
         let count = tds[2].firstChild.value
 
+        if (count < 0) {
+            showErrorCount = true
+        }
+
         if (count !== null && count > 0) {
-            let tr = createTr([code, name, count, createDeleteResourceSymbol()])
+            let tr = createTr([code, name, count, 'единица измерения', createDeleteResourceSymbol()])
             selectedResourcesTBody.appendChild(tr)
         }
     })
+
+    if (showErrorCount) {
+        showModalError('Количество добавляемых ресурсов не может быть отрицательным.')
+    }
 }
 
 function createDeleteResourceSymbol() {

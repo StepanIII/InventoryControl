@@ -8,6 +8,7 @@ getData(ACCEPT_URL).then(response => {
     response.acceptance.forEach(accept => {
         let tr = createTr([accept.id, accept.createdTime, accept.warehouseName, accept.benefactorFio])
         trHandler(tr, accept.id)
+        mouseOnTrHandler(tr)
         tBody.appendChild(tr)
     })
 })
@@ -25,7 +26,7 @@ function trHandler(tr, acceptId) {
 
             let tBody = document.querySelector('#accept_resource_table tbody')
             accept.resources.forEach(resource => {
-                let tr = createTr([resource.id, resource.name, resource.count])
+                let tr = createTr([resource.id, resource.name, resource.count, 'Единица измерения'])
                 tBody.appendChild(tr)
             })
         })
