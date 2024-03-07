@@ -1,3 +1,89 @@
+function closeEditMoveHandler() {
+    window.location.replace(UI_MOVE_ALL_URL)
+}
+
+function showWarehouseFromHandler() {
+    let tBody = document.querySelector('#warehouse_table tbody')
+    clearTBody(tBody)
+
+    getData(WAREHOUSES_URL).then(response => {
+        console.log(response)
+        return response.warehouses
+    }).then(warehouses => {
+        warehouses.forEach(warehouse => {
+            let checkBox = createCheckBox()
+            checkBox.onclick = () => {
+                let trs = tBody.childNodes
+                trs.forEach(tr => {
+                    let otherCheckbox = tr.childNodes[2].firstChild
+                    otherCheckbox.checked = false
+                })
+                checkBox.checked = true
+                getElement('selected_warehouse_id').textContent = warehouse.id
+            }
+            let tr = createTr([warehouse.id, warehouse.name, checkBox])
+            tBody.appendChild(tr)
+        })
+    })
+
+    showModal('warehouse_modal')
+}
+
+function selectWarehouseFromHandler() {
+    if (getElement('to_warehouse_id').textContent === String(warehouse.id)) {
+        getElement('error_desc').textContent = 'Нельзя выполнить перемещение с одного и того же склада'
+    } else {
+        let trs = document.querySelector('#warehouse_table tbody').childNodes
+        trs.forEach(tr => {
+            let checkbox = tr.childNodes[2].firstChild
+            if (checkbox.checked) {
+                getElement('selected_warehouse').value = tr.childNodes[1].textContent
+                return
+            }
+        })
+    }
+
+}
+
+function showResourceHandler() {
+    let warehouseId = getElement('from_warehouse_id').textContent
+    if (stringIsBlank(warehouseId)) {
+        showModalError('Выберите склад с которого будет производится перемещение ресурсов.')
+    } else {
+        let tBody = document.querySelector('#resource_table tbody')
+        clearTBody(tBody)
+
+        getData(WAREHOUSES_URL + '/' + warehouseId + '/remains').then(response => {
+            console.log(response)
+            return response.remains
+        }).then(remains => {
+            remains.forEach(remain => {
+                let inputCount = createInput('number', 0, remain.count)
+                inputCount.className += ' form-control'
+                inputCount.value = getCountResourcesByIdFromSelectedTable(remain.resourceId)
+
+                let tr = createTr([remain.resourceId, remain.name, inputCount, remain.count, 'единица измерения'])
+                tBody.appendChild(tr)
+            })
+        })
+
+        showModal('resource_modal')
+    }
+}
+
+function getCountResourcesByIdFromSelectedTable(id) {
+    let count
+    let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
+    let trs = selectedResourcesTBody.childNodes
+    trs.forEach(tr => {
+        if (tr.childNodes[0].textContent === String(id)) {
+            count = tr.childNodes[2].textContent
+            return
+        }
+    })
+    return count
+}
+
 function handleFromWarehouseSelect() {
     getData(WAREHOUSES_URL).then(response => {
         console.log(response)
@@ -147,7 +233,7 @@ function fillSelectedResourceTable(code, name, count, fromRemainCount, toRemainC
     document.querySelector('#selected_resource_table tbody').appendChild(tr)
 }
 
-function handleSaveAcceptanceBtn() {
+function handleSaveMoveBtn() {
     let fromWarehouseId = getElement('from_warehouse_id').textContent
     let toWarehouseId = getElement('to_warehouse_id').textContent
 

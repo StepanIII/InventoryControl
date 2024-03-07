@@ -38,7 +38,6 @@ function closeEditAcceptHandler() {
     window.location.replace(UI_ACCEPT_ALL_URL)
 }
 
-
 function showBenefactorHandler() {
     let tBody = document.querySelector('#benefactor_table tbody')
     clearTBody(tBody)

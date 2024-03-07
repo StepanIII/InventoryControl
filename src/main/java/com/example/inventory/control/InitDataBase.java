@@ -79,7 +79,7 @@ public class InitDataBase {
         createResourceOperationEntity(ResourceOperationType.ACCEPT, warehouse1, benefactor2, acceptResourceCount2);
         addWarehouseResourceCounts(warehouse1, acceptResourceCount2);
 
-        List<ResourceCountEntity> acceptResourceCount3 = List.of(createResourceCount(resource1, 2), createResourceCount(resource2, 5), createResourceCount(resource3, 400));
+        List<ResourceCountEntity> acceptResourceCount3 = List.of(createResourceCount(resource1, 100), createResourceCount(resource2, 5), createResourceCount(resource3, 400));
         createResourceOperationEntity(ResourceOperationType.ACCEPT, warehouse2, benefactor2, acceptResourceCount3);
         addWarehouseResourceCounts(warehouse2, acceptResourceCount3);
 
@@ -115,26 +115,24 @@ public class InitDataBase {
                 warehouse1,
                 List.of(createResourceCount(resource1, 21), createResourceCount(resource2, 10), createResourceCount(resource3, 9)));
 
-        ResourceEntity firstResource = createResourceEntity("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
-        InventoryResourceEntity firstInventoryResource = createInventoryResourceEntity(firstResource, 100, 101);
+        InventoryResourceEntity firstInventoryResource = createInventoryResourceEntity(resource1, 100, 101);
         InventoryEntity inventoryFirst = createInventoryEntity(warehouse1, List.of(firstInventoryResource));
 
-        ResourceEntity secondResource = createResourceEntity("Груши", ResourceType.FOOD, Unit.KILOGRAM);
-        InventoryResourceEntity secondInventoryResource = createInventoryResourceEntity(secondResource, 100, 101);
+        InventoryResourceEntity secondInventoryResource = createInventoryResourceEntity(resource2, 100, 101);
         InventoryEntity inventorySecond = createInventoryEntity(warehouse2, List.of(secondInventoryResource));
 
         MoveEntity move1 = createMoveEntity(
                 warehouse1,
                 warehouse2,
-                List.of(createMoveResourceEntity(firstResource, 4)));
+                List.of(createMoveResourceEntity(resource1, 4)));
         MoveEntity move2 = createMoveEntity(
                 warehouse1,
                 warehouse2,
-                List.of(createMoveResourceEntity(firstResource, 4), createMoveResourceEntity(secondResource, 5)));
+                List.of(createMoveResourceEntity(resource1, 4), createMoveResourceEntity(resource2, 5)));
         MoveEntity move3 = createMoveEntity(
                 warehouse1,
                 warehouse2,
-                List.of(createMoveResourceEntity(firstResource, 10), createMoveResourceEntity(secondResource, 5), createMoveResourceEntity(resource4, 6)));
+                List.of(createMoveResourceEntity(resource1, 10), createMoveResourceEntity(resource2, 5), createMoveResourceEntity(resource4, 6)));
 
     }
 
