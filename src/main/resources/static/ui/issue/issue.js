@@ -25,6 +25,7 @@ function trHandler(tr, issueId) {
             getElement('show_beneficiary_issue').value = issue.beneficiaryFio
 
             let tBody = document.querySelector('#issue_resource_table tbody')
+            clearTBody(tBody)
             issue.resources.forEach(resource => {
                 let tr = createTr([resource.id, resource.name, resource.count, 'Единица измерения'])
                 tBody.appendChild(tr)

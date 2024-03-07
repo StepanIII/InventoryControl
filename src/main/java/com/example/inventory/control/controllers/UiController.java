@@ -43,11 +43,6 @@ public class UiController {
         return "capitalization-edit.html";
     }
 
-    @GetMapping("/capitalization/show")
-    public String capitalizationShow() {
-        return "capitalization-show.html";
-    }
-
     @GetMapping("/remain/all")
     public String remaining() {
         return "remaining.html";
@@ -66,11 +61,6 @@ public class UiController {
     @GetMapping("/write-off/edit")
     public String writeOffEdit() {
         return "write-off-edit.html";
-    }
-
-    @GetMapping("/write-off/show")
-    public String writeOffShow() {
-        return "write-off-show.html";
     }
 
     @GetMapping("/move/all")

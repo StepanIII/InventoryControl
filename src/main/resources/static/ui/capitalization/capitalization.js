@@ -25,6 +25,7 @@ function trHandler(tr, capitalizationId) {
             getElement('show_description_capital').value = capitalization.description
 
             let tBody = document.querySelector('#capital_resource_table tbody')
+            clearTBody(tBody)
             capitalization.resources.forEach(resource => {
                 let tr = createTr([resource.id, resource.name, resource.count, 'Единица измерения'])
                 tBody.appendChild(tr)

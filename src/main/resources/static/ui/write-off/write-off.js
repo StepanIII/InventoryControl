@@ -7,10 +7,31 @@ getData(WRITE_OFF_URL).then(response => {
     let tBody = document.querySelector('#write_off_table tbody')
     response.writeOffs.forEach(writeOff => {
         let tr = createTr([writeOff.id, writeOff.createdTime, writeOff.warehouseName])
-        tr.onclick = () => {
-            localStorage.setItem('write_off_id', writeOff.id)
-            window.location.replace(UI_WRITE_OFF_SHOW_URL)
-        }
+        trHandler(tr, writeOff.id)
+        mouseOnTrHandler(tr)
         tBody.appendChild(tr)
     })
 })
+
+function trHandler(tr, writeOffId) {
+    tr.onclick = () => {
+        getData(WRITE_OFF_URL + "/" + writeOffId).then(response => {
+            console.log(response)
+            return response.writeOff
+        }).then(writeOff => {
+            getElement('show_number_write_off').value = writeOff.id
+            getElement('show_time_write_off').value = writeOff.createdTime
+            getElement('show_warehouse_write_off').value = writeOff.warehouseName
+            getElement('show_description_write_off').value = writeOff.description
+
+            let tBody = document.querySelector('#write_off_resource_table tbody')
+            clearTBody(tBody)
+            writeOff.resources.forEach(resource => {
+                let tr = createTr([resource.id, resource.name, resource.count, 'Единица измерения'])
+                tBody.appendChild(tr)
+            })
+        })
+
+        showModal('show_modal')
+    }
+}

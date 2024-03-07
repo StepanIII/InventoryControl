@@ -25,6 +25,7 @@ function trHandler(tr, acceptId) {
             getElement('show_benefactor_accept').value = accept.benefactorFio
 
             let tBody = document.querySelector('#accept_resource_table tbody')
+            clearTBody(tBody)
             accept.resources.forEach(resource => {
                 let tr = createTr([resource.id, resource.name, resource.count, 'Единица измерения'])
                 tBody.appendChild(tr)
