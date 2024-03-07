@@ -4,149 +4,157 @@ if (inventoryEditId !== null) {
         console.log(response)
         return response.inventory
     }).then(inventory => {
-        getElement('created_time').textContent = inventory.createdTime
-        getElement('created_time_block').hidden = false
+        let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
+        let time = getElement('created_time')
+        time.textContent = inventory.createdTime
+        getElement('time_block').hidden = false
 
-        getElement('selected_warehouse').textContent = inventory.warehouseName
         getElement('selected_warehouse_id').textContent = inventory.warehouseId
+        getElement('selected_warehouse').value = inventory.warehouseName
+
         inventory.resources.forEach(resource => {
-            fillSelectedResourceTable(resource.id, resource.name, resource.actualCount, resource.estimatedCount, resource.difference, resource.unit, true)
+            let tr = createTr([resource.id, resource.name, resource.actualCount, resource.estimatedCount, resource.difference,  resource.unit, createDeleteResourceSymbol()])
+            selectedResourcesTBody.appendChild(tr)
         })
+
     })
     localStorage.removeItem('inventory_id')
 }
 
+function closeEditInventoryHandler() {
+    window.location.replace(UI_INVENTORY_ALL_URL)
+}
 
-function handleWarehouseSelect() {
+function showWarehouseHandler() {
+    let tBody = document.querySelector('#warehouse_table tbody')
+    clearTBody(tBody)
+
     getData(WAREHOUSES_URL).then(response => {
         console.log(response)
-
-        let openListWarehouseBtn = getElement('open_list_warehouse_btn')
-        let table = getElement('warehouse_table');
-        let tBody = document.querySelector('#warehouse_table tbody')
-
-        response.warehouses.forEach(warehouse => {
-            let tr = createTr([warehouse.id, warehouse.name])
-            tr.onclick = () => {
-                getElement('selected_warehouse').textContent = warehouse.name
+        return response.warehouses
+    }).then(warehouses => {
+        warehouses.forEach(warehouse => {
+            let checkBox = createCheckBox()
+            checkBox.onclick = () => {
+                let trs = tBody.childNodes
+                trs.forEach(tr => {
+                    let otherCheckbox = tr.childNodes[2].firstChild
+                    otherCheckbox.checked = false
+                })
+                checkBox.checked = true
                 getElement('selected_warehouse_id').textContent = warehouse.id
-                clearTBody(tBody)
-                let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
-                clearTBody(selectedResourcesTBody)
-                table.hidden = true
-                openListWarehouseBtn.disabled = false
-                getElement('open_list_resources_btn').disabled = false
             }
+            let tr = createTr([warehouse.id, warehouse.name, checkBox])
             tBody.appendChild(tr)
         })
+    })
 
-        table.hidden = false
-        openListWarehouseBtn.disabled = true
-        getElement('select_resources_block').hidden = true
-        getElement('open_list_resources_btn').disabled = false
+    showModal('warehouse_modal')
+}
+
+function selectWarehouseHandler() {
+    let trs = document.querySelector('#warehouse_table tbody').childNodes
+    let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
+    clearTBody(selectedResourcesTBody)
+    trs.forEach(tr => {
+        let checkbox = tr.childNodes[2].firstChild
+        if (checkbox.checked) {
+            getElement('selected_warehouse').value = tr.childNodes[1].textContent
+            return
+        }
     })
 }
 
-function handleResourceSelect() {
+function showResourceHandler() {
     let warehouseId = getElement('selected_warehouse_id').textContent
-    fillResourceTable(warehouseId)
-    getElement('select_resources_block').hidden = false
-    getElement('open_list_resources_btn').disabled = true
+    if (stringIsBlank(warehouseId)) {
+        showModalError('Выберите склад для которого призводится инвентаризация.')
+    } else {
+        let tBody = document.querySelector('#resource_table tbody')
+        clearTBody(tBody)
+        getData(REMAINING_URL + "/" + warehouseId).then(response => {
+            console.log(response)
+            return response.remains
+        }).then(remains => {
+
+            remains.forEach(remain => {
+                let inputCount = createInput('number', 0, null)
+                inputCount.className += ' form-control'
+                inputCount.value = getCountResourcesByIdFromSelectedTable(remain.resourceId)
+
+                let tr = createTr([remain.resourceId, remain.name, inputCount, remain.count, remain.unit])
+                tBody.appendChild(tr)
+            })
+        })
+
+        showModal('resource_modal')
+    }
 }
 
-function fillResourceTable(warehouseId) {
-    getData(REMAINING_URL + "/" + warehouseId).then(response => {
-        console.log(response)
-
-        let tBody = document.querySelector('#resources_table tbody')
-        clearTBody(tBody)
-        response.remains.forEach(remain => {
-            let tr = createTr([remain.resourceId, remain.name, remain.count, remain.unit, createCheckBox()])
-            tBody.appendChild(tr)
-        })
+function getCountResourcesByIdFromSelectedTable(id) {
+    let count
+    let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
+    let trs = selectedResourcesTBody.childNodes
+    trs.forEach(tr => {
+        if (tr.childNodes[0].textContent === String(id)) {
+            count = tr.childNodes[2].textContent
+            return
+        }
     })
+    return count
+}
+
+function showModalError(errorDescription) {
+    getElement('error_desc').textContent = errorDescription
+    showModal('error_modal')
+}
+
+function createDeleteResourceSymbol() {
+    let deleteSymbol = document.createElement('span')
+    deleteSymbol.textContent = '✖'
+    deleteSymbol.style.fontSize = '10px'
+    deleteSymbol.style.cursor = 'pointer'
+    deleteSymbol.title = 'Удалить'
+    deleteSymbol.onclick = () => {
+        deleteSymbol.parentNode.parentNode.remove()
+    }
+    return deleteSymbol
 }
 
 function handleSelectResourceBtn() {
-    let resourcesTBody = document.querySelector('#resources_table tbody')
+    let resourcesTBody = document.querySelector('#resource_table tbody')
     let selectedResourcesTBody = document.querySelector('#selected_resource_table tbody')
     clearTBody(selectedResourcesTBody)
 
     let trs = resourcesTBody.childNodes
+    let showErrorNegativeCount = false
+
     trs.forEach(tr => {
         let tds = tr.childNodes
 
         let code = tds[0].textContent
         let name = tds[1].textContent
-        let remainCount = tds[2].textContent
-        let unit = tds[3].textContent
-        let checked = tds[4].firstChild.checked
+        let count = tds[2].firstChild.value
+        let remain = tds[3].textContent
+        let diff = Number(count) - Number(remain)
+        let unit = tds[4].textContent
 
-        let actualCount = createInput('number', 0, null)
-        actualCount.value = '0'
+        if (count < 0) {
+            showErrorNegativeCount = true
+        }
 
-        if (checked) {
-            fillSelectedResourceTable(code, name, actualCount, remainCount, 0, unit, false)
+        if (count !== null && count > 0) {
+            let tr = createTr([code, name, count, remain, diff,  unit, createDeleteResourceSymbol()])
+            selectedResourcesTBody.appendChild(tr)
         }
     })
 
-    clearTBody(resourcesTBody)
-    getElement('select_resources_block').hidden = true
-    getElement('open_list_resources_btn').disabled = false
+    if (showErrorNegativeCount) {
+        showModalError('Фвктический остаток ресурсов не может быть отрицательным.')
+    }
 }
 
-function fillSelectedResourceTable(code, name, actualCount, remainCount, difference, unit, changed) {
-    let deleteBtn = createBtn('Удалить', null)
-    deleteBtn.onclick = (e) => {
-        let tr = e.currentTarget.parentNode.parentNode
-        tr.remove()
-    }
-
-    let okBtn = createBtn('ОК', null)
-    okBtn.onclick = (e) => {
-        let tr = e.currentTarget.parentNode.parentNode
-        let tds = tr.childNodes
-        let actualCount = tds[2].firstChild.value
-        let remainCount = tds[3].textContent
-
-        console.log(tds[2])
-
-        let difference = Number(actualCount) - Number(remainCount)
-        let differenceTd = tds[4]
-        differenceTd.textContent = difference
-
-        tds[2].firstChild.remove()
-        tds[2].textContent = actualCount
-        okBtn.hidden = true
-        editBtn.hidden = false
-    }
-
-    let editBtn = createBtn('Изменить', null)
-    editBtn.onclick = (e) => {
-        okBtn.hidden = false
-        editBtn.hidden = true
-
-        let tr = e.currentTarget.parentNode.parentNode
-        let tds = tr.childNodes
-        let actualCount = createInput('number', 0, null)
-        actualCount.value = tds[2].textContent
-        tds[2].firstChild.remove()
-        tds[2].appendChild(actualCount)
-    }
-
-    if (changed) {
-        okBtn.hidden = true
-        editBtn.hidden = false
-    } else {
-        okBtn.hidden = false
-        editBtn.hidden = true
-    }
-
-    let tr = createTr([code, name, actualCount, remainCount, difference, unit, okBtn, editBtn, deleteBtn])
-    document.querySelector('#selected_resource_table tbody').appendChild(tr)
-}
-
-function handleSaveAcceptanceBtn() {
+function handleSaveInventoryBtn() {
     let warehouseId = getElement('selected_warehouse_id').textContent
 
     let selectedResourceTbody = document.querySelector('#selected_resource_table tbody')
@@ -175,7 +183,7 @@ function handleSaveAcceptanceBtn() {
             console.log(response)
 
             if (response.status !== SUCCESS) {
-                getElement('error_desc').textContent = response.description
+                showModalError(response.description)
             } else {
                 window.location.replace(UI_INVENTORY_ALL_URL)
             }
@@ -185,7 +193,7 @@ function handleSaveAcceptanceBtn() {
             console.log(response)
 
             if (response.status !== SUCCESS) {
-                getElement('error_desc').textContent = response.description
+                showModalError(response.description)
             } else {
                 window.location.replace(UI_INVENTORY_ALL_URL)
             }

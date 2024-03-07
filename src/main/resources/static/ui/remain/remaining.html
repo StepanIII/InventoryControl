@@ -5,7 +5,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/index.css">
     <meta charset="UTF-8">
-    <title>Остатк</title>
+    <title>Остатки</title>
 </head>
 <body>
 
@@ -24,10 +24,16 @@
     </div>
 </div>
 
-<div id="menu" class="container-fluid bg-light h-25 text-center">
+<div id="menu" class="container-fluid bg-light h-25 text-center menu">
     <div class="row">
         <div class="col-1 menu-row-with">
             <button class="underline-border" onclick="handleResourcesBtn()">Ресурсы</button>
+        </div>
+        <div class="col-1 menu-row-with">
+            <button class="underline-border">Склады</button>
+        </div>
+        <div class="col-1 menu-row-with">
+            <button class="underline-border">Клиенты</button>
         </div>
         <div class="col-1 menu-row-with">
             <button class="underline-border" onclick="handleAcceptanceBtn()">Приемки</button>
@@ -42,26 +48,34 @@
             <button class="underline-border" onclick="handleWriteOffBtn()">Списания</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 20px">
-            <button class="underline-border">Перемещения</button>
+            <button class="underline-border" onclick="handleMoveBtn()">Перемещения</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 50px">
             <button class="underline-border" onclick="handleInventoryBtn()">Инвентаризации</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 50px">
-            <button class="underline-border" onclick="handleRemainingBtn()">Остатки</button>
+            <button class="click-menu-btn" onclick="handleRemainingBtn()">Остатки</button>
         </div>
     </div>
 </div>
 
 <div id="content">
-    <table id="remaining_table">
-        <tbody><tr><td>Код</td><td>Наименование</td><td>Количество</td><td>Единица измерения</td><td>Склад</td></tr></tbody>
+
+    <h4 style="margin-left: 30px; margin-top: 20px">Остатки</h4>
+    <br>
+
+    <table id="remaining_table" class="table table-striped w-50 text-center" style="margin-left: 30px">
+        <thead style="font-weight: bold">
+        <tr>
+            <td>Код</td>
+            <td>Наименование</td>
+            <td>Количество</td>
+            <td>Единица измерения</td>
+            <td>Склад</td>
+        </tr>
+        </thead>
+        <tbody></tbody>
     </table>
-</div>
-
-
-<div id="footer">
-
 </div>
 
 <script src="/utils.js"></script>

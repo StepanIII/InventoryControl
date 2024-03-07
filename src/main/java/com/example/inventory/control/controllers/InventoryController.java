@@ -12,6 +12,7 @@ import com.example.inventory.control.facades.InventoryFacade;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,5 +88,18 @@ public class InventoryController {
         return ResponseEntity.ok(responseBody);
     }
 
-//    Изменение
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponseBody> deleteInventory(@PathVariable Long id) {
+        LOGGER.info("Запрос на удаление инвенатризации ресурсов.");
+        BaseResponseBody responseBody = inventoryFacade.deleteById(id);
+        if (responseBody.getStatus() == StatusResponse.SUCCESS) {
+            LOGGER.info("Запрос на удаление инвентаризации ресурсов выполнен успешно.");
+        } else {
+            LOGGER.info(String.format("Запрос на удаление инвентаризации ресурсов не выполнен. Причина: %s",
+                    responseBody.getDescription()));
+        }
+        return ResponseEntity.ok(responseBody);
+    }
+
+
 }

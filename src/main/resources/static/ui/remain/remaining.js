@@ -6,6 +6,7 @@ getData(REMAINING_URL).then(response => {
     for (let i = 0; i < remaining.length; i++) {
         let remain = remaining[i]
         let tr = createTr([remain.resourceId, remain.name, remain.count, remain.unit, remain.warehouseName])
+        mouseOnTrHandler(tr)
         tBody.appendChild(tr)
     }
 })

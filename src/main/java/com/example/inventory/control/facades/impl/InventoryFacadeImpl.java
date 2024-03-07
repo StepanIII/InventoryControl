@@ -138,4 +138,19 @@ public class InventoryFacadeImpl implements InventoryFacade {
         return response;
     }
 
+    @Override
+    public BaseResponseBody deleteById(Long id) {
+        if (!inventoryService.existsById(id)) {
+            InventoryResponseBody response = new InventoryResponseBody();
+            response.setStatus(StatusResponse.INVENTORY_NOT_FOUND);
+            response.setDescription(String.format("Инвентаризация с идентификатором 'id: %d' не найдена", id));
+            return response;
+        }
+        inventoryService.deleteById(id);
+        BaseResponseBody response = new BaseResponseBody();
+        response.setStatus(StatusResponse.SUCCESS);
+        response.setDescription(String.format("Удаление инвентаризации выполенено успешно 'id: %d'.", id));
+        return response;
+    }
+
 }

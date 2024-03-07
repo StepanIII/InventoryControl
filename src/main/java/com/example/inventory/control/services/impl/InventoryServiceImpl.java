@@ -44,4 +44,16 @@ public class InventoryServiceImpl implements InventoryService {
         entity = inventoryRepository.save(entity);
         return inventoryMapper.toDomain(entity);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsById(Long id) {
+        return inventoryRepository.existsById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        inventoryRepository.deleteById(id);
+    }
 }

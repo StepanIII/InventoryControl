@@ -34,4 +34,20 @@ public interface InventoryService {
      * @return сохраненная инвентаризация.
      */
     Inventory save(Inventory inventory);
+
+    /**
+     * Проверка наличия инвентаризации по идентификатору.
+     *
+     * @param id идентификатор инвентризации.
+     *
+     * @return true если есть иначе false
+     */
+    boolean existsById(Long id);
+
+    /**
+     * Удалить инвентризацию.
+     *
+     * @param id идентификатор инвентризации.
+     */
+    void deleteById(Long id);
 }

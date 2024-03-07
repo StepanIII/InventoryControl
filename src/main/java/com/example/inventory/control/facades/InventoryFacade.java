@@ -38,11 +38,19 @@ public interface InventoryFacade {
     /**
      * Изменить инвентаризацию.
      *
-     *
      * @param id      идуентификатор обновляемой инвентаризации.
-     * @param request запрос с обнрвленными данными инвентаризации.
+     * @param request запрос с обновленными данными инвентаризации.
      *
      * @return ответ со статусом.
      */
     BaseResponseBody editInventory(Long id, InventoryRequestBody request);
+
+    /**
+     * Удалить инвентаризацию
+     *
+     * @param id идуентификатор удаляемой инвентаризации.
+     *
+     * @return ответ со статусом.
+     */
+    BaseResponseBody deleteById(Long id);
 }
