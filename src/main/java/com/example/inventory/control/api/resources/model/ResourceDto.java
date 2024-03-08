@@ -20,6 +20,11 @@ public class ResourceDto {
     private String name;
 
     /**
+     * Размер.
+     */
+    private String size;
+
+    /**
      * Тип.
      */
     private ResourceType type;
@@ -43,6 +48,14 @@ public class ResourceDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public ResourceType getType() {

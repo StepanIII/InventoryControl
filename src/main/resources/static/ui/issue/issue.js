@@ -27,7 +27,11 @@ function trHandler(tr, issueId) {
             let tBody = document.querySelector('#issue_resource_table tbody')
             clearTBody(tBody)
             issue.resources.forEach(resource => {
-                let tr = createTr([resource.id, resource.name, resource.count, 'Единица измерения'])
+                let size = ''
+                if (!stringIsBlank(resource.size)) {
+                    size = resource.size
+                }
+                let tr = createTr([resource.id, resource.name, size, resource.count, resource.unit])
                 tBody.appendChild(tr)
             })
         })

@@ -9,7 +9,7 @@ function handleSaveAcceptanceBtn() {
     let trs = selectedResourceTbody.childNodes
     trs.forEach(tr => {
         let resourceId = tr.childNodes[0].textContent
-        let count = tr.childNodes[2].textContent
+        let count = tr.childNodes[3].textContent
         let resourceReq = {
             resourceId: resourceId,
             count: count
@@ -58,7 +58,11 @@ function showBenefactorHandler() {
                 getElement('selected_benefactor_id').textContent = benefactor.id
             }
 
-            let tr = createTr([benefactor.id, benefactor.fio, '79200000000', checkBox])
+            let phone = ''
+            if (!stringIsBlank(benefactor.phone)) {
+                phone = benefactor.phone
+            }
+            let tr = createTr([benefactor.id, benefactor.fio, phone, checkBox])
             tBody.appendChild(tr)
         })
 
@@ -129,7 +133,12 @@ function showResourceHandler() {
             input.className += ' form-control'
             input.value = getCountResourcesByIdFromSelectedTable(resource.id)
 
-            let tr = createTr([resource.id, resource.name, input, 'единица измерения'])
+            let size = ''
+            if (!stringIsBlank(resource.size)) {
+                size = resource.size
+            }
+
+            let tr = createTr([resource.id, resource.name, size, input, resource.unit])
             tBody.appendChild(tr)
         })
     })
@@ -143,7 +152,7 @@ function getCountResourcesByIdFromSelectedTable(id) {
     let trs = selectedResourcesTBody.childNodes
     trs.forEach(tr => {
         if (tr.childNodes[0].textContent === String(id)) {
-            count = tr.childNodes[2].textContent
+            count = tr.childNodes[4].textContent
             return
         }
     })
@@ -162,14 +171,16 @@ function handleSelectResourceBtn() {
 
         let code = tds[0].textContent
         let name = tds[1].textContent
-        let count = tds[2].firstChild.value
+        let size = tds[2].textContent
+        let count = tds[3].firstChild.value
+        let unit = tds[4].textContent
 
         if (count < 0) {
             showErrorCount = true
         }
 
         if (count !== null && count > 0) {
-            let tr = createTr([code, name, count, 'единица измерения', createDeleteResourceSymbol()])
+            let tr = createTr([code, name, size, count, unit, createDeleteResourceSymbol()])
             selectedResourcesTBody.appendChild(tr)
         }
     })

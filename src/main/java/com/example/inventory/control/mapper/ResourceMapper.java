@@ -21,6 +21,7 @@ public abstract class ResourceMapper {
         return new ResourceEntity(
                 domainModel.id().orElse(null),
                 domainModel.getName(),
+                domainModel.size().orElse(null),
                 domainModel.getType(),
                 domainModel.getUnit());
     }
@@ -35,6 +36,7 @@ public abstract class ResourceMapper {
         return new Resource.Builder()
                 .setId(entity.getId())
                 .setName(entity.getName())
+                .seSize(entity.getSize())
                 .setResourceType(entity.getType())
                 .setUnits(entity.getUnit())
                 .build();
@@ -50,6 +52,7 @@ public abstract class ResourceMapper {
         ResourceDto dto = new ResourceDto();
         dto.setId(domainModel.id().orElseThrow());
         dto.setName(domainModel.getName());
+        dto.setSize(domainModel.size().orElse(null));
         dto.setType(domainModel.getType());
         dto.setUnit(domainModel.getUnit());
         return dto;

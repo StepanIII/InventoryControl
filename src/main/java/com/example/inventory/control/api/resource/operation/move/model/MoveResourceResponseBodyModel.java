@@ -16,6 +16,11 @@ public class MoveResourceResponseBodyModel {
     private String name;
 
     /**
+     * Размер.
+     */
+    private String size;
+
+    /**
      * Количество.
      */
     private Integer count;
@@ -49,6 +54,14 @@ public class MoveResourceResponseBodyModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public Integer getCount() {

@@ -116,7 +116,12 @@ function showResourceHandler() {
                 inputCount.className += ' form-control'
                 inputCount.value = getCountResourcesByIdFromSelectedTable(remain.resourceId)
 
-                let tr = createTr([remain.resourceId, remain.name, inputCount, remain.count, 'единица измерения'])
+                let size = ''
+                if (!stringIsBlank(remain.size)) {
+                    size = remain.size
+                }
+
+                let tr = createTr([remain.resourceId, remain.name, size, inputCount, remain.count, remain.unit])
                 tBody.appendChild(tr)
             })
         })
@@ -131,7 +136,7 @@ function getCountResourcesByIdFromSelectedTable(id) {
     let trs = selectedResourcesTBody.childNodes
     trs.forEach(tr => {
         if (tr.childNodes[0].textContent === String(id)) {
-            count = tr.childNodes[2].textContent
+            count = tr.childNodes[3].textContent
             return
         }
     })
@@ -151,9 +156,10 @@ function handleSelectResourceBtn() {
 
         let code = tds[0].textContent
         let name = tds[1].textContent
-        let count = tds[2].firstChild.value
-        let remain = tds[3].textContent
-        let unit = tds[4].textContent
+        let size = tds[2].textContent
+        let count = tds[3].firstChild.value
+        let remain = tds[4].textContent
+        let unit = tds[5].textContent
 
         if (count < 0) {
             showErrorNegativeCount = true
@@ -164,7 +170,7 @@ function handleSelectResourceBtn() {
         }
 
         if (count !== null && count > 0) {
-            let tr = createTr([code, name, count, unit, createDeleteResourceSymbol()])
+            let tr = createTr([code, name, size, count, unit, createDeleteResourceSymbol()])
             selectedResourcesTBody.appendChild(tr)
         }
     })
@@ -192,7 +198,7 @@ function handleSaveMoveBtn() {
     let trs = selectedResourceTbody.childNodes
     trs.forEach(tr => {
         let resourceId = tr.childNodes[0].textContent
-        let count = tr.childNodes[2].textContent
+        let count = tr.childNodes[3].textContent
 
         let resourceReq = {
             resourceId: resourceId,

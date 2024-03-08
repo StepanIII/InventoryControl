@@ -16,6 +16,16 @@ public class ResourceCountResponseBodyModel {
     private String name;
 
     /**
+     * Размер.
+     */
+    private String size;
+
+    /**
+     * Единица измерения.
+     */
+    private String unit;
+
+    /**
      * Количество.
      */
     private Integer count;
@@ -34,6 +44,22 @@ public class ResourceCountResponseBodyModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Integer getCount() {

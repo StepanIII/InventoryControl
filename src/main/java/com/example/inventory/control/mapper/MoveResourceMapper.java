@@ -1,13 +1,11 @@
 package com.example.inventory.control.mapper;
 
 import com.example.inventory.control.api.resource.operation.move.model.MoveResourceResponseBodyModel;
-import com.example.inventory.control.domain.models.Move;
 import com.example.inventory.control.domain.models.MoveResource;
 import com.example.inventory.control.domain.models.Warehouse;
 import com.example.inventory.control.entities.MoveEntity;
 import com.example.inventory.control.entities.MoveResourceEntity;
 import com.example.inventory.control.entities.ResourceEntity;
-import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.repositories.ResourceRepository;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +40,7 @@ public class MoveResourceMapper {
                 entity.getId(),
                 entity.getResource().getId(),
                 entity.getResource().getName(),
+                entity.getResource().getSize(),
                 entity.getResource().getUnit().getValue(),
                 entity.getCount());
     }
@@ -78,6 +77,7 @@ public class MoveResourceMapper {
         responseBodyModel.setId(domainModel.getResourceId());
         responseBodyModel.setCount(domainModel.getCount());
         responseBodyModel.setName(domainModel.name().orElseThrow());
+        responseBodyModel.setSize(domainModel.size().orElse(null));
         responseBodyModel.setFromRemainCount(fromRemainCount);
         responseBodyModel.setToRemainCount(toRemainCount);
         responseBodyModel.setUnit(domainModel.unit().orElseThrow());

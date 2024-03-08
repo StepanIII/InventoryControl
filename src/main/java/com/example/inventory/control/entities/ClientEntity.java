@@ -1,7 +1,6 @@
 package com.example.inventory.control.entities;
 
 import com.example.inventory.control.enums.ClientType;
-import com.example.inventory.control.enums.ResourceOperationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -51,15 +50,22 @@ public class ClientEntity {
     @Column(name = "MIDDLE_NAME")
     private String middleName;
 
+    /**
+     * Номер телефона.
+     */
+    @Column(name = "PHONE")
+    private String phone;
+
     public ClientEntity() {
     }
 
-    public ClientEntity(Long id, ClientType type, String lastName, String firstName, String middleName) {
+    public ClientEntity(Long id, ClientType type, String lastName, String firstName, String middleName, String phone) {
         this.id = id;
         this.type = type;
         this.lastName = lastName;
         this.firstName = firstName;
         this.middleName = middleName;
+        this.phone = phone;
     }
 
     public Long getId() {
@@ -96,5 +102,13 @@ public class ClientEntity {
 
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

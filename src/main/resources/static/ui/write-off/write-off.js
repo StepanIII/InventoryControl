@@ -27,7 +27,11 @@ function trHandler(tr, writeOffId) {
             let tBody = document.querySelector('#write_off_resource_table tbody')
             clearTBody(tBody)
             writeOff.resources.forEach(resource => {
-                let tr = createTr([resource.id, resource.name, resource.count, 'Единица измерения'])
+                let size = ''
+                if (!stringIsBlank(resource.size)) {
+                    size = resource.size
+                }
+                let tr = createTr([resource.id, resource.name, size, resource.count, resource.unit])
                 tBody.appendChild(tr)
             })
         })

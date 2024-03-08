@@ -10,7 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-// Добавить размер
+
 /**
  * Сущность таблицы "RESOURCES" (Ресурсы).
  */
@@ -33,6 +33,12 @@ public class ResourceEntity {
     private String name;
 
     /**
+     * Размер.
+     */
+    @Column(name = "SIZE")
+    private String size;
+
+    /**
      * Тип.
      */
     @Column(name = "TYPE", nullable = false)
@@ -49,9 +55,10 @@ public class ResourceEntity {
     public ResourceEntity() {
     }
 
-    public ResourceEntity(Long id, String name, ResourceType resourceType, Unit unit) {
+    public ResourceEntity(Long id, String name, String size, ResourceType resourceType, Unit unit) {
         this.id = id;
         this.name = name;
+        this.size = size;
         this.type = resourceType;
         this.unit = unit;
     }
@@ -66,6 +73,14 @@ public class ResourceEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public ResourceType getType() {

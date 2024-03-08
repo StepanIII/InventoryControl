@@ -14,6 +14,11 @@ public class BeneficiaryResponseBodyModel {
      */
     private String fio;
 
+    /**
+     * Телефон.
+     */
+    private String phone;
+
     public Long getId() {
         return id;
     }
@@ -28,5 +33,13 @@ public class BeneficiaryResponseBodyModel {
 
     public void setFio(String fio) {
         this.fio = fio;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

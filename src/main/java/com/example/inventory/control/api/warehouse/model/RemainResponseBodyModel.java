@@ -16,6 +16,11 @@ public class RemainResponseBodyModel {
     private String name;
 
     /**
+     * Размер.
+     */
+    private String size;
+
+    /**
      * Количество на складе.
      */
     private Integer count;
@@ -39,6 +44,14 @@ public class RemainResponseBodyModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public Integer getCount() {

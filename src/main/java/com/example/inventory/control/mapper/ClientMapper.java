@@ -24,7 +24,8 @@ public abstract class ClientMapper {
                 domain.getType(),
                 domain.getLastName(),
                 domain.getFirstName(),
-                domain.getMiddleName());
+                domain.getMiddleName(),
+                domain.phone().orElse(null));
     }
 
     /**
@@ -39,7 +40,8 @@ public abstract class ClientMapper {
                 entity.getType(),
                 entity.getLastName(),
                 entity.getFirstName(),
-                entity.getMiddleName());
+                entity.getMiddleName(),
+                entity.getPhone());
     }
 
     /**
@@ -51,6 +53,7 @@ public abstract class ClientMapper {
         BenefactorResponseBodyModel responseBodyModel = new BenefactorResponseBodyModel();
         responseBodyModel.setId(domainModel.id().orElseThrow());
         responseBodyModel.setFio(domainModel.getFio());
+        responseBodyModel.setPhone(domainModel.phone().orElse(null));
         return responseBodyModel;
     }
 
@@ -63,6 +66,7 @@ public abstract class ClientMapper {
         BeneficiaryResponseBodyModel responseBodyModel = new BeneficiaryResponseBodyModel();
         responseBodyModel.setId(domainModel.id().orElseThrow());
         responseBodyModel.setFio(domainModel.getFio());
+        responseBodyModel.setPhone(domainModel.phone().orElse(null));
         return responseBodyModel;
     }
 

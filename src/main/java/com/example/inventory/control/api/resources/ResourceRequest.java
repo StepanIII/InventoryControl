@@ -19,6 +19,11 @@ public class ResourceRequest {
     private String name;
 
     /**
+     * Размер.
+     */
+    private String size;
+
+    /**
      * Тип.
      */
     @NotNull
@@ -36,6 +41,14 @@ public class ResourceRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public ResourceType getType() {

@@ -25,6 +25,11 @@ public final class InventoryResource {
     private final String name;
 
     /**
+     * Размер.
+     */
+    private final String size;
+
+    /**
      * Единица измерения.
      */
     private final String unit;
@@ -44,7 +49,7 @@ public final class InventoryResource {
      */
     private final Integer difference;
 
-    public InventoryResource(Long id, Long resourceId, String name, String unit, Integer actualCount, Integer estimatedCount, Integer difference) {
+    public InventoryResource(Long id, Long resourceId, String name, String size, String unit, Integer actualCount, Integer estimatedCount, Integer difference) {
         CheckParamUtil.isNotNull("resourceId", resourceId);
         CheckParamUtil.isNotNull("actualCount", actualCount);
         CheckParamUtil.isNotNull("estimatedCount", estimatedCount);
@@ -53,6 +58,7 @@ public final class InventoryResource {
         this.id = id;
         this.resourceId = resourceId;
         this.name = name;
+        this.size = size;
         this.unit = unit;
         this.actualCount = actualCount;
         this.estimatedCount = estimatedCount;
@@ -60,7 +66,7 @@ public final class InventoryResource {
     }
 
     public static InventoryResource create(Long resourceId, Integer actualCount, Integer estimatedCount) {
-        return new InventoryResource(null, resourceId, null, null, actualCount, estimatedCount, actualCount - estimatedCount);
+        return new InventoryResource(null, resourceId, null, null, null, actualCount, estimatedCount, actualCount - estimatedCount);
     }
 
     public Optional<Long> id() {
@@ -73,6 +79,10 @@ public final class InventoryResource {
 
     public Optional<String> name() {
         return Optional.ofNullable(name);
+    }
+
+    public Optional<String> size() {
+        return Optional.ofNullable(size);
     }
 
     public Optional<String> unit() {

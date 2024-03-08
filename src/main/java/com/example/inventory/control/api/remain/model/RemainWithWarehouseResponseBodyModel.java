@@ -16,6 +16,11 @@ public class RemainWithWarehouseResponseBodyModel {
     private String name;
 
     /**
+     * Размер.
+     */
+    private String size;
+
+    /**
      * Количество.
      */
     private Integer count;
@@ -44,6 +49,14 @@ public class RemainWithWarehouseResponseBodyModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public Integer getCount() {

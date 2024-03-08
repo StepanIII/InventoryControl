@@ -62,7 +62,7 @@ public final class ResourceFacadeImpl implements ResourceFacade {
 
     @Override
     public ResourceResponseBody addResource(ResourceRequest request) {
-        Resource resource = Resource.create(request.getName(), request.getType(), request.getUnit());
+        Resource resource = Resource.create(request.getName(), request.getSize(), request.getType(), request.getUnit());
         Resource savedResource = resourceService.save(resource);
         ResourceResponseBody response = new ResourceResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
@@ -83,6 +83,7 @@ public final class ResourceFacadeImpl implements ResourceFacade {
         Resource resource = resourceCandidate.get();
         resource = resource
                 .updateName(request.getName())
+                .updateSize(request.getSize())
                 .updateType(request.getType())
                 .updateUnits(request.getUnit());
         Resource updatedResource = resourceService.save(resource);

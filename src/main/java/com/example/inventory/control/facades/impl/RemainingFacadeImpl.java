@@ -69,6 +69,7 @@ public final class RemainingFacadeImpl implements RemainingFacade {
 
             RemainResponseBodyModel responseBodyModel = new RemainResponseBodyModel();
             responseBodyModel.setResourceId(resource.id().orElseThrow());
+            responseBodyModel.setSize(resource.size().orElse(null));
             responseBodyModel.setName(resource.getName());
             responseBodyModel.setUnit(resource.getUnit().getValue());
             responseBodyModel.setCount(count != null ? count : 0);

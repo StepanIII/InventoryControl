@@ -50,20 +50,20 @@ public class InitDataBase {
     @PostConstruct
     public void addData() {
 
-        ResourceEntity resource1 = createResourceEntity("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
-        ResourceEntity resource2 = createResourceEntity("Пеленки", ResourceType.HYGIENE_PRODUCT, Unit.THINGS);
-        ResourceEntity resource3 = createResourceEntity("Ботинки", ResourceType.CLOTHING, Unit.PAIR);
-        ResourceEntity resource4 = createResourceEntity("Апельсины", ResourceType.FOOD, Unit.KILOGRAM);
+        ResourceEntity resource1 = createResourceEntity("Яблоки", null, ResourceType.FOOD, Unit.KILOGRAM);
+        ResourceEntity resource2 = createResourceEntity("Пеленки", null, ResourceType.HYGIENE_PRODUCT, Unit.THINGS);
+        ResourceEntity resource3 = createResourceEntity("Ботинки", "25", ResourceType.CLOTHING, Unit.PAIR);
+        ResourceEntity resource4 = createResourceEntity("Апельсины", null, ResourceType.FOOD, Unit.KILOGRAM);
 
-        createClientEntity(ClientType.ANONYMOUS, "АНОНИМ", "", "");
-        ClientEntity benefactor1 = createClientEntity(ClientType.BENEFACTOR, "Иванов", "Иван", "Иванович");
-        ClientEntity benefactor2 = createClientEntity(ClientType.BENEFACTOR, "Петров", "Петр", "Петрович");
-        ClientEntity benefactor3 = createClientEntity(ClientType.BENEFACTOR, "Бильбо", "Беггинс", null);
-        ClientEntity benefactor4 = createClientEntity(ClientType.BENEFACTOR, "Леголас", "Гринлиф", null);
+        createClientEntity(ClientType.ANONYMOUS, "АНОНИМ", "", "", "79200000000");
+        ClientEntity benefactor1 = createClientEntity(ClientType.BENEFACTOR, "Иванов", "Иван", "Иванович", "79200000001");
+        ClientEntity benefactor2 = createClientEntity(ClientType.BENEFACTOR, "Петров", "Петр", "Петрович", "79200000002");
+        ClientEntity benefactor3 = createClientEntity(ClientType.BENEFACTOR, "Бильбо", "Беггинс", null, "79200000003");
+        ClientEntity benefactor4 = createClientEntity(ClientType.BENEFACTOR, "Леголас", "Гринлиф", null, "79200000004");
 
-        ClientEntity beneficiary1 = createClientEntity(ClientType.BENEFICIARY, "Петров", "Петр", "Петрович");
-        ClientEntity beneficiary2 = createClientEntity(ClientType.BENEFICIARY, "Сидоров", "Иван", "Петрович");
-        ClientEntity beneficiary3 = createClientEntity(ClientType.BENEFICIARY, "Дубов", "Леонид", "Константинович");
+        ClientEntity beneficiary1 = createClientEntity(ClientType.BENEFICIARY, "Петров", "Петр", "Петрович", "79200000005");
+        ClientEntity beneficiary2 = createClientEntity(ClientType.BENEFICIARY, "Сидоров", "Иван", "Петрович", "79200000006");
+        ClientEntity beneficiary3 = createClientEntity(ClientType.BENEFICIARY, "Дубов", "Леонид", "Константинович", "79200000007");
 
         WarehouseEntity warehouse1 = createWarehouseEntity("Склад1");
         WarehouseEntity warehouse2 = createWarehouseEntity("Склад2");
@@ -137,9 +137,10 @@ public class InitDataBase {
     }
 
 
-    private ResourceEntity createResourceEntity(String name, ResourceType type, Unit unit) {
+    private ResourceEntity createResourceEntity(String name, String size, ResourceType type, Unit unit) {
         ResourceEntity resourceEntity = new ResourceEntity();
         resourceEntity.setName(name);
+        resourceEntity.setSize(size);
         resourceEntity.setType(type);
         resourceEntity.setUnit(unit);
         return resourceRepository.save(resourceEntity);
@@ -215,12 +216,13 @@ public class InitDataBase {
         warehouseRepository.save(warehouse);
     }
 
-    private ClientEntity createClientEntity(ClientType type, String lastName, String firstName, String middleName) {
+    private ClientEntity createClientEntity(ClientType type, String lastName, String firstName, String middleName, String phone) {
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setType(type);
         clientEntity.setLastName(lastName);
         clientEntity.setFirstName(firstName);
         clientEntity.setMiddleName(middleName);
+        clientEntity.setPhone(phone);
         return clientRepository.save(clientEntity);
     }
 

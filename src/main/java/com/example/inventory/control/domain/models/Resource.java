@@ -22,6 +22,11 @@ public final class Resource {
     private final String name;
 
     /**
+     * Размер.
+     */
+    private final String size;
+
+    /**
      * Тип.
      */
     private final ResourceType type;
@@ -31,13 +36,17 @@ public final class Resource {
      */
     private final Unit unit;
 
-    private Resource(Long id, String name, ResourceType resourceType, Unit unit) {
+    private Resource(Long id, String name, String size, ResourceType resourceType, Unit unit) {
         CheckParamUtil.isNotBlank("name", name);
         CheckParamUtil.isNotNull("resourceType", resourceType);
         CheckParamUtil.isNotNull("unit", unit);
+        if (resourceType == ResourceType.CLOTHING) {
+            CheckParamUtil.isNotBlank("size", size);
+        }
 
         this.id = id;
         this.name = name;
+        this.size = size;
         this.type = resourceType;
         this.unit = unit;
     }
@@ -47,6 +56,8 @@ public final class Resource {
         private Long id;
 
         private String name;
+
+        private String size;
 
         private ResourceType resourceType;
 
@@ -62,6 +73,11 @@ public final class Resource {
             return this;
         }
 
+        public Builder seSize(String size) {
+            this.size = size;
+            return this;
+        }
+
         public Builder setResourceType(ResourceType resourceType) {
             this.resourceType = resourceType;
             return this;
@@ -73,24 +89,28 @@ public final class Resource {
         }
 
         public Resource build() {
-            return new Resource(id, name, resourceType, unit);
+            return new Resource(id, name, size, resourceType, unit);
         }
     }
 
-    public static Resource create(String name, ResourceType resourceType, Unit unit) {
-        return new Resource(null, name, resourceType, unit);
+    public static Resource create(String name, String size, ResourceType resourceType, Unit unit) {
+        return new Resource(null, name, size, resourceType, unit);
     }
 
     public Resource updateName(String name) {
-        return new Resource(id, name, type, unit);
+        return new Resource(id, name, size, type, unit);
+    }
+
+    public Resource updateSize(String size) {
+        return new Resource(id, name, size, type, unit);
     }
 
     public Resource updateType(ResourceType type) {
-        return new Resource(id, name, type, unit);
+        return new Resource(id, name, size, type, unit);
     }
 
     public Resource updateUnits(Unit unit) {
-        return new Resource(id, name, type, unit);
+        return new Resource(id, name, size, type, unit);
     }
 
     public Optional<Long> id() {
@@ -99,6 +119,10 @@ public final class Resource {
 
     public String getName() {
         return name;
+    }
+
+    public Optional<String> size() {
+        return Optional.ofNullable(size);
     }
 
     public ResourceType getType() {

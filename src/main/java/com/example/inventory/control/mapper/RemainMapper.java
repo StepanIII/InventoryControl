@@ -33,6 +33,7 @@ public abstract class RemainMapper {
                 entity.getId(),
                 entity.getResource().getId(),
                 entity.getResource().getName(),
+                entity.getResource().getSize(),
                 entity.getCount(),
                 entity.getResource().getUnit(),
                 entity.getWarehouse().getName());
@@ -61,6 +62,7 @@ public abstract class RemainMapper {
         RemainWithWarehouseResponseBodyModel responseBodyModel = new RemainWithWarehouseResponseBodyModel();
         responseBodyModel.setResourceId(domainModel.getResourceId());
         responseBodyModel.setName(domainModel.getResourceName());
+        responseBodyModel.setSize(domainModel.size().orElse(null));
         responseBodyModel.setWarehouseName(domainModel.getWarehouseName());
         responseBodyModel.setCount(domainModel.getCount());
         responseBodyModel.setUnit(domainModel.getUnit().getValue());
@@ -76,26 +78,12 @@ public abstract class RemainMapper {
         RemainResponseBodyModel responseBodyModel = new RemainResponseBodyModel();
         responseBodyModel.setResourceId(domainModel.getResourceId());
         responseBodyModel.setName(domainModel.getResourceName());
+        responseBodyModel.setSize(domainModel.size().orElse(null));
         responseBodyModel.setCount(domainModel.getCount());
         responseBodyModel.setUnit(domainModel.getUnit().getValue());
         return responseBodyModel;
     }
 
-
-    /**
-     *
-     * @param resource
-     * @param count
-     * @return
-     */
-    public RemainResponseBodyModel toRemainResponseBodyModel(Resource resource, int count) {
-        RemainResponseBodyModel responseBodyModel = new RemainResponseBodyModel();
-        responseBodyModel.setResourceId(resource.id().orElseThrow());
-        responseBodyModel.setName(resource.getName());
-        responseBodyModel.setCount(count);
-        responseBodyModel.setUnit(resource.getUnit().getValue());
-        return responseBodyModel;
-    }
 
 
 }

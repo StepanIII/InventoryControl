@@ -32,7 +32,12 @@ public final class Client {
      */
     private String middleName;
 
-    public Client(Long id, ClientType type, String lastName, String firstName, String middleName) {
+    /**
+     * Телефон.
+     */
+    private String phone;
+
+    public Client(Long id, ClientType type, String lastName, String firstName, String middleName, String phone) {
         CheckParamUtil.isNotNull("type",type);
         CheckParamUtil.isNotBlank("lastName", lastName);
         CheckParamUtil.isNotBlank("firstName", firstName);
@@ -42,6 +47,7 @@ public final class Client {
         this.lastName = lastName;
         this.firstName = firstName;
         this.middleName = middleName;
+        this.phone = phone;
     }
 
     public Optional<Long> id() {
@@ -89,5 +95,9 @@ public final class Client {
             return lastName + " " + firstName;
         }
         return lastName + " " + firstName + " " + middleName;
+    }
+
+    public Optional<String> phone() {
+        return Optional.ofNullable(phone);
     }
 }

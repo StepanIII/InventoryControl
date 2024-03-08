@@ -16,6 +16,11 @@ public class InventoryResourceResponseBodyModel {
     private String name;
 
     /**
+     * Размер.
+     */
+    private String size;
+
+    /**
      * Фактическое количество.
      */
     private Integer actualCount;
@@ -49,6 +54,14 @@ public class InventoryResourceResponseBodyModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public Integer getActualCount() {

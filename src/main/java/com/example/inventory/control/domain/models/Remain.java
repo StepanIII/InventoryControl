@@ -14,23 +14,26 @@ public class Remain {
 
     private final String resourceName;
 
+    private final String size;
+
     private final Integer count;
 
     private final Unit unit;
 
     private final String warehouseName;
 
-    public Remain(Long id, Long resourceId, String resourceName, Integer count, Unit unit, String warehouseName) {
+    public Remain(Long id, Long resourceId, String resourceName, String size, Integer count, Unit unit, String warehouseName) {
         this.id = id;
         this.resourceId = resourceId;
         this.resourceName = resourceName;
+        this.size = size;
         this.count = count;
         this.unit = unit;
         this.warehouseName = warehouseName;
     }
 
     public static Remain create(Long resourceId, Integer count, String warehouseName) {
-        return new Remain(null, resourceId, null, count, null, warehouseName);
+        return new Remain(null, resourceId, null, null, count, null, warehouseName);
     }
 
     public Optional<Long> id() {
@@ -43,6 +46,10 @@ public class Remain {
 
     public String getResourceName() {
         return resourceName;
+    }
+
+    public Optional<String> size() {
+        return Optional.ofNullable(size);
     }
 
     public Integer getCount() {
@@ -58,7 +65,7 @@ public class Remain {
     }
 
     public Remain updateCount(int count) {
-        return new Remain(id, resourceId, resourceName, count, unit, warehouseName);
+        return new Remain(id, resourceId, resourceName, size, count, unit, warehouseName);
     }
 
     @Override

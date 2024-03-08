@@ -2,6 +2,12 @@
 
 function handleAddResourceBtn() {
     getElement('editModalLabel').textContent = 'Добавить ресурс'
+    getElement("resource_id").value = ''
+    getElement("resource_name_input").value = ''
+    getElement("resource_size_input").value = ''
+    getElement("resource_type_select").value = ''
+    getElement("resource_unit_select").value = ''
+
     showModal('edit_modal')
 }
 
@@ -11,7 +17,11 @@ getData(RESOURCE_URL).then(response => {
     let resources = response.resources
     resources.forEach(resource => {
         let delBtn = createDeleteResourceSymbol(resource.id)
-        let tr = createTr([resource.id, resource.name, resource.type, resource.unit, delBtn])
+        let size = ''
+        if (!stringIsBlank(resource.size)) {
+            size = resource.size
+        }
+        let tr = createTr([resource.id, resource.name, size, resource.type, resource.unit, delBtn])
         trHandler(tr, resource.id)
         tBody.appendChild(tr)
     })
@@ -31,6 +41,7 @@ function createDeleteResourceSymbol(resourceId) {
         }).then(resource => {
             getElement("del_resource_id").value = resource.id
             getElement("del_resource_name").value = resource.name
+            getElement("del_resource_size").value = resource.size
             getElement("del_resource_type").value = resource.type
             getElement("del_resource_unit").value = resource.unit
 
@@ -62,6 +73,7 @@ function trHandler(tr, resourceId) {
             }).then(resource => {
                 getElement("resource_id").value = resource.id
                 getElement("resource_name_input").value = resource.name
+                getElement("resource_size_input").value = resource.size
                 getElement("resource_type_select").value = resource.type
                 getElement("resource_unit_select").value = resource.unit
 
@@ -103,6 +115,7 @@ function handleSaveResourceBtn() {
     let resourceId = getElement("resource_id").value
     let request = {
         name: getElement('resource_name_input').value,
+        size: getElement('resource_size_input').value,
         type: getElement('resource_type_select').value,
         unit: getElement('resource_unit_select').value
     }

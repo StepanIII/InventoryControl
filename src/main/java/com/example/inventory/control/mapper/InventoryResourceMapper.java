@@ -35,6 +35,7 @@ public abstract class InventoryResourceMapper {
                 entity.getId(),
                 entity.getResource().getId(),
                 entity.getResource().getName(),
+                entity.getResource().getSize(),
                 entity.getResource().getUnit().getValue(),
                 entity.getActualCount(),
                 entity.getEstimatedCount(),
@@ -45,6 +46,7 @@ public abstract class InventoryResourceMapper {
         InventoryResourceResponseBodyModel responseBodyModel = new InventoryResourceResponseBodyModel();
         responseBodyModel.setId(resource.id().orElseThrow());
         responseBodyModel.setName(resource.name().orElseThrow());
+        responseBodyModel.setSize(resource.size().orElse(null));
         responseBodyModel.setActualCount(resource.getActualCount());
         responseBodyModel.setEstimatedCount(resource.getEstimatedCount());
         responseBodyModel.setDifference(resource.getDifference());

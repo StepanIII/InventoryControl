@@ -40,7 +40,11 @@ function createDeleteResourceSymbol(inventoryId) {
             getElement("del_inventory_warehouse").value = inventory.warehouseName
 
             inventory.resources.forEach(resource => {
-                let tr = createTr([resource.id, resource.name, resource.actualCount, resource.estimatedCount, resource.difference, resource.unit])
+                let size = ''
+                if (!stringIsBlank(resource.size)) {
+                    size = resource.size
+                }
+                let tr = createTr([resource.id, resource.name, size, resource.actualCount, resource.estimatedCount, resource.difference, resource.unit])
                 document.querySelector('#inventory_resource_table tbody').appendChild(tr)
             })
 

@@ -29,7 +29,11 @@ function trHandler(tr, moveId) {
             let tBody = document.querySelector('#move_resource_table tbody')
             clearTBody(tBody)
             move.resources.forEach(resource => {
-                let tr = createTr([resource.id, resource.name, resource.count, resource.fromRemainCount, resource.toRemainCount, resource.unit])
+                let size = ''
+                if (!stringIsBlank(resource.size)) {
+                    size = resource.size
+                }
+                let tr = createTr([resource.id, resource.name, size, resource.count, resource.fromRemainCount, resource.toRemainCount, resource.unit])
                 tBody.appendChild(tr)
             })
         })
