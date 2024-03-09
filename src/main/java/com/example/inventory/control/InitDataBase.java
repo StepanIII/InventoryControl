@@ -20,11 +20,17 @@ import com.example.inventory.control.repositories.MoveRepository;
 import com.example.inventory.control.repositories.ResourceOperationRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
+import com.example.inventory.control.security.entity.RoleEntity;
+import com.example.inventory.control.security.entity.UserEntity;
+import com.example.inventory.control.security.repository.RoleRepository;
+import com.example.inventory.control.security.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class InitDataBase {
@@ -46,6 +52,15 @@ public class InitDataBase {
 
     @Autowired
     private MoveRepository moveRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void addData() {
@@ -134,6 +149,8 @@ public class InitDataBase {
                 warehouse2,
                 List.of(createMoveResourceEntity(resource1, 10), createMoveResourceEntity(resource2, 5), createMoveResourceEntity(resource4, 6)));
 
+        RoleEntity role = createRole("USER");
+        createUser("stepan", "stepan", Set.of(role));
     }
 
 
@@ -285,6 +302,20 @@ public class InitDataBase {
         moveResourceEntity.setResource(resource);
         moveResourceEntity.setCount(count);
         return moveResourceEntity;
+    }
+
+    private UserEntity createUser(String login, String password, Set<RoleEntity> roles) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setLogin(login);
+        userEntity.setPassword(passwordEncoder.encode(password));
+        userEntity.getRoles().addAll(roles);
+        return userRepository.save(userEntity);
+    }
+
+    private RoleEntity createRole(String name) {
+        RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setName("ROLE_" + name);
+        return roleRepository.save(roleEntity);
     }
 
 }

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/ui")
 public class UiController {
 
-    @GetMapping
-    public String index() {
-        return "index.html";
-    }
+//    @GetMapping
+//    public String index() {
+//        return "index.html";
+//    }
 
     @GetMapping("/accept/all")
     public String acceptance() {
