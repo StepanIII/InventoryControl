@@ -1,4 +1,4 @@
-package com.example.inventory.control.security.service;
+package com.example.inventory.control.services;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

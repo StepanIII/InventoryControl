@@ -1,6 +1,6 @@
-package com.example.inventory.control.security.repository;
+package com.example.inventory.control.repositories;
 
-import com.example.inventory.control.security.entity.UserEntity;
+import com.example.inventory.control.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

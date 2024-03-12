@@ -1,7 +1,7 @@
-package com.example.inventory.control.security.service.impl;
+package com.example.inventory.control.services.impl;
 
-import com.example.inventory.control.security.repository.UserRepository;
-import com.example.inventory.control.security.service.UserService;
+import com.example.inventory.control.repositories.UserRepository;
+import com.example.inventory.control.services.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

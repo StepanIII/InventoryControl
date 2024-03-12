@@ -3,9 +3,9 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="/index.css">
     <meta charset="UTF-8">
-    <title>Главная страница</title>
+    <title>Остатки</title>
 </head>
 <body>
 
@@ -54,14 +54,36 @@
             <button class="underline-border" onclick="handleInventoryBtn()">Инвентаризации</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 50px">
-            <button class="underline-border" onclick="handleRemainingBtn()">Остатки</button>
+            <button class="click-menu-btn" onclick="handleRemainingBtn()">Остатки</button>
         </div>
     </div>
+</div>
+
+<div id="content">
+
+    <h4 style="margin-left: 30px; margin-top: 20px">Остатки</h4>
+    <br>
+
+    <table id="remaining_table" class="table table-striped w-50 text-center" style="margin-left: 30px">
+        <thead style="font-weight: bold">
+        <tr>
+            <td>Код</td>
+            <td>Наименование</td>
+            <td>Размер</td>
+            <td>Количество</td>
+            <td>Единица измерения</td>
+            <td>Склад</td>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 </div>
 
 <script src="/utils.js"></script>
 <script src="/url.js"></script>
 <script src="/rest-methods.js"></script>
 <script src="/index.js"></script>
+<script src="/remaining.js"></script>
+
 </body>
 </html>

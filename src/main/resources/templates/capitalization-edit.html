@@ -5,7 +5,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/index.css">
     <meta charset="UTF-8">
-    <title>Приемки</title>
+    <title>Оприходования</title>
 </head>
 <body>
 
@@ -36,13 +36,13 @@
             <button class="underline-border">Клиенты</button>
         </div>
         <div class="col-1 menu-row-with">
-            <button class="click-menu-btn" onclick="handleAcceptanceBtn()">Приемки</button>
+            <button class="underline-border" onclick="handleAcceptanceBtn()">Приемки</button>
         </div>
         <div class="col-1 menu-row-with">
             <button class="underline-border" onclick="handleIssueBtn()">Выдачи</button>
         </div>
         <div class="col-1 menu-row-with">
-            <button class="underline-border" onclick="handleCapitalizationBtn()">Оприходования</button>
+            <button class="click-menu-btn" onclick="handleCapitalizationBtn()">Оприходования</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 50px">
             <button class="underline-border" onclick="handleWriteOffBtn()">Списания</button>
@@ -67,14 +67,14 @@
                 <button type="button"
                         class="btn btn-primary"
                         style="font-weight: bold"
-                        onclick="handleSaveAcceptanceBtn()">
+                        onclick="handleSaveCapitalizationBtn()">
                     Сохранить
                 </button>
             </div>
             <div class="col-1" style="width: 125px; margin-left: 580px">
                 <button type="button" class="btn btn-primary"
                         style="font-weight: bold"
-                        onclick="closeEditAcceptHandler()">
+                        onclick="closeEditCapitalizationHandler()">
                     Закрыть
                 </button>
             </div>
@@ -85,14 +85,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-1" style="width: 120px">
-                <label for="selected_benefactor" class="edit-label-param">Благодетель:</label>
+                <label for="description_input" class="edit-label-param">Причина:</label>
             </div>
             <div class="col-1" style="width: 250px">
-                <input type="text" class="form-control edit-input-param" id="selected_benefactor" disabled>
+                <input type="text" class="form-control edit-input-param" id="description_input">
             </div>
-            <div class="col-1" style="padding: 0; width: 110px">
-                <h4 class="edit-select-param" title="Выбрать из справочника" onclick="showBenefactorHandler()">+</h4>
-                <span id="selected_benefactor_id" hidden></span>
+            <div class="col-1" style="width: 105px">
             </div>
             <div class="col-1" style="width: 65px">
                 <label for="selected_warehouse" class="edit-label-param">Склад:</label>
@@ -134,46 +132,6 @@
         </table>
     </div>
     <br>
-
-
-    <!-- Модальное окно выбора благодетеля-->
-    <div class="modal fade" id="benefactors_modal" tabindex="-1" aria-labelledby="benefactors_modal_label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="benefactors_modal_label">Выбор благодетеля</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row text-center fw-bold">
-                            <form id="benefactors_modal_form">
-                                <div class="col-md-12 mx-auto">
-                                    <table id="benefactor_table" class="table table-striped">
-                                        <thead style="font-weight: bold">
-                                        <tr>
-                                            <td>Код</td>
-                                            <td>ФИО</td>
-                                            <td>Телефон</td>
-                                            <td></td>
-                                        </tr>
-                                        </thead>
-                                        <tbody style="font-weight: normal"></tbody>
-                                    </table>
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" style="font-weight: bold" onclick="selectBenefactorHandler()">Выбрать</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
 
     <!-- Модальное окно выбора склада-->
     <div class="modal fade" id="warehouse_modal" tabindex="-1" aria-labelledby="warehouse_modal_label" aria-hidden="true">
@@ -273,15 +231,14 @@
 
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 <script src="/utils.js"></script>
-<script src="/url.js"></script>
 <script src="/index.js"></script>
+<script src="/url.js"></script>
 <script src="/rest-methods.js"></script>
-<script src="/ui/accept/acceptance-edit.js"></script>
+<script src="/capitalization-edit.js"></script>
 
 </body>
 </html>

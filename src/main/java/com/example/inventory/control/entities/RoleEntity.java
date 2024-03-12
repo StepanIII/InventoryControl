@@ -1,4 +1,4 @@
-package com.example.inventory.control.security.entity;
+package com.example.inventory.control.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

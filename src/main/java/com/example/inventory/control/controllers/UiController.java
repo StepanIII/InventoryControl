@@ -10,7 +10,7 @@ public class UiController {
 
 //    @GetMapping
 //    public String index() {
-//        return "index.html";
+//        return "home.html";
 //    }
 
     @GetMapping("/accept/all")

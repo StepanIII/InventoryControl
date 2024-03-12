@@ -5,7 +5,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/index.css">
     <meta charset="UTF-8">
-    <title>Инвентаризации</title>
+    <title>Списания</title>
 </head>
 <body>
 
@@ -45,13 +45,13 @@
             <button class="underline-border" onclick="handleCapitalizationBtn()">Оприходования</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 50px">
-            <button class="underline-border" onclick="handleWriteOffBtn()">Списания</button>
+            <button class="click-menu-btn" onclick="handleWriteOffBtn()">Списания</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 20px">
             <button class="underline-border" onclick="handleMoveBtn()">Перемещения</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 50px">
-            <button class="click-menu-btn" onclick="handleInventoryBtn()">Инвентаризации</button>
+            <button class="underline-border" onclick="handleInventoryBtn()">Инвентаризации</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 50px">
             <button class="underline-border" onclick="handleRemainingBtn()">Остатки</button>
@@ -60,20 +60,21 @@
 </div>
 
 <div id="content" style="margin-left: 30px; margin-top: 30px">
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-1" style="width: 125px">
                 <button type="button"
                         class="btn btn-primary"
                         style="font-weight: bold"
-                        onclick="handleSaveInventoryBtn()">
+                        onclick="handleSaveWriteOffBtn()">
                     Сохранить
                 </button>
             </div>
-            <div class="col-1" style="width: 125px; margin-left: 770px">
+            <div class="col-1" style="width: 125px; margin-left: 580px">
                 <button type="button" class="btn btn-primary"
                         style="font-weight: bold"
-                        onclick="closeEditInventoryHandler()">
+                        onclick="closeEditWriteOffHandler()">
                     Закрыть
                 </button>
             </div>
@@ -81,20 +82,16 @@
     </div>
     <br><br>
 
-    <div class="container-fluid" id="time_block" hidden>
-        <div class="row">
-            <div class="col-1" style="width: 70px">
-                <label for="created_time" class="edit-label-param">Время:</label>
-            </div>
-            <div class="col-1 edit-label-param" style="width: 250px">
-                <span id="created_time"></span>
-            </div>
-        </div>
-    </div>
-    <br>
-
     <div class="container-fluid">
         <div class="row">
+            <div class="col-1" style="width: 120px">
+                <label for="description_input" class="edit-label-param">Причина:</label>
+            </div>
+            <div class="col-1" style="width: 250px">
+                <input type="text" class="form-control edit-input-param" id="description_input">
+            </div>
+            <div class="col-1" style="width: 105px">
+            </div>
             <div class="col-1" style="width: 65px">
                 <label for="selected_warehouse" class="edit-label-param">Склад:</label>
             </div>
@@ -120,15 +117,13 @@
         </button>
         <br><br>
 
-        <table id="selected_resource_table" class="table table-striped" style="margin-left: 10px; width: 1000px">
+        <table id="selected_resource_table" class="table table-striped" style="margin-left: 10px; width: 800px">
             <thead style="font-weight: bold">
             <tr>
                 <td>Код</td>
                 <td>Наименование</td>
                 <td>Размер</td>
-                <td>Фактический остаток</td>
-                <td>Расчетный остаток</td>
-                <td>Разница</td>
+                <td>Количество</td>
                 <td>Единица измерения</td>
                 <td></td>
             </tr>
@@ -197,8 +192,8 @@
                                             <td>Код</td>
                                             <td>Наименование</td>
                                             <td>Размер</td>
-                                            <td>Фактический остаток</td>
-                                            <td>Расчетный остаток</td>
+                                            <td>Количество</td>
+                                            <td>Остаток</td>
                                             <td>Единица измерения</td>
                                         </tr>
                                         </thead>
@@ -206,10 +201,7 @@
                                     </table>
                                 </div>
                                 <div>
-                                    <button type="button"
-                                            class="btn btn-primary"
-                                            data-bs-dismiss="modal"
-                                            aria-label="Close" style="font-weight: bold" onclick="handleSelectResourceBtn()">Выбрать</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" style="font-weight: bold" onclick="handleSelectResourceBtn()">Выбрать</button>
                                 </div>
                             </form>
                         </div>
@@ -237,15 +229,15 @@
 
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-
 <script src="/index.js"></script>
 <script src="/utils.js"></script>
 <script src="/url.js"></script>
 <script src="/rest-methods.js"></script>
-<script src="/ui/inventory/inventory-edit.js"></script>
+<script src="/write-off-edit.js"></script>
 
 </body>
 </html>

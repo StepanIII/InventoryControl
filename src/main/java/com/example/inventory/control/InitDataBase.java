@@ -20,10 +20,10 @@ import com.example.inventory.control.repositories.MoveRepository;
 import com.example.inventory.control.repositories.ResourceOperationRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
-import com.example.inventory.control.security.entity.RoleEntity;
-import com.example.inventory.control.security.entity.UserEntity;
-import com.example.inventory.control.security.repository.RoleRepository;
-import com.example.inventory.control.security.repository.UserRepository;
+import com.example.inventory.control.entities.RoleEntity;
+import com.example.inventory.control.entities.UserEntity;
+import com.example.inventory.control.repositories.RoleRepository;
+import com.example.inventory.control.repositories.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -308,6 +308,7 @@ public class InitDataBase {
         UserEntity userEntity = new UserEntity();
         userEntity.setLogin(login);
         userEntity.setPassword(passwordEncoder.encode(password));
+        userEntity.setEmail("some@mail.com");
         userEntity.getRoles().addAll(roles);
         return userRepository.save(userEntity);
     }

@@ -1,4 +1,4 @@
-package com.example.inventory.control.security.entity;
+package com.example.inventory.control.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +45,12 @@ public class UserEntity implements UserDetails {
     private String password;
 
     /**
+     * Электронная почта.
+     */
+    @Column(name = "EMAIL", nullable = false)
+    private String email;
+
+    /**
      * Роли.
      */
     @ManyToMany(fetch = FetchType.EAGER)
@@ -56,10 +62,11 @@ public class UserEntity implements UserDetails {
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String login, String password, Set<RoleEntity> roles) {
+    public UserEntity(Long id, String login, String password, String email, Set<RoleEntity> roles) {
         this.id = id;
         this.login = login;
         this.password = password;
+        this.email = email;
         this.roles = roles;
     }
 
@@ -124,5 +131,13 @@ public class UserEntity implements UserDetails {
 
     public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

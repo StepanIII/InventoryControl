@@ -39,3 +39,6 @@ const UI_INVENTORY_EDIT_URL = 'http://localhost:8080/ui/inventory/edit'
 const UI_REMAINING_ALL_URL = 'http://localhost:8080/ui/remain/all'
 const UI_RESOURCES_ALL_URL = 'http://localhost:8080/ui/resource/all'
 const UI_RESOURCE_EDIT_URL = 'http://localhost:8080/ui/resource/edit'
+
+const USER_URL = 'http://localhost:8080/user'
+const LOGIN_URL = 'http://localhost:8080/login'
