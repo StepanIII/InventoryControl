@@ -16,4 +16,6 @@ public final class Endpoint {
     public static final String WAREHOUSE = "/warehouse";
     public static final String REMAIN = "/remain";
 
+    public static final String USER = "/user";
+
 }

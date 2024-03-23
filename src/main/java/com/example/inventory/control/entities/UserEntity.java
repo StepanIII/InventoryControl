@@ -35,19 +35,19 @@ public class UserEntity implements UserDetails {
     /**
      * Логин.
      */
-    @Column(name = "LOGIN", nullable = false)
+    @Column(name = "LOGIN", nullable = false, unique = true)
     private String login;
 
     /**
      * Пароль.
      */
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "PASSWORD", nullable = false, unique = true)
     private String password;
 
     /**
      * Электронная почта.
      */
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
 
     /**

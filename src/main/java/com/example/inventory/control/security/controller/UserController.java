@@ -32,7 +32,8 @@ public class UserController {
         LOGGER.info("Запрос на добавление пользователя.");
         BaseResponseBody responseBody = userFacade.addUser(request);
         if (responseBody.getStatus() != StatusResponse.SUCCESS) {
-            LOGGER.info("Запрос на добавление пользователя не выполенен. Причина: %s.", responseBody.getDescription());
+            LOGGER.info(String.format("Запрос на добавление пользователя не выполенен. Причина: %s.", responseBody.getDescription()));
         }
+        return ResponseEntity.ok(responseBody);
     }
 }
