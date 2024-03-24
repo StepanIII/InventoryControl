@@ -1,3 +1,4 @@
 function registrationHandler() {
-    window.location.replace()
+    console.log('aaaa')
+    // window.location.replace(REGISTRATION_URL)
 }

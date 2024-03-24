@@ -42,3 +42,4 @@ const UI_RESOURCE_EDIT_URL = 'http://localhost:8080/ui/resource/edit'
 
 const USER_URL = 'http://localhost:8080/user'
 const LOGIN_URL = 'http://localhost:8080/login'
+const REGISTRATION_URL = 'http://localhost:8080/registration'

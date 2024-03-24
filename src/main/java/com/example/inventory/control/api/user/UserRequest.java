@@ -24,6 +24,11 @@ public class UserRequest {
     private String password;
 
     /**
+     * Подтвержденный пароль.
+     */
+    private String passwordConfirm;
+
+    /**
      * Электронная почта.
      */
     @Email(regexp = "^[\\w.-]+@[a-zA-Z\\d.-]+.[a-zA-Z]{2,}$", message = "Почта не соответствует стандарту.")
@@ -43,6 +48,14 @@ public class UserRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public String getEmail() {

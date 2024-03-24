@@ -1,21 +1,20 @@
-package com.example.inventory.control.security.controller;
+package com.example.inventory.control.controllers;
 
 import com.example.inventory.control.api.BaseResponseBody;
 import com.example.inventory.control.api.StatusResponse;
 import com.example.inventory.control.api.user.UserRequest;
 import com.example.inventory.control.facades.UserFacade;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.logging.Logger;
 
-@Validated
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 
@@ -28,12 +27,19 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<BaseResponseBody> addUser(@Valid @RequestBody UserRequest request) {
+    public String addUser(@Valid @ModelAttribute("userRequest") UserRequest userRequest,
+                          BindingResult bindingResult,
+                          Model model) {
         LOGGER.info("Запрос на добавление пользователя.");
-        BaseResponseBody responseBody = userFacade.addUser(request);
+
+        if (!userRequest.getPassword().equals(userRequest.getPasswordConfirm())) {
+            model.addAttribute()
+        }
+
+        BaseResponseBody responseBody = userFacade.addUser(userRequest);
         if (responseBody.getStatus() != StatusResponse.SUCCESS) {
             LOGGER.info(String.format("Запрос на добавление пользователя не выполенен. Причина: %s.", responseBody.getDescription()));
         }
-        return ResponseEntity.ok(responseBody);
+        return "login";
     }
 }

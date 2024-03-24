@@ -28,7 +28,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public User save(User user) {
         UserEntity userEntity = userMapper.toEntity(user);
         userEntity = userRepository.save(userEntity);
