@@ -12,4 +12,8 @@ public interface UserService extends UserDetailsService {
      * @return сохраненный пользователь.
      */
     User save(User user);
+
+    boolean existsByLogin(String login);
+
+    boolean existsByEmail(String email);
 }

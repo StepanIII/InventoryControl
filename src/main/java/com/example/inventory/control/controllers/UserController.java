@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/user")
+// Переделать на контроллер регистрации
 public class UserController {
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
@@ -33,13 +34,21 @@ public class UserController {
         LOGGER.info("Запрос на добавление пользователя.");
 
         if (!userRequest.getPassword().equals(userRequest.getPasswordConfirm())) {
-            model.addAttribute()
+            model.addAttribute("error", "Пароли не совпадают.");
+            return "registration";
         }
-
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", bindingResult.getFieldError().getDefaultMessage());
+            return "registration";
+        }
         BaseResponseBody responseBody = userFacade.addUser(userRequest);
         if (responseBody.getStatus() != StatusResponse.SUCCESS) {
             LOGGER.info(String.format("Запрос на добавление пользователя не выполенен. Причина: %s.", responseBody.getDescription()));
+            model.addAttribute("error", responseBody.getDescription());
+            return "registration";
         }
         return "login";
     }
+
+    public
 }

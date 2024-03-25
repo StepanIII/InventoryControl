@@ -25,6 +25,9 @@ public abstract class UserMapper {
                 domain.id().orElse(null),
                 domain.getLogin(),
                 domain.getPassword(),
+                domain.getLastName(),
+                domain.getFirstName(),
+                domain.middleName().orElse(null),
                 domain.getEmail(),
                 roleMapper.toEntity(domain.getRoles()));
     }
@@ -40,6 +43,9 @@ public abstract class UserMapper {
                 entity.getId(),
                 entity.getLogin(),
                 entity.getPassword(),
+                entity.getLastName(),
+                entity.getFirstName(),
+                entity.getMiddleName(),
                 entity.getEmail(),
                 roleMapper.toDomain(entity.getRoles()));
     }

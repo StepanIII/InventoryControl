@@ -41,8 +41,26 @@ public class UserEntity implements UserDetails {
     /**
      * Пароль.
      */
-    @Column(name = "PASSWORD", nullable = false, unique = true)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
+
+    /**
+     * Фамилия.
+     */
+    @Column(name = "LAST_NAME", nullable = false)
+    private String lastName;
+
+    /**
+     * Имя.
+     */
+    @Column(name = "FIRST_NAME", nullable = false)
+    private String firstName;
+
+    /**
+     * Отчество.
+     */
+    @Column(name = "MIDDLE_NAME")
+    private String middleName;
 
     /**
      * Электронная почта.
@@ -62,10 +80,13 @@ public class UserEntity implements UserDetails {
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String login, String password, String email, Set<RoleEntity> roles) {
+    public UserEntity(Long id, String login, String password, String lastName, String firstName, String middleName, String email, Set<RoleEntity> roles) {
         this.id = id;
         this.login = login;
         this.password = password;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.middleName = middleName;
         this.email = email;
         this.roles = roles;
     }
@@ -131,6 +152,30 @@ public class UserEntity implements UserDetails {
 
     public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getEmail() {

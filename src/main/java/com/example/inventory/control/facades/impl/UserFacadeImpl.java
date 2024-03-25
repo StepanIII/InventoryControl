@@ -33,7 +33,26 @@ public class UserFacadeImpl implements UserFacade {
             responseBody.setDescription("Роль с именем: ROLE_USER не найдена.");
             return responseBody;
         }
-        User user = User.create(request.getLogin(), request.getPassword(), request.getEmail(), Set.of(roleUserCandidate.get()));
+        if (userService.existsByLogin(request.getLogin())) {
+            BaseResponseBody responseBody = new BaseResponseBody();
+            responseBody.setStatus(StatusResponse.NOT_VALID_LOGIN);
+            responseBody.setDescription("Пользователь с таким логином уже существует.");
+            return responseBody;
+        }
+        if (userService.existsByEmail(request.getEmail())) {
+            BaseResponseBody responseBody = new BaseResponseBody();
+            responseBody.setStatus(StatusResponse.NOT_VALID_EMAIL);
+            responseBody.setDescription("Пользователь с данной электронной почтой уже существует.");
+            return responseBody;
+        }
+        User user = User.create(
+                request.getLogin(),
+                request.getPassword(),
+                request.getLastName(),
+                request.getFirstName(),
+                request.getMiddleName(),
+                request.getEmail(),
+                Set.of(roleUserCandidate.get()));
         user = userService.save(user);
         BaseResponseBody responseBody = new BaseResponseBody();
         responseBody.setStatus(StatusResponse.SUCCESS);

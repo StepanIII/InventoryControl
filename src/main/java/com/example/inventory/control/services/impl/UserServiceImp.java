@@ -34,4 +34,18 @@ public class UserServiceImp implements UserService {
         userEntity = userRepository.save(userEntity);
         return userMapper.toDomain(userEntity);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByLogin(String login) {
+        return userRepository.existsByLogin(login);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+
 }

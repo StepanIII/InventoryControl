@@ -150,7 +150,7 @@ public class InitDataBase {
                 List.of(createMoveResourceEntity(resource1, 10), createMoveResourceEntity(resource2, 5), createMoveResourceEntity(resource4, 6)));
 
         RoleEntity role = createRole("USER");
-        createUser("stepan", "stepan", Set.of(role));
+        createUser("stepan", "stepan", "Cupriyanovich", "Stepan", "Vitalievich", Set.of(role));
     }
 
 
@@ -304,9 +304,12 @@ public class InitDataBase {
         return moveResourceEntity;
     }
 
-    private UserEntity createUser(String login, String password, Set<RoleEntity> roles) {
+    private UserEntity createUser(String login, String password, String lastName, String firstName, String middleName, Set<RoleEntity> roles) {
         UserEntity userEntity = new UserEntity();
         userEntity.setLogin(login);
+        userEntity.setLastName(lastName);
+        userEntity.setFirstName(firstName);
+        userEntity.setMiddleName(middleName);
         userEntity.setPassword(passwordEncoder.encode(password));
         userEntity.setEmail("some@mail.com");
         userEntity.getRoles().addAll(roles);
