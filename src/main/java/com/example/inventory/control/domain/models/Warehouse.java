@@ -25,6 +25,14 @@ public final class Warehouse {
         this.remains = remains;
     }
 
+    public static Warehouse create(String name) {
+        return new Warehouse(null, name, Set.of());
+    }
+
+    public Warehouse updateName(String name) {
+        return new Warehouse(id, name, remains);
+    }
+
     public Optional<Long> id() {
         return Optional.ofNullable(id);
     }

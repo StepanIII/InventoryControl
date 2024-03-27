@@ -26,13 +26,13 @@ public class ResourceRequest {
     /**
      * Тип.
      */
-    @NotNull
+    @NotNull(message = "Укажите тип ресурса.")
     private ResourceType type;
 
     /**
      * Еденица измерения.
      */
-    @NotNull
+    @NotNull(message = "Укажите единицу измерения ресурса")
     private Unit unit;
 
     public String getName() {

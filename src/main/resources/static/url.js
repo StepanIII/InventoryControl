@@ -40,6 +40,9 @@ const UI_REMAINING_ALL_URL = 'http://localhost:8080/ui/remain/all'
 const UI_RESOURCES_ALL_URL = 'http://localhost:8080/ui/resource/all'
 const UI_RESOURCE_EDIT_URL = 'http://localhost:8080/ui/resource/edit'
 
+const UI_WAREHOUSE_ALL_URL = 'http://localhost:8080/ui/warehouse/all'
+const UI_WAREHOUSE_EDIT_URL = 'http://localhost:8080/ui/warehouse/edit'
+
 const USER_URL = 'http://localhost:8080/user'
 const LOGIN_URL = 'http://localhost:8080/login'
 const REGISTRATION_URL = 'http://localhost:8080/registration'

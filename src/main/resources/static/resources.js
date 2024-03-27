@@ -124,7 +124,7 @@ function handleSaveResourceBtn() {
         postData(RESOURCE_URL, request).then(response => {
             console.log(response)
             if (response.status !== SUCCESS) {
-                showModalError(response.description)
+                getElement('error_modal_desc').textContent = response.description
             } else {
                 window.location.reload()
             }
@@ -133,16 +133,11 @@ function handleSaveResourceBtn() {
         putData(RESOURCE_URL + "/" + resourceId, request).then(response => {
             console.log(response)
             if (response.status !== SUCCESS) {
-                showModalError(response.description)
+                getElement('error_modal_desc').textContent = response.description
             } else {
                 window.location.reload()
             }
         })
     }
 
-}
-
-function showModalError(errorDescription) {
-    getElement('error_desc').textContent = errorDescription
-    showModal('error_modal')
 }

@@ -45,4 +45,22 @@ public class WarehouseServiceImpl implements WarehouseService {
         return warehouseMapper.toDomain(entity);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByName(String name) {
+        return warehouseRepository.existsByName(name);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsById(Long id) {
+        return warehouseRepository.existsById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        warehouseRepository.deleteById(id);
+    }
+
 }

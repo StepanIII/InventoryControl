@@ -30,4 +30,29 @@ public interface WarehouseService {
      */
     Warehouse save(Warehouse warehouse);
 
+    /**
+     * Проваерить наличие склада по имени.
+     *
+     * @param name имя склада.
+     *
+     * @return true если склад есть иначе false.
+     */
+    boolean existsByName(String name);
+
+    /**
+     * Проверить наличие склада по идентификатору.
+     *
+     * @param id идентификатор склада.
+     *
+     * @return true если склад есть иначе false.
+     */
+    boolean existsById(Long id);
+
+    /**
+     * Удалить склад по идентификатору.
+     *
+     * @param id идентификатор.
+     */
+    void deleteById(Long id);
+
 }

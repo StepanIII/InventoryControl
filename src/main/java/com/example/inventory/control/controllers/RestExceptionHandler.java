@@ -30,7 +30,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   WebRequest request) {
         LOGGER.warning(ex.getMessage());
         return ResponseEntity.badRequest().body(
-                new ExceptionResponse(StatusResponse.MALFORMED_JSON_REQUEST, ex.getMessage()));
+                new ExceptionResponse(StatusResponse.MALFORMED_JSON_REQUEST, "Данные заполнены не корректно."));
     }
 
     @Override

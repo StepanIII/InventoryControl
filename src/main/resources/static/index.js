@@ -9,6 +9,10 @@ function handleResourcesBtn() {
     window.location.replace(UI_RESOURCES_ALL_URL)
 }
 
+function handleWarehouseBtn() {
+    window.location.replace(UI_WAREHOUSE_ALL_URL)
+}
+
 function handleAcceptanceBtn() {
     window.location.replace(UI_ACCEPT_ALL_URL)
 }

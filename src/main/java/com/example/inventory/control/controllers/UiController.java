@@ -53,6 +53,11 @@ public class UiController {
         return "resources.html";
     }
 
+    @GetMapping("/warehouse/all")
+    public String warehouse() {
+        return "warehouse.html";
+    }
+
     @GetMapping("/write-off/all")
     public String writeOff() {
         return "write-off.html";

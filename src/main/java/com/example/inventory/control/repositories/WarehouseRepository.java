@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface WarehouseRepository extends JpaRepository<WarehouseEntity, Long> {
 
     Optional<WarehouseEntity> findByName(String name);
+
+    boolean existsByName(String name);
 }

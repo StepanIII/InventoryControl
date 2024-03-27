@@ -5,7 +5,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/index.css">
     <meta charset="UTF-8">
-    <title>Ресурсы</title>
+    <title>Склады</title>
 </head>
 <body>
 
@@ -28,10 +28,10 @@
 <div id="menu" class="container-fluid bg-light h-25 text-center menu">
     <div class="row">
         <div class="col-1 menu-row-with">
-            <button class="click-menu-btn" onclick="handleResourcesBtn()">Ресурсы</button>
+            <button class="underline-border" onclick="handleResourcesBtn()">Ресурсы</button>
         </div>
         <div class="col-1 menu-row-with">
-            <button class="underline-border" onclick="handleWarehouseBtn()">Склады</button>
+            <button class="click-menu-btn" onclick="handleWarehouseBtn()">Склады</button>
         </div>
         <div class="col-1 menu-row-with">
             <button class="underline-border">Клиенты</button>
@@ -62,22 +62,19 @@
 
 <div id="content">
 
-    <h4 style="margin-left: 30px; margin-top: 20px">Ресурсы</h4>
+    <h4 style="margin-left: 30px; margin-top: 20px">Склады</h4>
     <br>
 
     <button type="button" class="btn btn-primary" style="margin-left: 30px; font-weight: bold"
-            onclick="handleAddResourceBtn()">Добавить
+            onclick="handleAddWarehouseBtn()">Добавить
     </button>
     <br>
 
-    <table id="resources_table" class="table table-striped w-50 text-center" style="margin-left: 30px">
+    <table id="warehouse_table" class="table table-striped w-25 text-center" style="margin-left: 30px">
         <thead style="font-weight: bold">
         <tr>
             <td>Код</td>
             <td>Наименование</td>
-            <td>Размер</td>
-            <td>Тип</td>
-            <td>Еденица измерения</td>
             <td></td>
         </tr>
         </thead>
@@ -114,32 +111,20 @@
                         <div class="row text-center fw-bold">
                             <form id="editForm">
                                 <div class="col-md-12 mx-auto">
-                                    <span id="error_modal_desc" class="fw-normal"></span>
+                                    <span id="error_desc_modal" class="fw-normal"></span>
                                 </div>
                                 <div class="col-md-6 mx-auto" id="edit_modal_code_row" hidden>
-                                    <label for="resource_id" class="form-label">Код</label>
-                                    <input type="text" class="form-control" id="resource_id" disabled>
+                                    <label for="warehouse_id" class="form-label">Код</label>
+                                    <input type="text" class="form-control" id="warehouse_id" disabled>
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="resource_name_input" class="form-label">Наименование</label>
-                                    <input type="text" class="form-control" id="resource_name_input">
-                                </div>
-                                <div class="col-md-6 mx-auto" id="resource_size_div">
-                                    <label for="resource_size_input" class="form-label">Размер</label>
-                                    <input type="text" class="form-control" id="resource_size_input">
-                                </div>
-                                <div class="col-md-6 mx-auto">
-                                    <label for="resource_type_select" class="form-label">Тип</label>
-                                    <select class="form-select" id="resource_type_select"></select>
-                                </div>
-                                <div class="col-md-6 mx-auto">
-                                    <label for="resource_unit_select" class="form-label">Единица измерения</label>
-                                    <select class="form-select" id="resource_unit_select"></select>
+                                    <label for="warehouse_name_input" class="form-label">Наименование</label>
+                                    <input type="text" class="form-control" id="warehouse_name_input">
                                 </div>
                                 <div class="p-2"></div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleSaveResourceBtn()">Сохранить</button>
+                                    <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleSaveWarehouseBtn()">Сохранить</button>
                                 </div>
                             </form>
                         </div>
@@ -168,29 +153,17 @@
                                     <span id="error_del_desc" class="fw-normal"></span>
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_id" class="form-label">Код</label>
-                                    <input type="text" class="form-control" id="del_resource_id" disabled>
+                                    <label for="del_warehouse_id" class="form-label">Код</label>
+                                    <input type="text" class="form-control" id="del_warehouse_id" disabled>
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_name" class="form-label">Наименование</label>
-                                    <input type="text" class="form-control" id="del_resource_name" disabled>
-                                </div>
-                                <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_size" class="form-label">Размер</label>
-                                    <input type="text" class="form-control" id="del_resource_size" disabled>
-                                </div>
-                                <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_type" class="form-label">Тип</label>
-                                    <input type="text" class="form-control" id="del_resource_type" disabled>
-                                </div>
-                                <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_unit" class="form-label">Единица измерения</label>
-                                    <input type="text" class="form-control" id="del_resource_unit" disabled>
+                                    <label for="del_warehouse_name" class="form-label">Наименование</label>
+                                    <input type="text" class="form-control" id="del_warehouse_name" disabled>
                                 </div>
                                 <div class="p-2"></div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" style="font-weight: bold" onclick="handleDeleteResourceBtn()">Удалить</button>
+                                    <button type="button" class="btn btn-danger" style="font-weight: bold" onclick="handleDeleteWarehouseBtn()">Удалить</button>
                                 </div>
                             </form>
                         </div>
@@ -210,7 +183,7 @@
 <script src="/url.js"></script>
 <script src="/rest-methods.js"></script>
 <script src="/index.js"></script>
-<script src="/resources.js"></script>
+<script src="/warehouse.js"></script>
 
 </body>
 </html>
