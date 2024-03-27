@@ -3,6 +3,8 @@ package com.example.inventory.control.facades.impl;
 import com.example.inventory.control.api.BaseResponseBody;
 import com.example.inventory.control.api.StatusResponse;
 import com.example.inventory.control.api.user.UserRequest;
+import com.example.inventory.control.api.user.UserResponseBody;
+import com.example.inventory.control.api.user.model.UserModel;
 import com.example.inventory.control.domain.models.Role;
 import com.example.inventory.control.domain.models.User;
 import com.example.inventory.control.facades.UserFacade;
@@ -57,6 +59,26 @@ public class UserFacadeImpl implements UserFacade {
         BaseResponseBody responseBody = new BaseResponseBody();
         responseBody.setStatus(StatusResponse.SUCCESS);
         responseBody.setDescription(String.format("Пользователь добавлен. id: %d.", user.id().orElseThrow()));
+        return responseBody;
+    }
+
+    @Override
+    public UserResponseBody getUserByLogin(String login) {
+        Optional<User> userCandidate = userService.findByLogin(login);
+        if (userCandidate.isEmpty()) {
+            UserResponseBody responseBody = new UserResponseBody();
+            responseBody.setStatus(StatusResponse.USER_NOT_FOUND);
+            responseBody.setDescription(String.format("Пользователь с логином: %s не найден.", login));
+            return responseBody;
+        }
+        User user = userCandidate.get();
+        UserModel userModelResponse = new UserModel();
+        userModelResponse.setLastFirstName(user.getLastName() + " " + user.getFirstName());
+
+        UserResponseBody responseBody = new UserResponseBody();
+        responseBody.setStatus(StatusResponse.SUCCESS);
+        responseBody.setDescription(String.format("Найден пользователь с логином: %s.", login));
+        responseBody.setUser(userModelResponse);
         return responseBody;
     }
 

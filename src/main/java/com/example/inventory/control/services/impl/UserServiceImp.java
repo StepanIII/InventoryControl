@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImp implements UserService {
 
@@ -24,7 +26,8 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByLogin(username);
+        return userRepository.findByLogin(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь по логину на найден."));
     }
 
     @Override
@@ -45,6 +48,13 @@ public class UserServiceImp implements UserService {
     @Transactional(readOnly = true)
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findByLogin(String login) {
+        Optional<UserEntity> userEntityCandidate = userRepository.findByLogin(login);
+        return userEntityCandidate.map(userMapper::toDomain);
     }
 
 

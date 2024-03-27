@@ -1,4 +1,10 @@
-
+getData(USER_URL).then(response => {
+    console.log(response.status)
+    return response.user
+}).then(user => {
+    localStorage.setItem('last_first_name', user.lastFirstName)
+    getElement('last_first_name').textContent = user.lastFirstName
+})
 function handleResourcesBtn() {
     window.location.replace(UI_RESOURCES_ALL_URL)
 }

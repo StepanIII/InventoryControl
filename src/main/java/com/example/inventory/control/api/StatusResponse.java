@@ -20,5 +20,6 @@ public enum StatusResponse {
     INTERNAL_SERVER_ERROR,
     NOT_DELETE_PARENT,
     NOT_VALID_LOGIN,
-    NOT_VALID_EMAIL
+    NOT_VALID_EMAIL,
+    USER_NOT_FOUND
 }
