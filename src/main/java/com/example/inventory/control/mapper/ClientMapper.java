@@ -2,6 +2,7 @@ package com.example.inventory.control.mapper;
 
 import com.example.inventory.control.api.client.benefactor.model.BenefactorResponseBodyModel;
 import com.example.inventory.control.api.client.benefactor.model.BeneficiaryResponseBodyModel;
+import com.example.inventory.control.api.client.benefactor.model.ClientResponseBodyModel;
 import com.example.inventory.control.entities.ClientEntity;
 import com.example.inventory.control.domain.models.Client;
 import org.mapstruct.Mapper;
@@ -24,7 +25,7 @@ public abstract class ClientMapper {
                 domain.getType(),
                 domain.getLastName(),
                 domain.getFirstName(),
-                domain.getMiddleName(),
+                domain.middleName().orElse(null),
                 domain.phone().orElse(null));
     }
 
@@ -67,6 +68,17 @@ public abstract class ClientMapper {
         responseBodyModel.setId(domainModel.id().orElseThrow());
         responseBodyModel.setFio(domainModel.getFio());
         responseBodyModel.setPhone(domainModel.phone().orElse(null));
+        return responseBodyModel;
+    }
+
+    public ClientResponseBodyModel toClientResponseBodyModel(Client domainModel) {
+        ClientResponseBodyModel responseBodyModel = new ClientResponseBodyModel();
+        responseBodyModel.setId(domainModel.id().orElseThrow());
+        responseBodyModel.setLastName(domainModel.getLastName());
+        responseBodyModel.setFirstName(domainModel.getFirstName());
+        responseBodyModel.setMiddleName(domainModel.middleName().orElse(null));
+        responseBodyModel.setPhone(domainModel.phone().orElse(null));
+        responseBodyModel.setType(domainModel.getType());
         return responseBodyModel;
     }
 

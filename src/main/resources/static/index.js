@@ -13,6 +13,10 @@ function handleWarehouseBtn() {
     window.location.replace(UI_WAREHOUSE_ALL_URL)
 }
 
+function handleClientBtn() {
+    window.location.replace(UI_CLIENT_ALL_URL)
+}
+
 function handleAcceptanceBtn() {
     window.location.replace(UI_ACCEPT_ALL_URL)
 }

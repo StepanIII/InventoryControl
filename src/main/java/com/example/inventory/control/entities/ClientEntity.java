@@ -53,7 +53,7 @@ public class ClientEntity {
     /**
      * Номер телефона.
      */
-    @Column(name = "PHONE")
+    @Column(name = "PHONE", nullable = false)
     private String phone;
 
     public ClientEntity() {

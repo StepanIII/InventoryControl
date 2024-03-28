@@ -58,6 +58,11 @@ public class UiController {
         return "warehouse.html";
     }
 
+    @GetMapping("/client/all")
+    public String client() {
+        return "client.html";
+    }
+
     @GetMapping("/write-off/all")
     public String writeOff() {
         return "write-off.html";

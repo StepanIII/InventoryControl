@@ -33,9 +33,44 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Client> getAllClient() {
+        return clientRepository.findAll().stream()
+                .map(clientMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Client> getClientByIdAndType(Long id, ClientType type) {
         Optional<ClientEntity> benefactorEntityCandidate = clientRepository.findByIdAndType(id, type);
         return benefactorEntityCandidate.map(clientMapper::toDomain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Client> getClientById(Long id) {
+        Optional<ClientEntity> clientEntityCandidate = clientRepository.findById(id);
+        return clientEntityCandidate.map(clientMapper::toDomain);
+    }
+
+    @Override
+    @Transactional
+    public Client save(Client client) {
+        ClientEntity clientEntity = clientMapper.toEntity(client);
+        clientEntity = clientRepository.save(clientEntity);
+        return clientMapper.toDomain(clientEntity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsById(Long id) {
+        return clientRepository.existsById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        clientRepository.deleteById(id);
     }
 
 }

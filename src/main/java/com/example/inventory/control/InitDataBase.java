@@ -70,15 +70,15 @@ public class InitDataBase {
         ResourceEntity resource3 = createResourceEntity("Ботинки", "25", ResourceType.CLOTHING, Unit.PAIR);
         ResourceEntity resource4 = createResourceEntity("Апельсины", null, ResourceType.FOOD, Unit.KILOGRAM);
 
-        createClientEntity(ClientType.ANONYMOUS, "АНОНИМ", "", "", "79200000000");
-        ClientEntity benefactor1 = createClientEntity(ClientType.BENEFACTOR, "Иванов", "Иван", "Иванович", "79200000001");
-        ClientEntity benefactor2 = createClientEntity(ClientType.BENEFACTOR, "Петров", "Петр", "Петрович", "79200000002");
-        ClientEntity benefactor3 = createClientEntity(ClientType.BENEFACTOR, "Бильбо", "Беггинс", null, "79200000003");
-        ClientEntity benefactor4 = createClientEntity(ClientType.BENEFACTOR, "Леголас", "Гринлиф", null, "79200000004");
+//        createClientEntity(ClientType.ANONYMOUS, "АНОНИМ", "", "", "79200000000");
+        ClientEntity benefactor1 = createClientEntity(ClientType.BENEFACTOR, "Иванов", "Иван", "Иванович", "+79200000001");
+        ClientEntity benefactor2 = createClientEntity(ClientType.BENEFACTOR, "Петров", "Петр", "Петрович", "+79200000002");
+        ClientEntity benefactor3 = createClientEntity(ClientType.BENEFACTOR, "Бильбо", "Беггинс", null, "+79200000003");
+        ClientEntity benefactor4 = createClientEntity(ClientType.BENEFACTOR, "Леголас", "Гринлиф", null, "+79200000004");
 
-        ClientEntity beneficiary1 = createClientEntity(ClientType.BENEFICIARY, "Петров", "Петр", "Петрович", "79200000005");
-        ClientEntity beneficiary2 = createClientEntity(ClientType.BENEFICIARY, "Сидоров", "Иван", "Петрович", "79200000006");
-        ClientEntity beneficiary3 = createClientEntity(ClientType.BENEFICIARY, "Дубов", "Леонид", "Константинович", "79200000007");
+        ClientEntity beneficiary1 = createClientEntity(ClientType.BENEFICIARY, "Петров", "Петр", "Петрович", "+79200000005");
+        ClientEntity beneficiary2 = createClientEntity(ClientType.BENEFICIARY, "Сидоров", "Иван", "Петрович", "+79200000006");
+        ClientEntity beneficiary3 = createClientEntity(ClientType.BENEFICIARY, "Дубов", "Леонид", "Константинович", "+79200000007");
 
         WarehouseEntity warehouse1 = createWarehouseEntity("Склад1");
         WarehouseEntity warehouse2 = createWarehouseEntity("Склад2");

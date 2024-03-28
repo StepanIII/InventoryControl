@@ -50,6 +50,30 @@ public final class Client {
         this.phone = phone;
     }
 
+    public static Client create(ClientType type, String lastName, String firstName, String middleName, String phone) {
+        return new Client(null, type, lastName, firstName, middleName, phone);
+    }
+
+    public Client updateLastName(String lastName) {
+        return new Client(id, type, lastName, firstName, middleName, phone);
+    }
+
+    public Client updateFirstName(String firstName) {
+        return new Client(id, type, lastName, firstName, middleName, phone);
+    }
+
+    public Client updateMiddleName(String middleName) {
+        return new Client(id, type, lastName, firstName, middleName, phone);
+    }
+
+    public Client updatePhone(String phone) {
+        return new Client(id, type, lastName, firstName, middleName, phone);
+    }
+
+    public Client updateType(ClientType type) {
+        return new Client(id, type, lastName, firstName, middleName, phone);
+    }
+
     public Optional<Long> id() {
         return Optional.ofNullable(id);
     }
@@ -82,8 +106,8 @@ public final class Client {
         this.firstName = firstName;
     }
 
-    public String getMiddleName() {
-        return middleName;
+    public Optional<String> middleName() {
+        return Optional.ofNullable(middleName);
     }
 
     public void setMiddleName(String middleName) {

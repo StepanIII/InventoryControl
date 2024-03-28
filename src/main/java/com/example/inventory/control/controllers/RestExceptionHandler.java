@@ -79,6 +79,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         LOGGER.warning(ex.getMessage());
+        ex.printStackTrace();
         return ResponseEntity.internalServerError().body(response);
     }
 
