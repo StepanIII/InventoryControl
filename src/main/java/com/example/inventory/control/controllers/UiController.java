@@ -13,6 +13,11 @@ public class UiController {
 //        return "home.html";
 //    }
 
+    @GetMapping("/user/all")
+    public String user() {
+        return "user.html";
+    }
+
     @GetMapping("/accept/all")
     public String acceptance() {
         return "acceptance.html";

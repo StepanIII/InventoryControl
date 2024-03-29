@@ -150,6 +150,9 @@ public class InitDataBase {
                 List.of(createMoveResourceEntity(resource1, 10), createMoveResourceEntity(resource2, 5), createMoveResourceEntity(resource4, 6)));
 
         RoleEntity role = createRole("USER");
+        RoleEntity role2 = createRole("ADMIN");
+        RoleEntity role3 = createRole("SOME");
+
         createUser("stepan", "stepan", "Cupriyanovich", "Stepan", "Vitalievich", Set.of(role));
     }
 

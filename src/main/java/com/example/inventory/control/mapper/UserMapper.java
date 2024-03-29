@@ -1,5 +1,6 @@
 package com.example.inventory.control.mapper;
 
+import com.example.inventory.control.api.user.model.UserAllInfoModel;
 import com.example.inventory.control.domain.models.User;
 import com.example.inventory.control.entities.UserEntity;
 import org.mapstruct.Mapper;
@@ -48,6 +49,17 @@ public abstract class UserMapper {
                 entity.getMiddleName(),
                 entity.getEmail(),
                 roleMapper.toDomain(entity.getRoles()));
+    }
+
+    public UserAllInfoModel toUserAllInfoModel(User domain) {
+        UserAllInfoModel userAllInfoModel = new UserAllInfoModel();
+        userAllInfoModel.setId(domain.id().orElseThrow());
+        userAllInfoModel.setLogin(domain.getLogin());
+        userAllInfoModel.setLastName(domain.getLastName());
+        userAllInfoModel.setFirstName(domain.getFirstName());
+        userAllInfoModel.setMiddleName(domain.middleName().orElse(null));
+        userAllInfoModel.setEmail(domain.getEmail());
+        return userAllInfoModel;
     }
 
 

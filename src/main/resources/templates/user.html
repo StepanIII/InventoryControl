@@ -5,7 +5,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/index.css">
     <meta charset="UTF-8">
-    <title>Ресурсы</title>
+    <title>Пользователи</title>
 </head>
 <body>
 
@@ -28,10 +28,10 @@
 <div id="menu" class="container-fluid bg-light h-25 text-center menu">
     <div class="row">
         <div class="col-1 menu-row-with">
-            <button class="underline-border" onclick="handleUserBtn()">Пользователи</button>
+            <button class="click-menu-btn" onclick="handleUserBtn()">Пользователи</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 37px">
-            <button class="click-menu-btn" onclick="handleResourcesBtn()">Ресурсы</button>
+            <button class="underline-border" onclick="handleResourcesBtn()">Ресурсы</button>
         </div>
         <div class="col-1 menu-row-with">
             <button class="underline-border" onclick="handleWarehouseBtn()">Склады</button>
@@ -65,42 +65,29 @@
 
 <div id="content">
 
-    <h4 style="margin-left: 30px; margin-top: 20px">Ресурсы</h4>
+    <h4 style="margin-left: 30px; margin-top: 20px">Пользователи</h4>
     <br>
 
     <button type="button" class="btn btn-primary" style="margin-left: 30px; font-weight: bold"
-            onclick="handleAddResourceBtn()">Добавить
+            onclick="handleAddUserBtn()">Добавить
     </button>
     <br>
 
-    <table id="resources_table" class="table table-striped w-50 text-center" style="margin-left: 30px">
+    <table id="user_table" class="table table-striped w-50 text-center" style="margin-left: 30px">
         <thead style="font-weight: bold">
         <tr>
-            <td>Код</td>
-            <td>Наименование</td>
-            <td>Размер</td>
-            <td>Тип</td>
-            <td>Еденица измерения</td>
+            <td>Номер</td>
+            <td>Логин</td>
+            <td>Пароль</td>
+            <td>Фамилия</td>
+            <td>Имя</td>
+            <td>Отчество</td>
+            <td>Электронная почта</td>
             <td></td>
         </tr>
         </thead>
         <tbody></tbody>
     </table>
-
-    <!-- Модальное окно ошибки-->
-    <div class="modal fade" id="error_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ошибка</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                </div>
-                <div class="modal-body">
-                    <span id="error_desc"></span>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Модальное окно изменения записи-->
     <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -119,30 +106,44 @@
                                 <div class="col-md-12 mx-auto">
                                     <span id="error_modal_desc" class="fw-normal"></span>
                                 </div>
-                                <div class="col-md-6 mx-auto" id="edit_modal_code_row" hidden>
-                                    <label for="resource_id" class="form-label">Код</label>
-                                    <input type="text" class="form-control" id="resource_id" disabled>
+                                <div class="col-md-6 mx-auto" id="edit_modal_code_row">
+                                    <label for="user_id" class="form-label">Номер</label>
+                                    <input type="text" class="form-control" id="user_id" disabled>
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="resource_name_input" class="form-label">Наименование</label>
-                                    <input type="text" class="form-control" id="resource_name_input">
+                                    <label for="user_login_input" class="form-label">Логин</label>
+                                    <input type="text" class="form-control" id="user_login_input">
                                 </div>
                                 <div class="col-md-6 mx-auto" id="resource_size_div">
-                                    <label for="resource_size_input" class="form-label">Размер</label>
-                                    <input type="text" class="form-control" id="resource_size_input">
+                                    <label for="user_password_input" class="form-label">Пароль</label>
+                                    <input type="text" class="form-control" id="user_password_input">
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="resource_type_select" class="form-label">Тип</label>
-                                    <select class="form-select" id="resource_type_select"></select>
+                                    <label for="user_last_name_input" class="form-label">Фамилия</label>
+                                    <input type="text" class="form-control" id="user_last_name_input">
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="resource_unit_select" class="form-label">Единица измерения</label>
-                                    <select class="form-select" id="resource_unit_select"></select>
+                                    <label for="user_first_name_input" class="form-label">Имя</label>
+                                    <input type="text" class="form-control" id="user_first_name_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="user_middle_name_input" class="form-label">Отчество</label>
+                                    <input type="text" class="form-control" id="user_middle_name_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="user_email_input" class="form-label">Электронная почта</label>
+                                    <input type="text" class="form-control" id="user_email_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="user_role_table" class="form-label">Роли</label>
+                                    <table id="user_role_table" class="table table-striped">
+                                        <tbody style="font-weight: normal"></tbody>
+                                    </table>
                                 </div>
                                 <div class="p-2"></div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleSaveResourceBtn()">Сохранить</button>
+                                    <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleSaveUserBtn()">Сохранить</button>
                                 </div>
                             </form>
                         </div>
@@ -171,29 +172,43 @@
                                     <span id="error_del_desc" class="fw-normal"></span>
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_id" class="form-label">Код</label>
-                                    <input type="text" class="form-control" id="del_resource_id" disabled>
+                                    <label for="del_user_id" class="form-label">Номер</label>
+                                    <input type="text" class="form-control" id="del_user_id" disabled>
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_name" class="form-label">Наименование</label>
-                                    <input type="text" class="form-control" id="del_resource_name" disabled>
+                                    <label for="del_user_login_input" class="form-label">Логин</label>
+                                    <input type="text" class="form-control" id="del_user_login_input">
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_size" class="form-label">Размер</label>
-                                    <input type="text" class="form-control" id="del_resource_size" disabled>
+                                    <label for="del_user_password_input" class="form-label">Пароль</label>
+                                    <input type="text" class="form-control" id="del_user_password_input">
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_type" class="form-label">Тип</label>
-                                    <input type="text" class="form-control" id="del_resource_type" disabled>
+                                    <label for="del_user_last_name_input" class="form-label">Фамилия</label>
+                                    <input type="text" class="form-control" id="del_user_last_name_input">
                                 </div>
                                 <div class="col-md-6 mx-auto">
-                                    <label for="del_resource_unit" class="form-label">Единица измерения</label>
-                                    <input type="text" class="form-control" id="del_resource_unit" disabled>
+                                    <label for="del_user_first_name_input" class="form-label">Имя</label>
+                                    <input type="text" class="form-control" id="del_user_first_name_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="del_user_middle_name_input" class="form-label">Отчество</label>
+                                    <input type="text" class="form-control" id="del_user_middle_name_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="del_user_email_input" class="form-label">Электронная почта</label>
+                                    <input type="text" class="form-control" id="del_user_email_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="del_user_role_table" class="form-label">Роли</label>
+                                    <table id="del_user_role_table" class="table table-striped">
+                                        <tbody style="font-weight: normal"></tbody>
+                                    </table>
                                 </div>
                                 <div class="p-2"></div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" style="font-weight: bold" onclick="handleDeleteResourceBtn()">Удалить</button>
+                                    <button type="button" class="btn btn-danger" style="font-weight: bold" onclick="handleDeleteUserBtn()">Удалить</button>
                                 </div>
                             </form>
                         </div>
@@ -213,7 +228,7 @@
 <script src="/url.js"></script>
 <script src="/rest-methods.js"></script>
 <script src="/index.js"></script>
-<script src="/resources.js"></script>
+<script src="/user.js"></script>
 
 </body>
 </html>

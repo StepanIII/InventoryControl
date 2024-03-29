@@ -73,6 +73,10 @@ public final class User {
         return new User(null, login, BCryptUtil.encode(password), lastName, firstName, middleName, email, roles);
     }
 
+    public User update(String login, String password, String lastName, String firstName, String middleName, String email, Set<Role> roles) {
+        return new User(id, login, BCryptUtil.encode(password), lastName, firstName, middleName, email, roles);
+    }
+
     public Optional<Long> id() {
         return Optional.ofNullable(id);
     }

@@ -3,6 +3,7 @@ package com.example.inventory.control.services;
 import com.example.inventory.control.domain.models.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
@@ -27,4 +28,20 @@ public interface UserService extends UserDetailsService {
      * @return найденный пользователь.
      */
     Optional<User> findByLogin(String login);
+
+    /**
+     * Получить пользователя по идентификатору.
+     *
+     * @param id идентификатор искомого пользователя.
+     *
+     * @return найденный пользователь.
+     */
+    Optional<User> findById(Long id);
+
+    /**
+     * Получить всех пользователей.
+     *
+     * @return все пользователи.
+     */
+    List<User> findAllUsers();
 }

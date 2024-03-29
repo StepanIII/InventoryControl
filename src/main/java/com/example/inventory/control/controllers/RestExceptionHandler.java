@@ -29,6 +29,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatusCode status,
                                                                   WebRequest request) {
         LOGGER.warning(ex.getMessage());
+        ex.printStackTrace();
         return ResponseEntity.badRequest().body(
                 new ExceptionResponse(StatusResponse.MALFORMED_JSON_REQUEST, "Данные заполнены не корректно."));
     }
@@ -55,6 +56,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         }
         String responseDescription = responseDescriptionBuilder.toString().trim();
         LOGGER.warning(ex.getMessage());
+        ex.printStackTrace();
         return ResponseEntity.badRequest().body(
                 new ExceptionResponse(StatusResponse.METHOD_ARGUMENT_NOT_VALID, responseDescription));
     }
