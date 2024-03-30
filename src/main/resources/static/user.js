@@ -33,12 +33,15 @@ function handleAddUserBtn() {
     getElement('edit_modal_code_row').hidden = true
     getElement('editModalLabel').textContent = 'Добавить пользователя'
     getElement("user_id").value = ''
-    getElement("user_login_input").value = ''
     getElement("user_password_input").value = ''
     getElement("user_last_name_input").value = ''
     getElement("user_first_name_input").value = ''
     getElement("user_middle_name_input").value = ''
     getElement("user_email_input").value = ''
+
+    let loginInput = getElement("user_login_input")
+    loginInput.value = ''
+    loginInput.disabled = false
 
     clearEditRole()
     showEditModal()
@@ -100,12 +103,15 @@ function trHandler(tr, userId) {
                 return response.user
             }).then(user => {
                 getElement("user_id").value = user.id
-                getElement("user_login_input").value = user.login
                 getElement("user_password_input").value = '******'
                 getElement("user_last_name_input").value = user.lastName
                 getElement("user_first_name_input").value = user.firstName
                 getElement("user_middle_name_input").value = user.middleName
                 getElement("user_email_input").value = user.email
+
+                let loginInput = getElement("user_login_input")
+                loginInput.value = user.login
+                loginInput.disabled = true
 
                 clearEditRole()
 
@@ -154,24 +160,41 @@ function createDeleteUserSymbol(userId) {
             console.log(response)
             return response.user
         }).then(user => {
-            getElement("del_user_id").value = user.id
-            getElement("del_user_login_input").value = user.login
-            getElement("del_user_password_input").value = '******'
-            getElement("del_user_last_name_input").value = user.lastName
-            getElement("del_user_first_name_input").value = user.firstName
-            getElement("del_user_middle_name_input").value = user.middleName
-            getElement("del_user_email_input").value = user.email
+            if (user.login === localStorage.getItem('current_login')) {
+                getElement('error_desc').textContent = 'Нельзя удалить свою учётную запись.'
+                showModal('error_modal')
+            } else {
+                getElement("del_user_id").value = user.id
+                getElement("del_user_login_input").value = user.login
+                getElement("del_user_password_input").value = '******'
+                getElement("del_user_last_name_input").value = user.lastName
+                getElement("del_user_first_name_input").value = user.firstName
+                getElement("del_user_middle_name_input").value = user.middleName
+                getElement("del_user_email_input").value = user.email
 
-            let userRoleSelectTable = document.querySelector('#del_user_role_table tbody')
-            clearTBody(userRoleSelectTable)
+                let userRoleSelectTable = document.querySelector('#del_user_role_table tbody')
+                clearTBody(userRoleSelectTable)
 
-            user.roles.forEach(role => {
-                let tr = createTr([role])
-                userRoleSelectTable.appendChild(tr)
-            })
+                user.roles.forEach(role => {
+                    let tr = createTr([role])
+                    userRoleSelectTable.appendChild(tr)
+                })
 
-            showModal('delete_modal')
+                showModal('delete_modal')
+            }
         })
     }
     return deleteSymbol
+}
+
+function handleDeleteUserBtn() {
+    let userId = getElement("del_user_id").value
+    deleteData(USER_URL + "/" + userId).then(response => {
+        console.log(response)
+        if (response.status !== SUCCESS) {
+            getElement('error_del_desc').textContent = response.description
+        } else {
+            window.location.reload()
+        }
+    })
 }

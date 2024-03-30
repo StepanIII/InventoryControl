@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -123,6 +124,19 @@ public class UserController {
             LOGGER.info(String.format("Запрос на получение пользователя по идентификатору: %d выполнен успешно.", id));
         }
         return ResponseEntity.ok(responseBody);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponseBody> deleteUser(@PathVariable Long id) {
+        LOGGER.info(String.format("Запрос на удаление пользователя 'id: %d'.", id));
+        BaseResponseBody response = userFacade.deleteUser(id);
+        if (response.getStatus() == StatusResponse.SUCCESS) {
+            LOGGER.info(String.format("Запрос на удаление пользователя выполнен успешно 'id: %d'.", id));
+        } else {
+            LOGGER.info(String.format("Запрос на удаление пользователя не выполнен 'id: %d. " +
+                    "Причина: %s", id, response.getDescription()));
+        }
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping

@@ -20,6 +20,8 @@ public interface UserService extends UserDetailsService {
 
     boolean existsByEmail(String email);
 
+    boolean existsById(Long id);
+
     /**
      * Получить пользователя по логину.
      *
@@ -44,4 +46,11 @@ public interface UserService extends UserDetailsService {
      * @return все пользователи.
      */
     List<User> findAllUsers();
+
+    /**
+     * Удалить пользователя по идентификатору.
+     *
+     * @param id идентификатор пользователя.
+     */
+    void deleteById(Long id);
 }

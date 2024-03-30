@@ -3,7 +3,7 @@ getData(USER_URL + '/current').then(response => {
     return response.user
 }).then(user => {
     // localStorage.setItem('last_first_name', user.lastFirstName)
-    // localStorage.setItem('login', user.login)
+    localStorage.setItem('current_login', user.login)
     getElement('last_first_name').textContent = user.lastName + ' ' + user.firstName
 })
 

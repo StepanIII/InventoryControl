@@ -20,14 +20,7 @@ public class WebSecurityConfiguration {
 
     @Bean
     public AuthenticationSuccessHandler successHandler() {
-        return (request, response, authentication) -> {
-            Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-            if (roles.contains("ROLE_ADMIN")) {
-                response.sendRedirect("/admin");
-            } else if (roles.contains("ROLE_USER")) {
-                response.sendRedirect("/ui");
-            }
-        };
+        return (request, response, authentication) -> response.sendRedirect("/ui");
     }
 
     @Bean

@@ -229,4 +229,19 @@ public class UserFacadeImpl implements UserFacade {
         return responseBody;
     }
 
+    @Override
+    public BaseResponseBody deleteUser(Long id) {
+        if (!userService.existsById(id)) {
+            BaseResponseBody response = new BaseResponseBody();
+            response.setStatus(StatusResponse.USER_NOT_FOUND);
+            response.setDescription(String.format("Пользователь не найден 'id: %d'.", id));
+            return response;
+        }
+        userService.deleteById(id);
+        BaseResponseBody response = new BaseResponseBody();
+        response.setStatus(StatusResponse.SUCCESS);
+        response.setDescription(String.format("Удаление пользователя выполенено успешно 'id: %d'.", id));
+        return response;
+    }
+
 }

@@ -53,6 +53,12 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByLogin(String login) {
         Optional<UserEntity> userEntityCandidate = userRepository.findByLogin(login);
         return userEntityCandidate.map(userMapper::toDomain);
@@ -71,6 +77,12 @@ public class UserServiceImp implements UserService {
         return userRepository.findAll().stream()
                 .map(userMapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 
 

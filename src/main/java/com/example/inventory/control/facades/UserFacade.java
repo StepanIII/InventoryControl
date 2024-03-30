@@ -72,4 +72,13 @@ public interface UserFacade {
      *
      */
     BaseResponseBody updateUser(Long id, UserCreateAdminRequest request);
+
+    /**
+     * Удалить пользователя.
+     *
+     * @param id идентификатор удаляемого пользователя.
+     *
+     * @return ответ со статусом.
+     */
+    BaseResponseBody deleteUser(Long id);
 }
