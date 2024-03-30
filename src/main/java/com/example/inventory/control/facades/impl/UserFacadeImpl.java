@@ -120,6 +120,7 @@ public class UserFacadeImpl implements UserFacade {
         }
         User user = userCandidate.get();
         UserModel userModelResponse = new UserModel();
+        userModelResponse.setLogin(user.getLogin());
         userModelResponse.setLastFirstName(user.getLastName() + " " + user.getFirstName());
 
         UserResponseBody responseBody = new UserResponseBody();

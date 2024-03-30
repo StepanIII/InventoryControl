@@ -2,7 +2,8 @@ getData(USER_URL + '/current').then(response => {
     console.log(response.status)
     return response.user
 }).then(user => {
-    localStorage.setItem('last_first_name', user.lastFirstName)
+    // localStorage.setItem('last_first_name', user.lastFirstName)
+    localStorage.setItem('current_login', user.login)
     getElement('last_first_name').textContent = user.lastFirstName
 })
 

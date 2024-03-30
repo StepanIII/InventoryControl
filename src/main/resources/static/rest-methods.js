@@ -46,3 +46,16 @@ const deleteData = async (url = '') => {
     });
     return response.json();
 }
+
+const logout = async () => {
+    // Формируем запрос
+    const response = await fetch(CURRENT_PROTOCOL_HOST_PORT + '/logout', {
+        // Метод, если не указывать, будет использоваться GET
+        method: 'POST',
+        // Заголовок запроса
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    return response.json();
+}

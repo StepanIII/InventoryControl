@@ -17,6 +17,7 @@
         <div class="col-6 d-flex justify-content-end" style="margin-top: 15px">
             <form th:action="@{/logout}" method="post">
                 <input type="submit"
+                       id="logout_btn"
                        class="link-light"
                        style="cursor: pointer; background: none; border: none"
                        value="Logout" />
@@ -88,6 +89,25 @@
         </thead>
         <tbody></tbody>
     </table>
+
+    <!-- Модальное окно подтверждения-->
+    <div class="modal fade" id="confirm_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Предупреждение</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть" onclick="handleConfirmUserBtn()"></button>
+                </div>
+                <div class="modal-body">
+                    <span id="confirm_desc"></span>
+                </div>
+<!--                <div class="p-2"></div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleConfirmUserBtn()">Подтвердить</button>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
 
     <!-- Модальное окно изменения записи-->
     <div class="modal fade" id="edit_modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">

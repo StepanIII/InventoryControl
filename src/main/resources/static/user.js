@@ -1,3 +1,6 @@
+const currentLogin = localStorage.getItem('current_login')
+let withLogout = false
+
 getData(USER_URL).then(response => {
     console.log(response)
     return response.users
@@ -37,7 +40,6 @@ function handleAddUserBtn() {
     getElement("user_first_name_input").value = ''
     getElement("user_middle_name_input").value = ''
     getElement("user_email_input").value = ''
-
     clearEditRole()
     showEditModal()
 }
@@ -77,10 +79,47 @@ function handleSaveUserBtn() {
             if (response.status !== SUCCESS) {
                 getElement('error_modal_desc').textContent = response.description
             } else {
-                window.location.reload()
+                if (withLogout) {
+                    console.log('LOGOUT')
+                    getElement('logout_btn').click()
+                } else {
+                    window.location.reload()
+                }
             }
         })
     }
+}
+
+function handleConfirmUserBtn() {
+    showEditModal()
+
+    // let userId = getElement("user_id").value
+    // let roles = []
+    // document.querySelector('#user_role_table tbody')
+    //     .childNodes.forEach(tr => {
+    //     if (tr.childNodes[1].firstChild.checked) {
+    //         roles.push(tr.childNodes[0].textContent)
+    //     }
+    // })
+    //
+    // let request = {
+    //     login: getElement('user_login_input').value,
+    //     password: getElement('user_password_input').value,
+    //     lastName: getElement('user_last_name_input').value,
+    //     firstName: getElement('user_first_name_input').value,
+    //     middleName: getElement('user_middle_name_input').value,
+    //     email: getElement('user_email_input').value,
+    //     roles: roles
+    // }
+    //
+    // putData(USER_URL + "/" + userId, request).then(response => {
+    //     console.log(response)
+    //     if (response.status !== SUCCESS) {
+    //         getElement('error_modal_desc').textContent = response.description
+    //     } else {
+    //         logout()
+    //     }
+    // })
 }
 
 function trHandler(tr, userId) {
@@ -116,7 +155,14 @@ function trHandler(tr, userId) {
                 getElement('editModalLabel').textContent = 'Изменить пользователя'
                 getElement('edit_modal_code_row').hidden = false
 
-                showEditModal()
+                if (currentLogin === getElement('user_login_input').value) {
+                    getElement('confirm_desc').textContent = 'Вы изменяете свои учетные данные. После подтверждения изменений вам нужно будет занаво пройти аутентификацию.'
+                    showModal('confirm_modal')
+                    withLogout = true
+                } else {
+                    withLogout = false
+                    showEditModal()
+                }
             })
         }
     }
