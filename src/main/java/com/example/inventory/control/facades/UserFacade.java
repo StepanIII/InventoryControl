@@ -4,7 +4,6 @@ import com.example.inventory.control.api.BaseResponseBody;
 import com.example.inventory.control.api.user.UserAllRolesResponseBody;
 import com.example.inventory.control.api.user.UserCreateAdminRequest;
 import com.example.inventory.control.api.user.UserRequest;
-import com.example.inventory.control.api.user.UserResponseBody;
 import com.example.inventory.control.api.user.UserWithRolesResponseBody;
 import com.example.inventory.control.api.user.UsersResponseBody;
 
@@ -38,7 +37,7 @@ public interface UserFacade {
      *
      * @return ответ со статусом и пользователем.
      */
-    UserResponseBody getUserByLogin(String login);
+    UserWithRolesResponseBody getUserByLogin(String login);
 
     /**
      * Получить всех пользователей.

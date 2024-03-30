@@ -73,8 +73,28 @@ public final class User {
         return new User(null, login, BCryptUtil.encode(password), lastName, firstName, middleName, email, roles);
     }
 
-    public User update(String login, String password, String lastName, String firstName, String middleName, String email, Set<Role> roles) {
+    public User updatePassword(String password) {
         return new User(id, login, BCryptUtil.encode(password), lastName, firstName, middleName, email, roles);
+    }
+
+    public User updateLastName(String lastName) {
+        return new User(id, login, password, lastName, firstName, middleName, email, roles);
+    }
+
+    public User updateFirstName(String firstName) {
+        return new User(id, login, password, lastName, firstName, middleName, email, roles);
+    }
+
+    public User updateMiddleName(String middleName) {
+        return new User(id, login, password, lastName, firstName, middleName, email, roles);
+    }
+
+    public User updateEmail(String email) {
+        return new User(id, login, password, lastName, firstName, middleName, email, roles);
+    }
+
+    public User updateRoles(Set<Role> roles) {
+        return new User(id, login, password, lastName, firstName, middleName, email, roles);
     }
 
     public Optional<Long> id() {

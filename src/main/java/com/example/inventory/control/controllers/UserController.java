@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BaseResponseBody> updateResource(@PathVariable Long id,
+    public ResponseEntity<BaseResponseBody> updateUser(@PathVariable Long id,
                                                            @Valid @RequestBody UserCreateAdminRequest request) {
         LOGGER.info(String.format("Запрос на обновление пользователя 'id: %d'.", id));
         BaseResponseBody response = userFacade.updateUser(id, request);
@@ -95,9 +95,9 @@ public class UserController {
 
     // Порефакторить метод на получение фамилии и имени
     @GetMapping("/current")
-    public ResponseEntity<UserResponseBody> getCurrentUserInfo(Principal principal) {
+    public ResponseEntity<UserWithRolesResponseBody> getCurrentUserInfo(Principal principal) {
         LOGGER.info("Запрос на получение информации о текущем пользователе.");
-        UserResponseBody responseBody = userFacade.getUserByLogin(principal.getName());
+        UserWithRolesResponseBody responseBody = userFacade.getUserByLogin(principal.getName());
         if (responseBody.getStatus() != StatusResponse.SUCCESS) {
             LOGGER.info(String.format(
                     "Запрос на получение информации о текущем пользователе не выполнен. Причина: %s",

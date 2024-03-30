@@ -1,3 +1,5 @@
+// Смена логина
+
 getData(USER_URL).then(response => {
     console.log(response)
     return response.users
@@ -52,9 +54,15 @@ function handleSaveUserBtn() {
             }
     })
 
+    let enterPassword = getElement('user_password_input').value
+    let password = null;
+    if (enterPassword !== '******') {
+        password = enterPassword
+    }
+
     let request = {
         login: getElement('user_login_input').value,
-        password: getElement('user_password_input').value,
+        password: password,
         lastName: getElement('user_last_name_input').value,
         firstName: getElement('user_first_name_input').value,
         middleName: getElement('user_middle_name_input').value,

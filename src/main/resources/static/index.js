@@ -2,8 +2,9 @@ getData(USER_URL + '/current').then(response => {
     console.log(response.status)
     return response.user
 }).then(user => {
-    localStorage.setItem('last_first_name', user.lastFirstName)
-    getElement('last_first_name').textContent = user.lastFirstName
+    // localStorage.setItem('last_first_name', user.lastFirstName)
+    // localStorage.setItem('login', user.login)
+    getElement('last_first_name').textContent = user.lastName + ' ' + user.firstName
 })
 
 function handleUserBtn() {
@@ -48,4 +49,51 @@ function handleRemainingBtn() {
 
 function handleInventoryBtn() {
     window.location.replace(UI_INVENTORY_ALL_URL)
+}
+
+function handleEditCurrentUser() {
+    getData(USER_URL + '/current').then(response => {
+        console.log(response.status)
+        return response.user
+    }).then(user => {
+        getElement("current_user_id").value = user.id
+        getElement("current_user_login_input").value = user.login
+        getElement("current_user_password_input").value = '******'
+        getElement("current_user_last_name_input").value = user.lastName
+        getElement("current_user_first_name_input").value = user.firstName
+        getElement("current_user_middle_name_input").value = user.middleName
+        getElement("current_user_email_input").value = user.email
+
+        getElement('currentEditModalLabel').textContent = 'Текущий пользователь'
+    })
+
+    showModal('current_user_edit_modal')
+}
+
+function handleSaveCurrentUserBtn() {
+    let userId = getElement("current_user_id").value
+
+    let enterPassword = getElement('current_user_password_input').value
+    let password = null;
+    if (enterPassword !== '******') {
+        password = enterPassword
+    }
+
+    let request = {
+        login: getElement('current_user_login_input').value,
+        password: password,
+        lastName: getElement('current_user_last_name_input').value,
+        firstName: getElement('current_user_first_name_input').value,
+        middleName: getElement('current_user_middle_name_input').value,
+        email: getElement('current_user_email_input').value
+    }
+
+    putData(USER_URL + "/" + userId, request).then(response => {
+        console.log(response)
+        if (response.status !== SUCCESS) {
+            getElement('error_modal_desc').textContent = response.description
+        } else {
+            window.location.reload()
+        }
+    })
 }

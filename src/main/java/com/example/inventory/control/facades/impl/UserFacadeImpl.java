@@ -17,8 +17,12 @@ import com.example.inventory.control.facades.UserFacade;
 import com.example.inventory.control.mapper.UserMapper;
 import com.example.inventory.control.services.RoleService;
 import com.example.inventory.control.services.UserService;
+import com.example.inventory.control.utils.StringUtil;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -110,19 +114,27 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserResponseBody getUserByLogin(String login) {
+    public UserWithRolesResponseBody getUserByLogin(String login) {
         Optional<User> userCandidate = userService.findByLogin(login);
         if (userCandidate.isEmpty()) {
-            UserResponseBody responseBody = new UserResponseBody();
+            UserWithRolesResponseBody responseBody = new UserWithRolesResponseBody();
             responseBody.setStatus(StatusResponse.USER_NOT_FOUND);
             responseBody.setDescription(String.format("Пользователь с логином: %s не найден.", login));
             return responseBody;
         }
         User user = userCandidate.get();
-        UserModel userModelResponse = new UserModel();
-        userModelResponse.setLastFirstName(user.getLastName() + " " + user.getFirstName());
+        UserWithRolesModel userModelResponse = new UserWithRolesModel();
+        userModelResponse.setId(user.id().orElseThrow());
+        userModelResponse.setLogin(user.getLogin());
+        userModelResponse.setLastName(user.getLastName());
+        userModelResponse.setFirstName(user.getFirstName());
+        userModelResponse.setMiddleName(user.middleName().orElse(null));
+        userModelResponse.setEmail(user.getEmail());
+        userModelResponse.setRoles(user.getRoles().stream()
+                .map(Role::getName)
+                .toList());
 
-        UserResponseBody responseBody = new UserResponseBody();
+        UserWithRolesResponseBody responseBody = new UserWithRolesResponseBody();
         responseBody.setStatus(StatusResponse.SUCCESS);
         responseBody.setDescription(String.format("Найден пользователь с логином: %s.", login));
         responseBody.setUser(userModelResponse);
@@ -190,15 +202,25 @@ public class UserFacadeImpl implements UserFacade {
             responseBody.setDescription(String.format("Пользователь с идентификаторм: %d не найден.", id));
             return responseBody;
         }
-        List<Role> roles = roleService.findAllByNames(request.getRoles());
-        if (roles.isEmpty()) {
-            BaseResponseBody responseBody = new BaseResponseBody();
-            responseBody.setStatus(StatusResponse.ROLE_NOT_FOUND);
-            responseBody.setDescription("Роли не найдены. " + request.getRoles());
-            return responseBody;
+        User user = userCandidate.get();
+        if (!StringUtils.isBlank(request.getPassword())) {
+            user = user.updatePassword(request.getPassword());
         }
-        User user = userCandidate.get()
-                .update(request.getLogin(), request.getPassword(), request.getLastName(), request.getFirstName(), request.getMiddleName(), request.getEmail(), new HashSet<>(roles));
+        if (!CollectionUtils.isEmpty(request.getRoles())) {
+            List<Role> roles = roleService.findAllByNames(request.getRoles());
+            if (roles.isEmpty()) {
+                BaseResponseBody responseBody = new BaseResponseBody();
+                responseBody.setStatus(StatusResponse.ROLE_NOT_FOUND);
+                responseBody.setDescription("Роли не найдены. " + request.getRoles());
+                return responseBody;
+            }
+            user = user.updateRoles(new HashSet<>(roles));
+        }
+        user = user
+                .updateLastName(request.getLastName())
+                .updateFirstName(request.getFirstName())
+                .updateMiddleName(request.getMiddleName())
+                .updateEmail(request.getEmail());
 
         user = userService.save(user);
         BaseResponseBody responseBody = new BaseResponseBody();

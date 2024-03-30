@@ -12,7 +12,7 @@
 <div id="header" class="container-fluid bg-dark" style="height: 60px">
     <div class="row">
         <div class="col-6" style="margin-top: 15px">
-            <span id="last_first_name" class=" text-light"></span>
+            <span id="last_first_name" class=" text-light" style="cursor: pointer" onclick="handleEditCurrentUser()"></span>
         </div>
         <div class="col-6 d-flex justify-content-end" style="margin-top: 15px">
             <form th:action="@{/logout}" method="post">
@@ -194,6 +194,65 @@
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" style="font-weight: bold" onclick="handleDeleteResourceBtn()">Удалить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно изменения записи-->
+    <div class="modal fade" id="current_user_edit_modal" tabindex="-1" aria-labelledby="currentEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="currentEditModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row text-center fw-bold">
+                            <form id="editForm">
+                                <div class="col-md-12 mx-auto">
+                                    <span id="current_user_error_modal_desc" class="fw-normal"></span>
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="current_user_id" class="form-label">Номер</label>
+                                    <input type="text" class="form-control" id="current_user_id" disabled>
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="current_user_login_input" class="form-label">Логин</label>
+                                    <input type="text" class="form-control" id="current_user_login_input" disabled>
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="current_user_password_input" class="form-label">Пароль</label>
+                                    <input type="text" class="form-control" id="current_user_password_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="current_user_last_name_input" class="form-label">Фамилия</label>
+                                    <input type="text" class="form-control" id="current_user_last_name_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="current_user_first_name_input" class="form-label">Имя</label>
+                                    <input type="text" class="form-control" id="current_user_first_name_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="current_user_middle_name_input" class="form-label">Отчество</label>
+                                    <input type="text" class="form-control" id="current_user_middle_name_input">
+                                </div>
+                                <div class="col-md-6 mx-auto">
+                                    <label for="current_user_email_input" class="form-label">Электронная почта</label>
+                                    <input type="text" class="form-control" id="current_user_email_input">
+                                </div>
+                                <div class="p-2"></div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleSaveCurrentUserBtn()">Сохранить</button>
                                 </div>
                             </form>
                         </div>
