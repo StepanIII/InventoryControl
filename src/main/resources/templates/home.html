@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -27,13 +29,13 @@
 
 <div id="menu" class="container-fluid bg-light h-25 text-center menu">
     <div class="row">
-        <div class="col-1 menu-row-with">
+        <div id="menu_user" class="col-1 menu-row-with">
             <button class="underline-border" onclick="handleUserBtn()">Пользователи</button>
         </div>
         <div class="col-1 menu-row-with" style="margin-left: 37px">
             <button class="underline-border" onclick="handleResourcesBtn()">Ресурсы</button>
         </div>
-        <div class="col-1 menu-row-with">
+        <div id="menu_warehouse" class="col-1 menu-row-with">
             <button class="underline-border" onclick="handleWarehouseBtn()">Склады</button>
         </div>
         <div class="col-1 menu-row-with">

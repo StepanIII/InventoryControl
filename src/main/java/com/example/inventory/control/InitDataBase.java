@@ -151,9 +151,11 @@ public class InitDataBase {
 
         RoleEntity role = createRole("USER");
         RoleEntity role2 = createRole("ADMIN");
-        RoleEntity role3 = createRole("SOME");
+        RoleEntity role3 = createRole("MANAGER");
 
-        createUser("stepan", "stepan", "Cupriyanovich", "Stepan", "Vitalievich", Set.of(role));
+        createUser("user", "user12", "user", "user", "user", "user@mail.ru", Set.of(role));
+        createUser("stepan", "stepan", "Cupriyanovich", "Stepan", "Vitalievich", "stepan@mail.ru", Set.of(role2));
+        createUser("manager", "manager", "manager", "manager", "manager", "manager@mail.ru", Set.of(role3));
     }
 
 
@@ -307,14 +309,14 @@ public class InitDataBase {
         return moveResourceEntity;
     }
 
-    private UserEntity createUser(String login, String password, String lastName, String firstName, String middleName, Set<RoleEntity> roles) {
+    private UserEntity createUser(String login, String password, String lastName, String firstName, String middleName, String email, Set<RoleEntity> roles) {
         UserEntity userEntity = new UserEntity();
         userEntity.setLogin(login);
         userEntity.setLastName(lastName);
         userEntity.setFirstName(firstName);
         userEntity.setMiddleName(middleName);
         userEntity.setPassword(passwordEncoder.encode(password));
-        userEntity.setEmail("some@mail.com");
+        userEntity.setEmail(email);
         userEntity.getRoles().addAll(roles);
         return userRepository.save(userEntity);
     }

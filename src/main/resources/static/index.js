@@ -5,6 +5,16 @@ getData(USER_URL + '/current').then(response => {
     // localStorage.setItem('last_first_name', user.lastFirstName)
     localStorage.setItem('current_login', user.login)
     getElement('last_first_name').textContent = user.lastName + ' ' + user.firstName
+    return user.roles
+}).then(roles => {
+    roles.forEach(role => {
+        if (role !== 'ROLE_ADMIN') {
+            getElement('menu_user').hidden = true
+        }
+        if (role !== 'ROLE_ADMIN' && role !== 'ROLE_MANAGER') {
+            getElement('menu_warehouse').hidden = true
+        }
+    })
 })
 
 function handleUserBtn() {
