@@ -70,3 +70,47 @@ function showModalError(errorDescription) {
     getElement('error_desc').textContent = errorDescription
     showModal('error_modal')
 }
+
+function handleFilter() {
+    let fromDateString = getElement("from_date").value
+    let toDateString = getElement("to_date").value
+
+    let fromDate = new Date(fromDateString).getTime()
+    let toDate = new Date(toDateString).getTime()
+
+    if (stringIsBlank(fromDateString) || stringIsBlank(toDateString)) {
+        getElement('error_desc').textContent = 'Укажите даты для фильтрации данных.'
+        showModal('error_modal')
+    } else if (fromDate > toDate) {
+        getElement('error_desc').textContent = 'Дата начала фильтрации больше даты конца фильтрации.'
+        showModal('error_modal')
+    } else {
+        getData(INVENTORY_URL).then(response => {
+            console.log(response)
+            let tBody = document.querySelector('#inventory_table tbody')
+            clearTBody(tBody)
+            response.inventory
+                .filter(inventory => (new Date(inventory.createdTime).getTime() > fromDate) && (new Date(inventory.createdTime).getTime() < toDate))
+                .forEach(inventory => {
+                    let tr = createTr([inventory.id, inventory.createdTime, inventory.warehouseName, createDeleteResourceSymbol(inventory.id)])
+                    trHandler(tr, inventory.id)
+                    tBody.appendChild(tr)
+                })
+        })
+    }
+}
+
+function handleResetFilter() {
+    getElement("from_date").value = ''
+    getElement("to_date").value = ''
+
+    getData(INVENTORY_URL).then(response => {
+        console.log(response)
+        let tBody = document.querySelector('#inventory_table tbody')
+        response.inventory.forEach(inventory => {
+            let tr = createTr([inventory.id, inventory.createdTime, inventory.warehouseName, createDeleteResourceSymbol(inventory.id)])
+            trHandler(tr, inventory.id)
+            tBody.appendChild(tr)
+        })
+    })
+}

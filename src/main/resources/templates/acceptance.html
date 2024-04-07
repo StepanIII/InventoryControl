@@ -68,9 +68,37 @@
     <h4 style="margin-left: 30px; margin-top: 20px">Приемки</h4>
     <br>
 
-    <button type="button" class="btn btn-primary" style="margin-left: 30px; font-weight: bold"
-            onclick="handleAddAcceptanceBtn()">Добавить
-    </button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1" style="padding: 0; margin-left: 30px">
+                <button type="button" class="btn btn-primary" style="font-weight: bold"
+                        onclick="handleAddAcceptanceBtn()">Добавить
+                </button>
+            </div>
+            <div class="col-1" style="padding: 0; width: 30px; margin-left: 70px; font-size: 18px">
+                <label for="from_date" class="form-label">От</label>
+            </div>
+            <div class="col-1" style="padding: 0; width: 170px">
+                <input type="datetime-local" class="form-control" id="from_date">
+            </div>
+            <div class="col-1" style="padding: 0; width: 30px; margin-left: 10px; font-size: 18px">
+                <label for="to_date" class="form-label">До</label>
+            </div>
+            <div class="col-1" style="padding: 0; width: 170px">
+                <input type="datetime-local" class="form-control" id="to_date">
+            </div>
+            <div class="col-1" style="padding: 0; margin-left: 30px">
+                <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleFilter()">
+                    Фильтровать
+                </button>
+            </div>
+            <div class="col-1" style="padding: 0; margin-left: 60px">
+                <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleResetFilter()">
+                    Сбросить
+                </button>
+            </div>
+        </div>
+    </div>
     <br>
 
     <table id="acceptance_table" class="table table-striped w-50 text-center" style="margin-left: 30px">
@@ -196,6 +224,21 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно ошибки-->
+    <div class="modal fade" id="error_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ошибка</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <span id="error_desc"></span>
+                </div>
             </div>
         </div>
     </div>

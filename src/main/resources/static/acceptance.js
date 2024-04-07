@@ -40,3 +40,51 @@ function trHandler(tr, acceptId) {
     }
 }
 
+function handleFilter() {
+    let fromDateString = getElement("from_date").value
+    let toDateString = getElement("to_date").value
+
+    let fromDate = new Date(fromDateString).getTime()
+    let toDate = new Date(toDateString).getTime()
+
+    if (stringIsBlank(fromDateString) || stringIsBlank(toDateString)) {
+        getElement('error_desc').textContent = 'Укажите даты для фильтрации данных.'
+        showModal('error_modal')
+    } else if (fromDate > toDate) {
+        getElement('error_desc').textContent = 'Дата начала фильтрации больше даты конца фильтрации.'
+        showModal('error_modal')
+    } else {
+        getData(ACCEPT_URL).then(response => {
+            console.log(response)
+            let tBody = document.querySelector('#acceptance_table tbody')
+            clearTBody(tBody)
+            response.acceptance
+                .filter(accept => (new Date(accept.createdTime).getTime() > fromDate) && (new Date(accept.createdTime).getTime() < toDate))
+                .forEach(accept => {
+                    let tr = createTr([accept.id, accept.createdTime, accept.warehouseName, accept.benefactorFio])
+                    trHandler(tr, accept.id)
+                    mouseOnTrHandler(tr)
+                    tBody.appendChild(tr)
+                })
+        })
+    }
+}
+
+function handleResetFilter() {
+    getElement("from_date").value = ''
+    getElement("to_date").value = ''
+
+    getData(ACCEPT_URL).then(response => {
+        console.log(response)
+        let tBody = document.querySelector('#acceptance_table tbody')
+        clearTBody(tBody)
+        response.acceptance
+            .forEach(accept => {
+                let tr = createTr([accept.id, accept.createdTime, accept.warehouseName, accept.benefactorFio])
+                trHandler(tr, accept.id)
+                mouseOnTrHandler(tr)
+                tBody.appendChild(tr)
+            })
+    })
+}
+
