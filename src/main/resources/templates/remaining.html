@@ -68,6 +68,24 @@
     <h4 style="margin-left: 30px; margin-top: 20px">Остатки</h4>
     <br>
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1" style="padding: 0; margin-left: 30px">
+                <select class="form-select" id="warehouse_select"></select>
+            </div>
+            <div class="col-1" style="padding: 0; margin-left: 30px">
+                <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleFilter()">
+                    Фильтровать
+                </button>
+            </div>
+            <div class="col-1" style="padding: 0; margin-left: 60px">
+                <button type="button" class="btn btn-primary" style="font-weight: bold" onclick="handleResetFilter()">
+                    Сбросить
+                </button>
+            </div>
+        </div>
+    </div>
+
     <table id="remaining_table" class="table table-striped w-50 text-center" style="margin-left: 30px">
         <thead style="font-weight: bold">
         <tr>

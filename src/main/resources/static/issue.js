@@ -77,6 +77,7 @@ function handleResetFilter() {
     getData(ISSUE_URL).then(response => {
         console.log(response)
         let tBody = document.querySelector('#issue_table tbody')
+        clearTBody(tBody)
         response.issuance.forEach(issue => {
             let tr = createTr([issue.id, issue.createdTime, issue.warehouseName, issue.beneficiaryFio])
             mouseOnTrHandler(tr)

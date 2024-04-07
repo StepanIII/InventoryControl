@@ -83,6 +83,7 @@ function handleResetFilter() {
         return response.moves
     }).then(moves => {
         let tBody = document.querySelector('#move_table tbody')
+        clearTBody(tBody)
         moves.forEach(move => {
             let tr = createTr([move.id, move.createdTime, move.fromWarehouseName, move.toWarehouseName])
             trHandler(tr, move.id)

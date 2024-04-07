@@ -77,6 +77,7 @@ function handleResetFilter() {
     getData(CAPITALIZATION_URL).then(response => {
         console.log(response)
         let tBody = document.querySelector('#capitalization_table tbody')
+        clearTBody(tBody)
         response.capitalization.forEach(capitalization => {
             let tr = createTr([capitalization.id, capitalization.createdTime, capitalization.warehouseName])
             trHandler(tr, capitalization.id)

@@ -107,6 +107,7 @@ function handleResetFilter() {
     getData(INVENTORY_URL).then(response => {
         console.log(response)
         let tBody = document.querySelector('#inventory_table tbody')
+        clearTBody(tBody)
         response.inventory.forEach(inventory => {
             let tr = createTr([inventory.id, inventory.createdTime, inventory.warehouseName, createDeleteResourceSymbol(inventory.id)])
             trHandler(tr, inventory.id)

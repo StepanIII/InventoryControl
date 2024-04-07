@@ -77,6 +77,7 @@ function handleResetFilter() {
     getData(WRITE_OFF_URL).then(response => {
         console.log(response)
         let tBody = document.querySelector('#write_off_table tbody')
+        clearTBody(tBody)
         response.writeOffs.forEach(writeOff => {
             let tr = createTr([writeOff.id, writeOff.createdTime, writeOff.warehouseName])
             trHandler(tr, writeOff.id)
