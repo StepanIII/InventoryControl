@@ -244,7 +244,7 @@ public class ResourceOperationFacadeImpl implements ResourceOperationFacade {
                 .toList();
         AllCapitalizationResponseBody responseBody = new AllCapitalizationResponseBody();
         responseBody.setStatus(StatusResponse.SUCCESS);
-        responseBody.setDescription(String.format("Оприходования получены успешно. Количество %d.", capitalizationResponseBody.size()));
+        responseBody.setDescription(String.format("Реализации получены успешно. Количество %d.", capitalizationResponseBody.size()));
         responseBody.setCapitalization(capitalizationResponseBody);
         return responseBody;
     }
@@ -256,12 +256,12 @@ public class ResourceOperationFacadeImpl implements ResourceOperationFacade {
         if (capitalizationCandidate.isEmpty()) {
             CapitalizationResponseBody response = new CapitalizationResponseBody();
             response.setStatus(StatusResponse.CAPITALIZATION_NOT_FOUND);
-            response.setDescription(String.format("Оприходование с идентификатором 'id: %d' не найдено", id));
+            response.setDescription(String.format("Реализация с идентификатором 'id: %d' не найдена", id));
             return response;
         }
         CapitalizationResponseBody response = new CapitalizationResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
-        response.setDescription(String.format("Оприходование с идентификатором 'id: %d' найдено", id));
+        response.setDescription(String.format("Реализация с идентификатором 'id: %d' найдена", id));
         response.setCapitalization(resourceOperationMapper.toCapitalizationWithCaseResponseBodyModel(capitalizationCandidate.get()));
         return response;
     }
@@ -302,7 +302,7 @@ public class ResourceOperationFacadeImpl implements ResourceOperationFacade {
         warehouseService.save(warehouse);
         BaseResponseBody response = new BaseResponseBody();
         response.setStatus(StatusResponse.SUCCESS);
-        response.setDescription(String.format("Оприходование добавлено успешно 'id: %d'.", createdAcceptance.id().orElseThrow()));
+        response.setDescription(String.format("Реализация добавлена успешно 'id: %d'.", createdAcceptance.id().orElseThrow()));
         return response;
     }
 
