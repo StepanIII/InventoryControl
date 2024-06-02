@@ -24,7 +24,7 @@ public class ResourceOperationControllerGetAllAcceptTest extends AbstractTest {
 
     @Test
     public void shouldReturnAllAcceptance() {
-        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity firstResource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
         ResourceEntity secondResource = createResource("Груши", ResourceType.FOOD, Unit.KILOGRAM);

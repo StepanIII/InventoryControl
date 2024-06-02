@@ -17,9 +17,9 @@ public class ClientControllerGetAllBenefactorTest extends AbstractTest {
 
     @Test
     public void shouldReturnAllBenefactors() {
-        createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович");
-        createClient(ClientType.BENEFACTOR,"Сидоров", "Олег", "Егорович");
-        createClient(ClientType.BENEFACTOR,"Петров", "Сергей", "Константинович");
+        createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович", "+79200000000");
+        createClient(ClientType.BENEFACTOR,"Сидоров", "Олег", "Егорович", "+79200000000");
+        createClient(ClientType.BENEFACTOR,"Петров", "Сергей", "Константинович", "+79200000000");
 
         ResponseEntity<BenefactorsResponseBody> responseEntity = restTemplate.getForEntity(
                 Endpoint.BENEFACTOR,

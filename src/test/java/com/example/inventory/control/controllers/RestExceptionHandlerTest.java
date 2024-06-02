@@ -44,7 +44,7 @@ public class RestExceptionHandlerTest extends AbstractTest {
 
     @Test
     public void shouldReturnExceptionResponseIfResourceHasParent() {
-        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
         createResourceOperation(ResourceOperationType.ACCEPT, warehouse, benefactor, List.of(createResourceCount(resource, 4)));

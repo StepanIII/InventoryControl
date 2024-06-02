@@ -48,6 +48,7 @@ public class ResourceControllerUpdateTest extends AbstractTest {
         request.setName("Ботинки");
         request.setType(ResourceType.CLOTHING);
         request.setUnit(Unit.PAIR);
+        request.setSize("41");
 
         ResponseEntity<ResourceResponseBody> response = restTemplate.exchange(
                 Endpoint.RESOURCE + "/{id}",

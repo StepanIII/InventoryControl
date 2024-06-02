@@ -74,7 +74,7 @@ function handleEditCurrentUser() {
         getElement("current_user_middle_name_input").value = user.middleName
         getElement("current_user_email_input").value = user.email
 
-        getElement('currentEditModalLabel').textContent = 'Текущий пользователь'
+        getElement('currentEditModalLabel').textContent = user.lastName + " " + user.firstName
     })
 
     showModal('current_user_edit_modal')

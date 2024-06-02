@@ -23,7 +23,7 @@ public class ResourceOperationControllerGetAllIssueTest extends AbstractTest {
 
     @Test
     public void shouldReturnAllIssue() {
-        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity firstResource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
         ResourceEntity secondResource = createResource("Груши", ResourceType.FOOD, Unit.KILOGRAM);

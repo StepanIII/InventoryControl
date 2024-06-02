@@ -35,7 +35,7 @@ public class ResourceOperationControllerGetCapitalizationByIdTest extends Abstra
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
                 .matches(b -> b.getStatus() == StatusResponse.CAPITALIZATION_NOT_FOUND)
-                .matches(b -> b.getDescription().equals(String.format("Оприходование с идентификатором 'id: %d' не найдено", id)));
+                .matches(b -> b.getDescription().equals(String.format("Реализация с идентификатором 'id: %d' не найдена", id)));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class ResourceOperationControllerGetCapitalizationByIdTest extends Abstra
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
                 .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
-                .matches(b -> b.getDescription().equals(String.format("Оприходование с идентификатором 'id: %d' найдено", capitalization.getId())));
+                .matches(b -> b.getDescription().equals(String.format("Реализация с идентификатором 'id: %d' найдена", capitalization.getId())));
         assertThat(responseEntity.getBody().getCapitalization()).isNotNull()
                 .matches(a -> a.getId().equals(capitalization.getId()))
                 .matches(a -> a.getDescription().equals("Инвентаризация"))

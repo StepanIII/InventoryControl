@@ -1,27 +1,25 @@
 package com.example.inventory.control;
 
-import com.example.inventory.control.domain.models.Inventory;
-import com.example.inventory.control.domain.models.InventoryResource;
+import com.example.inventory.control.entities.ClientEntity;
 import com.example.inventory.control.entities.InventoryEntity;
 import com.example.inventory.control.entities.InventoryResourceEntity;
 import com.example.inventory.control.entities.MoveEntity;
 import com.example.inventory.control.entities.MoveResourceEntity;
-import com.example.inventory.control.entities.ResourceCountEntity;
-import com.example.inventory.control.entities.ResourceOperationEntity;
-import com.example.inventory.control.entities.ClientEntity;
 import com.example.inventory.control.entities.RemainingEntity;
+import com.example.inventory.control.entities.ResourceCountEntity;
 import com.example.inventory.control.entities.ResourceEntity;
+import com.example.inventory.control.entities.ResourceOperationEntity;
 import com.example.inventory.control.entities.WarehouseEntity;
 import com.example.inventory.control.enums.ClientType;
 import com.example.inventory.control.enums.ResourceOperationType;
 import com.example.inventory.control.enums.ResourceType;
 import com.example.inventory.control.enums.Unit;
+import com.example.inventory.control.repositories.ClientRepository;
 import com.example.inventory.control.repositories.InventoryRepository;
 import com.example.inventory.control.repositories.InventoryResourceRepository;
 import com.example.inventory.control.repositories.MoveRepository;
-import com.example.inventory.control.repositories.ResourceOperationRepository;
-import com.example.inventory.control.repositories.ClientRepository;
 import com.example.inventory.control.repositories.RemainingRepository;
+import com.example.inventory.control.repositories.ResourceOperationRepository;
 import com.example.inventory.control.repositories.ResourceRepository;
 import com.example.inventory.control.repositories.WarehouseRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -36,7 +34,8 @@ import java.util.List;
 
 @Component
 @Profile(value = "test")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class AbstractTest {
 
     @Autowired
@@ -125,12 +124,22 @@ public abstract class AbstractTest {
         return warehouseRepository.save(warehouseEntity);
     }
 
-    protected ClientEntity createClient(ClientType type, String lastName, String firstName, String middleName) {
+//    protected ClientEntity createClient(ClientType type, String lastName, String firstName, String middleName) {
+//        ClientEntity clientEntity = new ClientEntity();
+//        clientEntity.setType(type);
+//        clientEntity.setLastName(lastName);
+//        clientEntity.setFirstName(firstName);
+//        clientEntity.setMiddleName(middleName);
+//        return clientRepository.save(clientEntity);
+//    }
+
+    protected ClientEntity createClient(ClientType type, String lastName, String firstName, String middleName, String phone) {
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setType(type);
         clientEntity.setLastName(lastName);
         clientEntity.setFirstName(firstName);
         clientEntity.setMiddleName(middleName);
+        clientEntity.setPhone(phone);
         return clientRepository.save(clientEntity);
     }
 

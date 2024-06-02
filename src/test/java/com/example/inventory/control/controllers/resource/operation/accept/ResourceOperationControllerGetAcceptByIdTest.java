@@ -39,7 +39,7 @@ public class ResourceOperationControllerGetAcceptByIdTest extends AbstractTest {
 
     @Test
     public void shouldReturnAcceptanceById() {
-        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity firstResource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
 

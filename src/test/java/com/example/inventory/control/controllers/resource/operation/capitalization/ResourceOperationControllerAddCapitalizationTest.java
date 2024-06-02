@@ -119,7 +119,7 @@ public class ResourceOperationControllerAddCapitalizationTest extends AbstractTe
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
                 .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
-                .matches(b -> b.getDescription().equals(String.format("Оприходование добавлено успешно 'id: %d'.", createdAccept.getId())));
+                .matches(b -> b.getDescription().equals(String.format("Реализация добавлена успешно 'id: %d'.", createdAccept.getId())));
     }
 
 }

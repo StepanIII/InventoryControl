@@ -22,7 +22,7 @@ public class ResourceControllerGetAllTest extends AbstractTest {
         List<ResourceEntity> createdResourceEntities = List.of(
                 createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM),
                 createResource("Пеленки", ResourceType.HYGIENE_PRODUCT, Unit.THINGS),
-                createResource("Ботинки", ResourceType.CLOTHING, Unit.PAIR));
+                createResource("Груши", ResourceType.FOOD, Unit.KILOGRAM));
 
         ResponseEntity<ResourcesResponseBody> responseEntity = restTemplate.getForEntity(
                 Endpoint.RESOURCE,

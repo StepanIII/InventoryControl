@@ -54,7 +54,7 @@ public class ResourceOperationControllerAddIssueTest extends AbstractTest {
 
     @Test
     public void shouldReturnWarehouseNotFound() {
-        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович", "+79200000000");
         Long warehouseId = TestUtils.generatedRandomId();
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
 
@@ -81,7 +81,7 @@ public class ResourceOperationControllerAddIssueTest extends AbstractTest {
 
     @Test
     public void shouldReturnResourceNotFound() {
-        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
 
@@ -113,7 +113,7 @@ public class ResourceOperationControllerAddIssueTest extends AbstractTest {
 
     @Test
     public void shouldReturnResourceNotFoundInWarehouse() {
-        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
 
@@ -140,7 +140,7 @@ public class ResourceOperationControllerAddIssueTest extends AbstractTest {
 
     @Test
     public void shouldReturnResourceCountNotFoundInWarehouse() {
-        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
         RemainingEntity remain = createRemain(warehouse, resource, 4);
@@ -170,7 +170,7 @@ public class ResourceOperationControllerAddIssueTest extends AbstractTest {
 
     @Test
     public void shouldAddIssue() {
-        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFICIARY,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
 

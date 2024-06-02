@@ -2,6 +2,7 @@ package com.example.inventory.control.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -36,7 +37,6 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/registration", "/resources/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user").permitAll()
-//                        .requestMatchers("/**").hasAnyRole("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

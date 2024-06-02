@@ -53,7 +53,7 @@ public class ResourceOperationControllerGetAllCapitalizationTest extends Abstrac
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
                 .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
-                .matches(b -> b.getDescription().equals(String.format("Оприходования получены успешно. Количество %d.", 3)));
+                .matches(b -> b.getDescription().equals(String.format("Реализации получены успешно. Количество %d.", 3)));
 
         List<CapitalizationResponseBodyModel> capitalizationResponse = responseEntity.getBody().getCapitalization();
         assertThat(capitalizationResponse).hasSize(3);

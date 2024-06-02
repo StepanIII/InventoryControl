@@ -42,7 +42,7 @@ public class RemainControllerGetAllByWarehouseTest extends AbstractTest {
     public void shouldGetAllRemaining() {
         ResourceEntity resource1 = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
         ResourceEntity resource2 = createResource("Пеленки", ResourceType.HYGIENE_PRODUCT, Unit.THINGS);
-        ResourceEntity resource3 = createResource("Ботинки", ResourceType.CLOTHING, Unit.PAIR);
+        ResourceEntity resource3 = createResource("Груши", ResourceType.FOOD, Unit.KILOGRAM);
 
         WarehouseEntity warehouse1 = createWarehouse("Склад1");
         WarehouseEntity warehouse2 = createWarehouse("Склад2");

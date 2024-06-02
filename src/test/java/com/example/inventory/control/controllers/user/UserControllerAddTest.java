@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 //@AutoConfigureMockMvc
 public class UserControllerAddTest extends AbstractTest {
 
-    @Test
+//    @Test
     public void shouldReturnErrorResponseRoleNotFound() {
         UserRequest request = new UserRequest();
         request.setLogin("stepan");

@@ -54,7 +54,7 @@ public class ResourceOperationControllerAddAcceptTest extends AbstractTest {
 
     @Test
     public void shouldReturnWarehouseNotFound() {
-        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович", "+79200000000");
         Long warehouseId = TestUtils.generatedRandomId();
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
 
@@ -81,7 +81,7 @@ public class ResourceOperationControllerAddAcceptTest extends AbstractTest {
 
     @Test
     public void shouldReturnResourceNotFound() {
-        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
 
@@ -113,7 +113,7 @@ public class ResourceOperationControllerAddAcceptTest extends AbstractTest {
 
     @Test
     public void shouldAddAccept() {
-        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович");
+        ClientEntity benefactor = createClient(ClientType.BENEFACTOR,"Иванов", "Иван", "Иванович", "+79200000000");
         WarehouseEntity warehouse = createWarehouse("Склад_1");
         ResourceEntity resource = createResource("Яблоки", ResourceType.FOOD, Unit.KILOGRAM);
 

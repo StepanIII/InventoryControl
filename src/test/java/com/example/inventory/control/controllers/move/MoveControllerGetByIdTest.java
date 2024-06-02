@@ -34,7 +34,7 @@ public class MoveControllerGetByIdTest extends AbstractTest {
         assertThat(responseEntity).isNotNull()
                 .matches(r -> r.getStatusCode().is2xxSuccessful());
         assertThat(responseEntity.getBody()).isNotNull()
-                .matches(b -> b.getStatus() == StatusResponse.SUCCESS)
+                .matches(b -> b.getStatus() == StatusResponse.MOVE_NOT_FOUND)
                 .matches(b -> b.getDescription().equals(String.format("Перемещение с идентификатором 'id: %d' не найдено", moveId)));
     }
 
