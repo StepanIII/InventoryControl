@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest  # Лучше указывать конкретную версию MySQL
+    environment:
+      MYSQL_ROOT_PASSWORD: stepan  # Пароль для root-пользователя MySQL
+      MYSQL_USER: stepan  # Имя пользователя базы данных
+      MYSQL_PASSWORD: stepan  # Пароль для пользователя базы данных
+      MYSQL_DATABASE: inventory_control_db  # Имя базы данных
+
+  inventory-control:
+    build: .  # Здесь предполагается, что Dockerfile находится в текущей директории
+    depends_on:
+      - mysql  # Убедитесь, что служба MySQL запущена перед приложением
+    ports:
+      - '8080:8080'
